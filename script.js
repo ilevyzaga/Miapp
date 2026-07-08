@@ -15,7 +15,6 @@ if(seccion === "estadisticas"){
 
 contenido.innerHTML = `
 
-
 <h2>📊 Estadísticas Liga MX</h2>
 
 
@@ -62,25 +61,10 @@ contenido.innerHTML = `
 </div>
 
 
-
-<div class="card">
-
-<h3>📈 Forma reciente</h3>
-
-<p>🦅 América: G G E G P</p>
-
-<p>🐯 Tigres: G G E G E</p>
-
-<p>🔵 Monterrey: G E G G P</p>
-
-<p>🐐 Chivas: E P G E P</p>
-
-</div>
-
-
 `;
 
 }
+
 
 
 
@@ -93,7 +77,6 @@ contenido.innerHTML = `
 <h2>🤖 Predicciones MatchIQ</h2>
 
 
-
 <div class="card">
 
 <h3>🦅 América vs Toluca</h3>
@@ -104,31 +87,13 @@ contenido.innerHTML = `
 
 <p>Victoria Toluca: 20%</p>
 
-
-<div class="prediction">
-
-Confianza del modelo
-
-</div>
-
-
-<div class="bar">
-
-<div class="america"></div>
-
-</div>
-
-
 <p>🤖 Recomendación:</p>
 
 <p>América gana o empate</p>
 
 <p>⚽ Tendencia: Menos de 3.5 goles</p>
 
-
 </div>
-
-
 
 
 
@@ -136,27 +101,11 @@ Confianza del modelo
 
 <h3>🐯 Tigres vs Chivas</h3>
 
-
 <p>Victoria Tigres: 51%</p>
 
 <p>Empate: 26%</p>
 
 <p>Victoria Chivas: 23%</p>
-
-
-<div class="prediction">
-
-Confianza del modelo
-
-</div>
-
-
-<div class="bar">
-
-<div class="tigres"></div>
-
-</div>
-
 
 <p>🤖 Recomendación:</p>
 
@@ -164,10 +113,7 @@ Confianza del modelo
 
 <p>⚽ Tendencia: Ambos equipos anotan posible</p>
 
-
 </div>
-
-
 
 
 
@@ -175,34 +121,17 @@ Confianza del modelo
 
 <h3>🔵 Cruz Azul vs Monterrey</h3>
 
-
 <p>Victoria Cruz Azul: 35%</p>
 
 <p>Empate: 30%</p>
 
 <p>Victoria Monterrey: 35%</p>
 
-
-<div class="prediction">
-
-Confianza del modelo
-
-</div>
-
-
-<div class="bar">
-
-<div class="cruzazul"></div>
-
-</div>
-
-
 <p>🤖 Recomendación:</p>
 
-<p>Partido muy equilibrado</p>
+<p>Partido equilibrado</p>
 
 <p>⚽ Tendencia: Menos de 2.5 goles</p>
-
 
 </div>
 
@@ -210,6 +139,8 @@ Confianza del modelo
 `;
 
 }
+
+
 
 
 
@@ -217,18 +148,57 @@ if(seccion === "perfil"){
 
 contenido.innerHTML = `
 
+
 <h2>⚙️ Perfil</h2>
+
+
 
 <div class="card">
 
-<p>Usuario MatchIQ MX</p>
+<h3>👤 Usuario</h3>
 
-<p>Preferencias próximamente.</p>
+<p>Isaac</p>
 
 </div>
+
+
+
+<div class="card">
+
+<h3>⚽ Equipo favorito</h3>
+
+<p>🦅 América</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>🔔 Preferencias</h3>
+
+<p>✅ Recibir análisis antes de partidos</p>
+
+<p>✅ Mostrar predicciones favoritas</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>⭐ Partidos favoritos</h3>
+
+<p>🦅 América vs Toluca</p>
+
+<p>🐯 Tigres vs Chivas</p>
+
+</div>
+
 
 `;
 
 }
+
 
 }
