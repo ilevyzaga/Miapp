@@ -1,3 +1,103 @@
+function cargarInicio(){
+
+let contenido = document.getElementById("contenido");
+
+contenido.innerHTML = `
+
+<h2>Liga MX - Jornada 1</h2>
+
+
+<div class="card">
+
+<div class="teams">
+<span>🦅 América</span>
+<span>VS</span>
+<span>🔴 Toluca</span>
+</div>
+
+<p>📍 Estadio Ciudad de los Deportes</p>
+<p>🕗 20:00</p>
+
+<div class="prediction">
+Probabilidad de victoria
+</div>
+
+<div class="bar">
+<div class="america"></div>
+</div>
+
+<p>América 58% - Empate 22% - Toluca 20%</p>
+
+<button onclick="mostrarAnalisis(this, 'america')">
+Ver análisis
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="teams">
+<span>🐯 Tigres</span>
+<span>VS</span>
+<span>🐐 Chivas</span>
+</div>
+
+<p>📍 Estadio Universitario</p>
+<p>🕘 21:00</p>
+
+<div class="prediction">
+Probabilidad de victoria
+</div>
+
+<div class="bar">
+<div class="tigres"></div>
+</div>
+
+<p>Tigres 51% - Empate 26% - Chivas 23%</p>
+
+<button onclick="mostrarAnalisis(this, 'tigres')">
+Ver análisis
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="teams">
+<span>🔵 Cruz Azul</span>
+<span>VS</span>
+<span>🔵 Monterrey</span>
+</div>
+
+<p>📍 Estadio Ciudad de los Deportes</p>
+<p>🕖 19:00</p>
+
+<div class="prediction">
+Probabilidad de victoria
+</div>
+
+<div class="bar">
+<div class="cruzazul"></div>
+</div>
+
+<p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
+
+<button onclick="mostrarAnalisis(this, 'cruzazul')">
+Ver análisis
+</button>
+
+</div>
+
+`;
+
+}
+
+
+
 function mostrarAnalisis(boton, equipo){
 
 let anterior = boton.parentElement.querySelector(".analisis");
@@ -16,6 +116,7 @@ tarjeta.className = "analisis";
 if(equipo === "america"){
 
 tarjeta.innerHTML = `
+
 <h2>🦅 América vs Toluca</h2>
 
 <p><b>📊 Forma reciente</b></p>
@@ -32,6 +133,7 @@ tarjeta.innerHTML = `
 <p>América gana o empate</p>
 
 <p>📈 Confianza: 80%</p>
+
 `;
 
 }
@@ -40,6 +142,7 @@ tarjeta.innerHTML = `
 if(equipo === "tigres"){
 
 tarjeta.innerHTML = `
+
 <h2>🐯 Tigres vs Chivas</h2>
 
 <p><b>📊 Forma reciente</b></p>
@@ -56,6 +159,7 @@ tarjeta.innerHTML = `
 <p>Tigres gana o empate</p>
 
 <p>📈 Confianza: 75%</p>
+
 `;
 
 }
@@ -64,6 +168,7 @@ tarjeta.innerHTML = `
 if(equipo === "cruzazul"){
 
 tarjeta.innerHTML = `
+
 <h2>🔵 Cruz Azul vs Monterrey</h2>
 
 <p><b>📊 Forma reciente</b></p>
@@ -80,6 +185,7 @@ tarjeta.innerHTML = `
 <p>Partido equilibrado</p>
 
 <p>📈 Confianza: 65%</p>
+
 `;
 
 }
@@ -95,24 +201,10 @@ boton.parentElement.appendChild(tarjeta);
 
 function mostrarSeccion(seccion){
 
-let contenido = document.getElementById("contenido");
-
 
 if(seccion === "inicio"){
 
-contenido.innerHTML = `
-
-<h2>Liga MX - Jornada 1</h2>
-
-<div class="card">
-
-<h2>⚽ Partidos de hoy</h2>
-
-<p>Revisa los partidos y predicciones inteligentes.</p>
-
-</div>
-
-`;
+cargarInicio();
 
 }
 
@@ -120,7 +212,7 @@ contenido.innerHTML = `
 
 if(seccion === "estadisticas"){
 
-contenido.innerHTML = `
+document.getElementById("contenido").innerHTML = `
 
 <h2>📊 Estadísticas Liga MX</h2>
 
@@ -129,13 +221,13 @@ contenido.innerHTML = `
 
 <h3>🏆 Tabla de posiciones</h3>
 
-<p>1. 🦅 América ........ 15 pts</p>
+<p>1. 🦅 América - 15 pts</p>
 
-<p>2. 🐯 Tigres ........ 13 pts</p>
+<p>2. 🐯 Tigres - 13 pts</p>
 
-<p>3. 🔵 Monterrey ..... 12 pts</p>
+<p>3. 🔵 Monterrey - 12 pts</p>
 
-<p>4. 🐐 Chivas ........ 10 pts</p>
+<p>4. 🐐 Chivas - 10 pts</p>
 
 </div>
 
@@ -154,17 +246,6 @@ contenido.innerHTML = `
 
 </div>
 
-
-<div class="card">
-
-<h3>🛡️ Mejor defensa</h3>
-
-<p>🦅 América: 0.9 goles recibidos</p>
-
-<p>🐯 Tigres: 1.0 goles recibidos</p>
-
-</div>
-
 `;
 
 }
@@ -173,13 +254,13 @@ contenido.innerHTML = `
 
 if(seccion === "predicciones"){
 
-contenido.innerHTML = `
+document.getElementById("contenido").innerHTML = `
 
 <h2>🤖 Predicciones</h2>
 
 <div class="card">
 
-<p>El modelo MatchIQ analiza datos históricos para generar predicciones.</p>
+<p>MatchIQ analiza datos históricos para generar predicciones inteligentes.</p>
 
 </div>
 
@@ -191,7 +272,7 @@ contenido.innerHTML = `
 
 if(seccion === "perfil"){
 
-contenido.innerHTML = `
+document.getElementById("contenido").innerHTML = `
 
 <h2>⚙️ Perfil</h2>
 
