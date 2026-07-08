@@ -37,41 +37,53 @@ margin-bottom:20px;
 }
 
 
-/* Tarjetas de partidos */
-
 .card{
 background:#1e293b;
 padding:20px;
-border-radius:15px;
+border-radius:18px;
 margin-bottom:18px;
 box-shadow:0 5px 20px rgba(0,0,0,.35);
-transition:.3s;
-}
-
-
-.card:hover{
-transform:translateY(-4px);
 }
 
 
 .card p{
-margin-bottom:15px;
-color:#94a3b8;
+margin-bottom:12px;
+color:#cbd5e1;
 }
 
 
-
-/* Equipos */
+/* Equipos y logos */
 
 .teams{
 display:flex;
-justify-content:space-between;
+justify-content:space-around;
 align-items:center;
-font-size:22px;
-font-weight:bold;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
+
+.team{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:8px;
+font-weight:bold;
+font-size:18px;
+}
+
+
+.team img{
+width:65px;
+height:65px;
+object-fit:contain;
+}
+
+
+.vs{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
+}
 
 
 /* Predicción */
@@ -83,9 +95,6 @@ font-weight:bold;
 color:white;
 }
 
-
-
-/* Barras de probabilidad */
 
 .bar{
 width:100%;
@@ -122,24 +131,15 @@ background:#22c55e;
 /* Botones */
 
 button{
-
 width:100%;
 padding:14px;
-
 border:none;
-
 border-radius:12px;
-
 background:#22c55e;
-
 color:white;
-
 font-size:16px;
-
 font-weight:bold;
-
 cursor:pointer;
-
 }
 
 
@@ -152,85 +152,44 @@ background:#16a34a;
 /* Análisis */
 
 .analisis{
-
-background:#0f172a;
-
-padding:18px;
-
 margin-top:15px;
-
-border-radius:15px;
-
-border-left:4px solid #22c55e;
-
-}
-
-
-.analisis h2{
-
-color:#22c55e;
-
-}
-
-
-.analisis p{
-
-color:#cbd5e1;
-
+padding:15px;
+background:#334155;
+border-radius:12px;
 }
 
 
 
-/* Barra inferior tipo app */
+.analisis h3{
+margin-bottom:10px;
+}
+
+
+
+/* Barra inferior */
 
 .bottom-nav{
-
 position:fixed;
-
 bottom:0;
-
 left:0;
-
 width:100%;
-
-height:70px;
-
-background:#1e293b;
-
 display:flex;
-
 justify-content:space-around;
-
-align-items:center;
-
+background:#1e293b;
+padding:12px;
 border-top:1px solid #334155;
-
-z-index:100;
-
 }
-
 
 
 .bottom-nav button{
-
-background:none;
-
-font-size:12px;
-
-padding:8px;
-
-color:white;
-
 width:auto;
-
+padding:10px;
+font-size:14px;
 }
 
 
+/* Estadísticas y perfil */
 
-.bottom-nav button:hover{
-
-color:#22c55e;
-
-background:none;
-
+.card h3{
+margin-bottom:15px;
 }
