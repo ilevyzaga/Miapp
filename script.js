@@ -98,6 +98,7 @@ Ver análisis
 
 
 
+
 function mostrarAnalisis(boton, equipo){
 
 let anterior = boton.parentElement.querySelector(".analisis");
@@ -202,6 +203,10 @@ boton.parentElement.appendChild(tarjeta);
 function mostrarSeccion(seccion){
 
 
+let contenido = document.getElementById("contenido");
+
+
+
 if(seccion === "inicio"){
 
 cargarInicio();
@@ -212,39 +217,74 @@ cargarInicio();
 
 if(seccion === "estadisticas"){
 
-document.getElementById("contenido").innerHTML = `
+contenido.innerHTML = `
+
 
 <h2>📊 Estadísticas Liga MX</h2>
+
 
 
 <div class="card">
 
 <h3>🏆 Tabla de posiciones</h3>
 
-<p>1. 🦅 América - 15 pts</p>
+<p># | Equipo | PJ | GF | GC | Pts</p>
 
-<p>2. 🐯 Tigres - 13 pts</p>
+<p>1 🦅 América | 5 | 10 | 4 | 15</p>
 
-<p>3. 🔵 Monterrey - 12 pts</p>
+<p>2 🐯 Tigres | 5 | 8 | 3 | 13</p>
 
-<p>4. 🐐 Chivas - 10 pts</p>
+<p>3 🔵 Monterrey | 5 | 9 | 5 | 12</p>
+
+<p>4 🐐 Chivas | 5 | 6 | 5 | 10</p>
 
 </div>
+
+
 
 
 <div class="card">
 
-<h3>⚽ Goles por partido</h3>
+<h3>⚽ Líderes ofensivos</h3>
 
-<p>🦅 América: 1.8 goles</p>
+<p>🥇 América - 10 goles</p>
 
-<p>🐯 Tigres: 1.6 goles</p>
+<p>🥈 Monterrey - 9 goles</p>
 
-<p>🔵 Monterrey: 1.5 goles</p>
-
-<p>🐐 Chivas: 1.2 goles</p>
+<p>🥉 Tigres - 8 goles</p>
 
 </div>
+
+
+
+
+<div class="card">
+
+<h3>🛡️ Mejor defensa</h3>
+
+<p>🦅 América - 4 goles recibidos</p>
+
+<p>🐯 Tigres - 3 goles recibidos</p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>📈 Forma reciente</h3>
+
+<p>🦅 América: G G E G P</p>
+
+<p>🐯 Tigres: G G E G E</p>
+
+<p>🔵 Monterrey: G E G G P</p>
+
+<p>🐐 Chivas: E P G E P</p>
+
+</div>
+
 
 `;
 
@@ -252,9 +292,10 @@ document.getElementById("contenido").innerHTML = `
 
 
 
+
 if(seccion === "predicciones"){
 
-document.getElementById("contenido").innerHTML = `
+contenido.innerHTML = `
 
 <h2>🤖 Predicciones</h2>
 
@@ -270,9 +311,10 @@ document.getElementById("contenido").innerHTML = `
 
 
 
+
 if(seccion === "perfil"){
 
-document.getElementById("contenido").innerHTML = `
+contenido.innerHTML = `
 
 <h2>⚙️ Perfil</h2>
 
