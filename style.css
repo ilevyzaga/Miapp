@@ -10,6 +10,7 @@ body{
 background:#0f172a;
 color:white;
 padding:20px;
+padding-bottom:90px;
 }
 
 
@@ -36,7 +37,7 @@ margin-bottom:20px;
 }
 
 
-/* Tarjetas principales */
+/* Tarjetas de partidos */
 
 .card{
 background:#1e293b;
@@ -53,15 +54,11 @@ transform:translateY(-4px);
 }
 
 
-.card h3{
-margin-bottom:10px;
-}
-
-
 .card p{
 margin-bottom:15px;
 color:#94a3b8;
 }
+
 
 
 /* Equipos */
@@ -76,7 +73,8 @@ margin-bottom:15px;
 }
 
 
-/* Probabilidad */
+
+/* Predicción */
 
 .prediction{
 margin-top:15px;
@@ -84,6 +82,7 @@ margin-bottom:10px;
 font-weight:bold;
 color:white;
 }
+
 
 
 /* Barras de probabilidad */
@@ -119,18 +118,28 @@ background:#22c55e;
 }
 
 
+
 /* Botones */
 
 button{
+
 width:100%;
 padding:14px;
+
 border:none;
+
 border-radius:12px;
+
 background:#22c55e;
+
 color:white;
+
 font-size:16px;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
 
 
@@ -140,58 +149,88 @@ background:#16a34a;
 
 
 
-/* Análisis del partido */
+/* Análisis */
 
 .analisis{
+
 background:#0f172a;
+
 padding:18px;
+
 margin-top:15px;
+
 border-radius:15px;
+
 border-left:4px solid #22c55e;
+
 }
 
 
 .analisis h2{
+
 color:#22c55e;
-margin-bottom:15px;
+
 }
 
 
 .analisis p{
+
 color:#cbd5e1;
-margin-bottom:10px;
+
 }
 
 
-/* Barra de confianza */
 
-.confidence{
+/* Barra inferior tipo app */
+
+.bottom-nav{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
 width:100%;
-height:12px;
-background:#334155;
-border-radius:10px;
-overflow:hidden;
-margin-top:10px;
-margin-bottom:10px;
+
+height:70px;
+
+background:#1e293b;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid #334155;
+
+z-index:100;
+
 }
 
 
-.confidence-bar{
-height:100%;
-background:#22c55e;
+
+.bottom-nav button{
+
+background:none;
+
+font-size:12px;
+
+padding:8px;
+
+color:white;
+
+width:auto;
+
 }
 
 
-.america-confidence{
-width:80%;
-}
 
+.bottom-nav button:hover{
 
-.tigres-confidence{
-width:75%;
-}
+color:#22c55e;
 
+background:none;
 
-.cruzazul-confidence{
-width:65%;
 }
