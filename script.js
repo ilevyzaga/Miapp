@@ -6,6 +6,7 @@ contenido.innerHTML = `
 
 <h2>Liga MX - Jornada 1</h2>
 
+
 <div class="card partido">
 
 <div class="teams">
@@ -45,6 +46,7 @@ Ver análisis
 
 
 
+
 <div class="card partido">
 
 <div class="teams">
@@ -63,24 +65,32 @@ Ver análisis
 
 </div>
 
+
 <p>📍 Estadio Universitario</p>
 <p>🕘 21:00</p>
+
 
 <div class="prediction">
 Probabilidad de victoria
 </div>
 
+
 <div class="bar">
 <div class="tigres"></div>
 </div>
 
+
 <p>Tigres 51% - Empate 26% - Chivas 23%</p>
+
 
 <button onclick="mostrarAnalisis(this,'tigres')">
 Ver análisis
 </button>
 
+
 </div>
+
+
 
 
 
@@ -93,81 +103,131 @@ Ver análisis
 <span>Cruz Azul</span>
 </div>
 
+
 <span class="vs">VS</span>
+
 
 <div class="team">
 <img src="images/monterrey.png">
 <span>Monterrey</span>
 </div>
 
+
 </div>
+
 
 <p>📍 Estadio Ciudad de los Deportes</p>
 <p>🕖 19:00</p>
+
 
 <div class="prediction">
 Probabilidad de victoria
 </div>
 
+
 <div class="bar">
 <div class="cruzazul"></div>
 </div>
 
+
 <p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
+
 
 <button onclick="mostrarAnalisis(this,'cruzazul')">
 Ver análisis
 </button>
 
+
 </div>
+
 
 `;
 
 }
+
 
 
 
 function mostrarAnalisis(boton,equipo){
 
-let analisis = document.createElement("div");
-
-analisis.className = "analisis";
+let analisisExistente = boton.parentElement.querySelector(".analisis");
 
 
-if(equipo === "america"){
+if(analisisExistente){
+analisisExistente.remove();
+return;
+}
 
-analisis.innerHTML = `
+
+let analisis=document.createElement("div");
+
+analisis.className="analisis";
+
+
+if(equipo==="america"){
+
+analisis.innerHTML=`
+
 <h3>🦅 América vs Toluca</h3>
-<p>📊 Análisis MatchIQ</p>
-<p>América llega con mejor rendimiento ofensivo.</p>
-<p>🤖 Predicción: América gana o empate.</p>
-<p>Confianza: 80%</p>
+
+<p>📊 Forma reciente</p>
+
+<p>América: 🟢 G 🟢 G 🟡 E 🟢 G</p>
+
+<p>Toluca: 🟢 G 🟡 E 🟢 G</p>
+
+<p>🤖 Predicción MatchIQ</p>
+
+<p>América gana o empate</p>
+
+<p>📈 Confianza: 80%</p>
+
 `;
 
 }
 
 
-if(equipo === "tigres"){
+if(equipo==="tigres"){
 
-analisis.innerHTML = `
+analisis.innerHTML=`
+
 <h3>🐯 Tigres vs Chivas</h3>
-<p>📊 Análisis MatchIQ</p>
-<p>Tigres tiene ventaja jugando como local.</p>
-<p>🤖 Predicción: Tigres gana o empate.</p>
-<p>Confianza: 75%</p>
+
+<p>📊 Forma reciente</p>
+
+<p>Tigres: 🟢 G 🟢 G 🟡 E</p>
+
+<p>Chivas: 🟢 G 🔴 P 🟡 E</p>
+
+<p>🤖 Predicción MatchIQ</p>
+
+<p>Tigres gana o empate</p>
+
+<p>📈 Confianza: 75%</p>
+
 `;
 
 }
 
 
-if(equipo === "cruzazul"){
+if(equipo==="cruzazul"){
 
-analisis.innerHTML = `
+analisis.innerHTML=`
+
 <h3>🔵 Cruz Azul vs Monterrey</h3>
-<p>📊 Análisis MatchIQ</p>
-<p>Partido muy equilibrado.</p>
-<p>🤖 Predicción: Marcador cerrado.</p>
-<p>Confianza: 65%</p>
+
+<p>📊 Forma reciente</p>
+
+<p>Cruz Azul: 🟢 G 🟡 E 🟢 G</p>
+
+<p>Monterrey: 🟢 G 🟢 G 🟡 E</p>
+
+<p>🤖 Predicción MatchIQ</p>
+
+<p>Partido equilibrado</p>
+
+<p>📈 Confianza: 65%</p>
+
 `;
 
 }
@@ -179,71 +239,171 @@ boton.parentElement.appendChild(analisis);
 
 
 
+
+
 function mostrarSeccion(seccion){
 
-let contenido = document.getElementById("contenido");
+let contenido=document.getElementById("contenido");
 
 
-if(seccion === "inicio"){
+
+if(seccion==="inicio"){
+
 cargarInicio();
+
 }
 
 
-if(seccion === "estadisticas"){
 
-contenido.innerHTML = `
+
+
+if(seccion==="estadisticas"){
+
+contenido.innerHTML=`
 
 <h2>📊 Estadísticas Liga MX</h2>
 
+
 <div class="card">
-<h3>Tabla de posiciones</h3>
+
+<h3>🏆 Tabla de posiciones</h3>
+
 <p>1 🦅 América - 15 pts</p>
 <p>2 🐯 Tigres - 13 pts</p>
 <p>3 🔵 Monterrey - 12 pts</p>
 <p>4 🐐 Chivas - 10 pts</p>
+
 </div>
+
+
+<div class="card">
+
+<h3>⚽ Ataque</h3>
+
+<p>🥇 América - 10 goles</p>
+<p>🥈 Monterrey - 9 goles</p>
+<p>🥉 Tigres - 8 goles</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🛡️ Mejor defensa</h3>
+
+<p>🐯 Tigres - 3 goles recibidos</p>
+
+</div>
+
 
 `;
 
 }
 
 
-if(seccion === "predicciones"){
 
-contenido.innerHTML = `
+
+
+if(seccion==="predicciones"){
+
+contenido.innerHTML=`
 
 <h2>🤖 Predicciones MatchIQ</h2>
 
-<div class="card">
-<h3>🦅 América vs Toluca</h3>
-<p>Confianza: 80%</p>
-<p>Predicción: América gana o empate</p>
-</div>
 
 <div class="card">
-<h3>🐯 Tigres vs Chivas</h3>
-<p>Confianza: 75%</p>
-<p>Predicción: Tigres gana o empate</p>
+
+<h3>🦅 América vs Toluca</h3>
+
+<p>Victoria América: 58%</p>
+
+<p>Empate: 22%</p>
+
+<p>Victoria Toluca: 20%</p>
+
+<p>🤖 Recomendación: América gana o empate</p>
+
+<p>📈 Confianza: Alta</p>
+
 </div>
+
+
+
+<div class="card">
+
+<h3>🐯 Tigres vs Chivas</h3>
+
+<p>Victoria Tigres: 51%</p>
+
+<p>Empate: 26%</p>
+
+<p>Victoria Chivas: 23%</p>
+
+<p>🤖 Recomendación: Tigres gana o empate</p>
+
+<p>📈 Confianza: Media</p>
+
+</div>
+
 
 `;
 
 }
 
 
-if(seccion === "perfil"){
 
-contenido.innerHTML = `
+
+
+if(seccion==="perfil"){
+
+contenido.innerHTML=`
 
 <h2>⚙️ Perfil</h2>
 
+
 <div class="card">
-<p>👤 Usuario: Isaac</p>
-<p>⚽ Equipo favorito: América</p>
+
+<h3>👤 Usuario</h3>
+
+<p>Isaac</p>
+
 </div>
+
+
+<div class="card">
+
+<h3>⚽ Equipo favorito</h3>
+
+<p>🦅 América</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔔 Preferencias</h3>
+
+<p>✅ Análisis antes de partidos</p>
+
+<p>✅ Predicciones favoritas</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>⭐ Partidos favoritos</h3>
+
+<p>América vs Toluca</p>
+
+<p>Tigres vs Chivas</p>
+
+</div>
+
 
 `;
 
 }
+
 
 }
