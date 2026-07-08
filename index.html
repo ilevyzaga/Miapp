@@ -21,7 +21,8 @@
 </header>
 
 
-<main>
+<main id="contenido">
+
 
 <h2>Liga MX - Jornada 1</h2>
 
@@ -47,9 +48,12 @@ Probabilidad de victoria
 
 <p>América 58% - Empate 22% - Toluca 20%</p>
 
-<button onclick="mostrarAnalisis(this, 'america')">Ver análisis</button>
+<button onclick="mostrarAnalisis(this, 'america')">
+Ver análisis
+</button>
 
 </div>
+
 
 
 <div class="card">
@@ -73,9 +77,12 @@ Probabilidad de victoria
 
 <p>Tigres 51% - Empate 26% - Chivas 23%</p>
 
-<button onclick="mostrarAnalisis(this, 'tigres')">Ver análisis</button>
+<button onclick="mostrarAnalisis(this, 'tigres')">
+Ver análisis
+</button>
 
 </div>
+
 
 
 <div class="card">
@@ -99,7 +106,9 @@ Probabilidad de victoria
 
 <p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
 
-<button onclick="mostrarAnalisis(this, 'cruzazul')">Ver análisis</button>
+<button onclick="mostrarAnalisis(this, 'cruzazul')">
+Ver análisis
+</button>
 
 </div>
 
@@ -107,17 +116,36 @@ Probabilidad de victoria
 </main>
 
 
+
 <nav class="bottom-nav">
 
-<button>⚽ Inicio</button>
 
-<button>📊 Estadísticas</button>
+<button onclick="mostrarSeccion('inicio')">
+⚽
+<span>Inicio</span>
+</button>
 
-<button>🤖 Predicciones</button>
 
-<button>⚙️ Perfil</button>
+<button onclick="mostrarSeccion('estadisticas')">
+📊
+<span>Stats</span>
+</button>
+
+
+<button onclick="mostrarSeccion('predicciones')">
+🤖
+<span>Predicciones</span>
+</button>
+
+
+<button onclick="mostrarSeccion('perfil')">
+⚙️
+<span>Perfil</span>
+</button>
+
 
 </nav>
+
 
 
 <script src="script.js"></script>
