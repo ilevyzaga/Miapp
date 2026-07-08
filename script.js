@@ -6,7 +6,6 @@ contenido.innerHTML = `
 
 <h2>Liga MX - Jornada 1</h2>
 
-
 <div class="card partido">
 
 <div class="teams">
@@ -45,8 +44,6 @@ Ver análisis
 </div>
 
 
-
-
 <div class="card partido">
 
 <div class="teams">
@@ -83,8 +80,6 @@ Ver análisis
 </button>
 
 </div>
-
-
 
 
 <div class="card partido">
@@ -130,8 +125,6 @@ Ver análisis
 
 
 
-
-
 function mostrarAnalisis(boton,equipo){
 
 let analisisExistente = boton.parentElement.querySelector(".analisis");
@@ -143,7 +136,7 @@ return;
 }
 
 
-let analisis = document.createElement("div");
+let analisis=document.createElement("div");
 
 analisis.className="analisis";
 
@@ -153,17 +146,11 @@ if(equipo==="america"){
 analisis.innerHTML=`
 
 <h3>🦅 América vs Toluca</h3>
-
 <p>📊 Forma reciente</p>
-
 <p>América: 🟢 G 🟢 G 🟡 E 🟢 G</p>
-
 <p>Toluca: 🟢 G 🟡 E 🟢 G</p>
-
 <p>🤖 Predicción MatchIQ</p>
-
 <p>América gana o empate</p>
-
 <p>📈 Confianza: 80%</p>
 
 `;
@@ -176,17 +163,11 @@ if(equipo==="tigres"){
 analisis.innerHTML=`
 
 <h3>🐯 Tigres vs Chivas</h3>
-
 <p>📊 Forma reciente</p>
-
 <p>Tigres: 🟢 G 🟢 G 🟡 E</p>
-
 <p>Chivas: 🟢 G 🔴 P 🟡 E</p>
-
 <p>🤖 Predicción MatchIQ</p>
-
 <p>Tigres gana o empate</p>
-
 <p>📈 Confianza: 75%</p>
 
 `;
@@ -199,17 +180,11 @@ if(equipo==="cruzazul"){
 analisis.innerHTML=`
 
 <h3>🔵 Cruz Azul vs Monterrey</h3>
-
 <p>📊 Forma reciente</p>
-
 <p>Cruz Azul: 🟢 G 🟡 E 🟢 G</p>
-
 <p>Monterrey: 🟢 G 🟢 G 🟡 E</p>
-
 <p>🤖 Predicción MatchIQ</p>
-
 <p>Partido equilibrado</p>
-
 <p>📈 Confianza: 65%</p>
 
 `;
@@ -224,10 +199,9 @@ boton.parentElement.appendChild(analisis);
 
 
 
-
 function mostrarSeccion(seccion){
 
-let contenido = document.getElementById("contenido");
+let contenido=document.getElementById("contenido");
 
 
 
@@ -236,8 +210,6 @@ if(seccion==="inicio"){
 cargarInicio();
 
 }
-
-
 
 
 
@@ -280,17 +252,32 @@ contenido.innerHTML=`
 </div>
 
 
+
 <div class="card">
 
 <h3>⚽ Ataque</h3>
 
 
-<p>🦅 América - 10 goles</p>
-<p>🔵 Monterrey - 9 goles</p>
-<p>🐯 Tigres - 8 goles</p>
+<div class="team">
+<img src="images/america.png">
+<p>América - 10 goles</p>
+</div>
+
+
+<div class="team">
+<img src="images/monterrey.png">
+<p>Monterrey - 9 goles</p>
+</div>
+
+
+<div class="team">
+<img src="images/tigres.png">
+<p>Tigres - 8 goles</p>
+</div>
 
 
 </div>
+
 
 
 
@@ -300,21 +287,17 @@ contenido.innerHTML=`
 
 
 <div class="team">
-
 <img src="images/tigres.png">
-
 <p>Tigres - 3 goles recibidos</p>
-
 </div>
 
 
 </div>
+
 
 `;
 
 }
-
-
 
 
 
@@ -334,7 +317,9 @@ contenido.innerHTML=`
 <span>América</span>
 </div>
 
+
 <span class="vs">VS</span>
+
 
 <div class="team">
 <img src="images/toluca.png">
@@ -345,23 +330,16 @@ contenido.innerHTML=`
 
 
 <p>Victoria América: 58%</p>
-
 <p>Empate: 22%</p>
-
 <p>Victoria Toluca: 20%</p>
-
 <p>🤖 Recomendación: América gana o empate</p>
-
 <p>📈 Confianza: Alta</p>
 
 
 </div>
 
 
-
-
 <div class="card">
-
 
 <div class="teams">
 
@@ -384,13 +362,9 @@ contenido.innerHTML=`
 
 
 <p>Victoria Tigres: 51%</p>
-
 <p>Empate: 26%</p>
-
 <p>Victoria Chivas: 23%</p>
-
 <p>🤖 Recomendación: Tigres gana o empate</p>
-
 <p>📈 Confianza: Media</p>
 
 
@@ -399,8 +373,6 @@ contenido.innerHTML=`
 `;
 
 }
-
-
 
 
 
@@ -414,11 +386,9 @@ contenido.innerHTML=`
 <div class="card">
 
 <h3>👤 Usuario</h3>
-
 <p>Isaac</p>
 
 </div>
-
 
 
 <div class="card">
@@ -427,16 +397,12 @@ contenido.innerHTML=`
 
 
 <div class="team">
-
 <img src="images/america.png">
-
 <p>América</p>
-
 </div>
 
 
 </div>
-
 
 
 <div class="card">
@@ -444,12 +410,9 @@ contenido.innerHTML=`
 <h3>🔔 Preferencias</h3>
 
 <p>✅ Análisis antes de partidos</p>
-
 <p>✅ Predicciones favoritas</p>
 
-
 </div>
-
 
 
 <div class="card">
@@ -459,32 +422,40 @@ contenido.innerHTML=`
 
 <div class="teams">
 
-
 <div class="team">
-
 <img src="images/america.png">
-
 <span>América</span>
-
 </div>
-
 
 <span class="vs">VS</span>
 
+<div class="team">
+<img src="images/toluca.png">
+<span>Toluca</span>
+</div>
+
+</div>
+
+
+<div class="teams">
 
 <div class="team">
+<img src="images/tigres.png">
+<span>Tigres</span>
+</div>
 
-<img src="images/toluca.png">
+<span class="vs">VS</span>
 
-<span>Toluca</span>
+<div class="team">
+<img src="images/chivas.png">
+<span>Chivas</span>
+</div>
 
 </div>
 
 
 </div>
 
-
-</div>
 
 `;
 
