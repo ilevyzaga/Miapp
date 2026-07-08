@@ -5,16 +5,19 @@ box-sizing:border-box;
 font-family:Arial, Helvetica, sans-serif;
 }
 
+
 body{
 background:#0f172a;
 color:white;
 padding:20px;
 }
 
+
 header{
 text-align:center;
 margin-bottom:30px;
 }
+
 
 header h1{
 font-size:38px;
@@ -22,14 +25,18 @@ margin-bottom:8px;
 color:#22c55e;
 }
 
+
 header p{
 color:#cbd5e1;
 }
+
 
 h2{
 margin-bottom:20px;
 }
 
+
+/* Tarjetas principales */
 
 .card{
 background:#1e293b;
@@ -39,6 +46,7 @@ margin-bottom:18px;
 box-shadow:0 5px 20px rgba(0,0,0,.35);
 transition:.3s;
 }
+
 
 .card:hover{
 transform:translateY(-4px);
@@ -78,7 +86,7 @@ color:white;
 }
 
 
-/* Barra de porcentaje */
+/* Barras de probabilidad */
 
 .bar{
 width:100%;
@@ -128,4 +136,62 @@ cursor:pointer;
 
 button:hover{
 background:#16a34a;
+}
+
+
+
+/* Análisis del partido */
+
+.analisis{
+background:#0f172a;
+padding:18px;
+margin-top:15px;
+border-radius:15px;
+border-left:4px solid #22c55e;
+}
+
+
+.analisis h2{
+color:#22c55e;
+margin-bottom:15px;
+}
+
+
+.analisis p{
+color:#cbd5e1;
+margin-bottom:10px;
+}
+
+
+/* Barra de confianza */
+
+.confidence{
+width:100%;
+height:12px;
+background:#334155;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+
+.confidence-bar{
+height:100%;
+background:#22c55e;
+}
+
+
+.america-confidence{
+width:80%;
+}
+
+
+.tigres-confidence{
+width:75%;
+}
+
+
+.cruzazul-confidence{
+width:65%;
 }
