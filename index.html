@@ -2,118 +2,42 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>MatchIQ MX</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
 <header>
 
-<h1>⚽ MatchIQ MX</h1>
+<h1>
+<img src="/images/ligamx.png" class="logo-liga">
+MatchIQ MX
+</h1>
+
 
 <p>Resultados en vivo y predicciones inteligentes</p>
 
+
 </header>
+
+
 
 
 <main id="contenido">
 
 
-<h2>Liga MX - Jornada 1</h2>
-
-
-<div class="card">
-
-<div class="teams">
-<span>🦅 América</span>
-<span>VS</span>
-<span>🔴 Toluca</span>
-</div>
-
-<p>📍 Estadio Ciudad de los Deportes</p>
-<p>🕗 20:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="america"></div>
-</div>
-
-<p>América 58% - Empate 22% - Toluca 20%</p>
-
-<button onclick="mostrarAnalisis(this, 'america')">
-Ver análisis
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<div class="teams">
-<span>🐯 Tigres</span>
-<span>VS</span>
-<span>🐐 Chivas</span>
-</div>
-
-<p>📍 Estadio Universitario</p>
-<p>🕘 21:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="tigres"></div>
-</div>
-
-<p>Tigres 51% - Empate 26% - Chivas 23%</p>
-
-<button onclick="mostrarAnalisis(this, 'tigres')">
-Ver análisis
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<div class="teams">
-<span>🔵 Cruz Azul</span>
-<span>VS</span>
-<span>🔵 Monterrey</span>
-</div>
-
-<p>📍 Estadio Ciudad de los Deportes</p>
-<p>🕖 19:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="cruzazul"></div>
-</div>
-
-<p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
-
-<button onclick="mostrarAnalisis(this, 'cruzazul')">
-Ver análisis
-</button>
-
-</div>
-
-
 </main>
+
+
 
 
 
@@ -121,26 +45,22 @@ Ver análisis
 
 
 <button onclick="mostrarSeccion('inicio')">
-⚽
-<span>Inicio</span>
+🏠 Inicio
 </button>
 
 
 <button onclick="mostrarSeccion('estadisticas')">
-📊
-<span>Stats</span>
+📊 Estadísticas
 </button>
 
 
 <button onclick="mostrarSeccion('predicciones')">
-🤖
-<span>Predicciones</span>
+🤖 Predicciones
 </button>
 
 
 <button onclick="mostrarSeccion('perfil')">
-⚙️
-<span>Perfil</span>
+⚙️ Perfil
 </button>
 
 
@@ -148,8 +68,20 @@ Ver análisis
 
 
 
+
+
 <script src="script.js"></script>
 
+
+<script>
+
+cargarInicio();
+
+</script>
+
+
+
 </body>
+
 
 </html>
