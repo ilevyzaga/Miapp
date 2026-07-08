@@ -1,16 +1,15 @@
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 font-family:Arial, Helvetica, sans-serif;
 }
 
 
 body{
-
-margin:0;
 background:#f2f4f8;
 color:#222;
 padding-bottom:90px;
-
 }
 
 
@@ -25,17 +24,32 @@ text-align:center;
 }
 
 
+
 header h1{
 
-margin:0;
-font-size:28px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+font-size:30px;
 
 }
 
 
+
+.logo-liga{
+
+width:45px;
+height:45px;
+object-fit:contain;
+
+}
+
+
+
 header p{
 
-margin-top:8px;
+margin-top:10px;
 opacity:.9;
 
 }
@@ -49,14 +63,14 @@ padding:20px;
 }
 
 
+
 h2{
 
 text-align:center;
 color:#071952;
+margin-bottom:20px;
 
 }
-
-
 
 
 
@@ -97,7 +111,6 @@ margin-bottom:15px;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
 gap:8px;
 
 }
@@ -117,7 +130,6 @@ object-fit:contain;
 .team span{
 
 font-weight:bold;
-font-size:16px;
 
 }
 
@@ -128,14 +140,6 @@ font-size:16px;
 font-size:22px;
 font-weight:bold;
 color:#071952;
-
-}
-
-
-
-.partido p{
-
-margin:8px 0;
 
 }
 
@@ -202,7 +206,6 @@ padding:12px 20px;
 border-radius:12px;
 font-size:15px;
 cursor:pointer;
-margin-top:10px;
 
 }
 
@@ -216,23 +219,12 @@ opacity:.85;
 
 
 
-
-
 .analisis{
 
 margin-top:15px;
 padding:15px;
 background:#eef3ff;
 border-radius:15px;
-
-}
-
-
-
-.analisis img{
-
-width:50px;
-height:50px;
 
 }
 
@@ -256,7 +248,6 @@ box-shadow:0 -3px 12px rgba(0,0,0,.15);
 
 .bottom-nav button{
 
-background:#071952;
 font-size:13px;
 padding:10px;
 
@@ -264,41 +255,9 @@ padding:10px;
 
 
 
-
-
 .card h3{
 
 color:#071952;
 text-align:center;
-
-}
-
-
-
-
-
-.card .team{
-
-flex-direction:row;
-justify-content:flex-start;
-margin:12px 0;
-
-}
-
-
-
-.card .team img{
-
-width:45px;
-height:45px;
-
-}
-
-
-
-.card .team p{
-
-margin-left:10px;
-font-weight:bold;
 
 }
