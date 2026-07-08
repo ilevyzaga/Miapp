@@ -1,32 +1,40 @@
 function cargarInicio(){
 
-let contenido = document.getElementById("contenido");
+let contenido=document.getElementById("contenido");
 
-contenido.innerHTML = `
+
+contenido.innerHTML=`
 
 <h2>Liga MX - Jornada 1</h2>
 
 
+
 <div class="card partido">
 
+
 <div class="teams">
+
 
 <div class="team">
 <img src="images/america.png">
 <span>América</span>
 </div>
 
+
 <span class="vs">VS</span>
+
 
 <div class="team">
 <img src="images/toluca.png">
 <span>Toluca</span>
 </div>
 
+
 </div>
 
 
 <p>📍 Estadio Ciudad de los Deportes</p>
+
 <p>🕗 20:00</p>
 
 
@@ -51,6 +59,7 @@ Ver análisis
 
 
 </div>
+
 
 
 
@@ -81,6 +90,7 @@ Ver análisis
 
 
 <p>📍 Estadio Universitario</p>
+
 <p>🕘 21:00</p>
 
 
@@ -105,6 +115,8 @@ Ver análisis
 
 
 </div>
+
+
 
 
 
@@ -135,6 +147,7 @@ Ver análisis
 
 
 <p>📍 Estadio Ciudad de los Deportes</p>
+
 <p>🕖 19:00</p>
 
 
@@ -172,27 +185,28 @@ Ver análisis
 function mostrarAnalisis(boton,equipo){
 
 
-let analisisExistente = boton.parentElement.querySelector(".analisis");
+let existe=boton.parentElement.querySelector(".analisis");
 
 
-if(analisisExistente){
+if(existe){
 
-analisisExistente.remove();
+existe.remove();
 
 return;
 
 }
 
 
-
-let analisis = document.createElement("div");
+let analisis=document.createElement("div");
 
 analisis.className="analisis";
 
 
 
 
+
 if(equipo==="america"){
+
 
 analisis.innerHTML=`
 
@@ -216,46 +230,32 @@ analisis.innerHTML=`
 </div>
 
 
+
 <h3>📊 Análisis MatchIQ</h3>
 
 
 <p>Forma reciente</p>
 
-<p>
-América: 🟢 G 🟢 G 🟡 E 🟢 G
-</p>
+<p>América: 🟢 G 🟢 G 🟡 E 🟢 G</p>
 
-<p>
-Toluca: 🟢 G 🟡 E 🟢 G
-</p>
+<p>Toluca: 🟢 G 🟡 E 🟢 G</p>
 
 
-
-<p>
-🤖 Predicción: América gana o empate
-</p>
+<p>🤖 Predicción: América gana o empate</p>
 
 
-<p>
-📈 Confianza: 80%
-</p>
+<p>📈 Confianza: 80%</p>
 
 
 
 <h3>🎯 Resultados más probables</h3>
 
 
-<p>
-🥇 América 2 - 1 Toluca → 32%
-</p>
+<p>🥇 América 2 - 1 Toluca → 32%</p>
 
-<p>
-🥈 América 1 - 0 Toluca → 24%
-</p>
+<p>🥈 América 1 - 0 Toluca → 24%</p>
 
-<p>
-🥉 América 1 - 1 Toluca → 18%
-</p>
+<p>🥉 América 1 - 1 Toluca → 18%</p>
 
 
 `;
@@ -268,10 +268,10 @@ Toluca: 🟢 G 🟡 E 🟢 G
 
 if(equipo==="tigres"){
 
+
 analisis.innerHTML=`
 
 <div class="teams">
-
 
 <div class="team">
 <img src="images/tigres.png">
@@ -297,49 +297,33 @@ analisis.innerHTML=`
 
 <p>Forma reciente</p>
 
+<p>Tigres: 🟢 G 🟢 G 🟡 E</p>
 
-<p>
-Tigres: 🟢 G 🟢 G 🟡 E
-</p>
-
-
-<p>
-Chivas: 🟢 G 🔴 P 🟡 E
-</p>
+<p>Chivas: 🟢 G 🔴 P 🟡 E</p>
 
 
-
-<p>
-🤖 Predicción: Tigres gana o empate
-</p>
+<p>🤖 Predicción: Tigres gana o empate</p>
 
 
-<p>
-📈 Confianza: 75%
-</p>
+<p>📈 Confianza: 75%</p>
 
 
 
 <h3>🎯 Resultados más probables</h3>
 
 
-<p>
-🥇 Tigres 2 - 0 Chivas → 30%
-</p>
+<p>🥇 Tigres 2 - 0 Chivas → 30%</p>
 
-<p>
-🥈 Tigres 2 - 1 Chivas → 25%
-</p>
+<p>🥈 Tigres 2 - 1 Chivas → 25%</p>
 
-<p>
-🥉 Tigres 1 - 1 Chivas → 20%
-</p>
+<p>🥉 Tigres 1 - 1 Chivas → 20%</p>
 
 
 `;
 
 }
   if(equipo==="cruzazul"){
+
 
 analisis.innerHTML=`
 
@@ -442,6 +426,7 @@ cargarInicio();
 
 
 
+
 if(seccion==="estadisticas"){
 
 
@@ -485,9 +470,7 @@ contenido.innerHTML=`
 </div>
 
 
-
 </div>
-
 
 
 
@@ -498,12 +481,10 @@ contenido.innerHTML=`
 <h3>⚽ Ataque</h3>
 
 
-
 <div class="team">
 <img src="images/america.png">
 <p>América - 10 goles</p>
 </div>
-
 
 
 <div class="team">
@@ -512,17 +493,13 @@ contenido.innerHTML=`
 </div>
 
 
-
 <div class="team">
 <img src="images/tigres.png">
 <p>Tigres - 8 goles</p>
 </div>
 
 
-
 </div>
-
-
 
 
 
@@ -532,21 +509,19 @@ contenido.innerHTML=`
 <h3>🛡️ Mejor defensa</h3>
 
 
-
 <div class="team">
 <img src="images/tigres.png">
 <p>Tigres - 3 goles recibidos</p>
 </div>
 
 
-
 </div>
-
 
 
 `;
 
 }
+
 
 
 
@@ -562,6 +537,7 @@ contenido.innerHTML=`
 
 
 <div class="card">
+
 
 <div class="teams">
 
@@ -586,15 +562,31 @@ contenido.innerHTML=`
 
 
 <p>Victoria América: 58%</p>
+
 <p>Empate: 22%</p>
+
 <p>Victoria Toluca: 20%</p>
+
 
 <p>🤖 Recomendación: América gana o empate</p>
 
 <p>📈 Confianza: Alta</p>
 
 
+
+<h3>🎯 Resultados más probables</h3>
+
+
+<p>🥇 América 2 - 1 Toluca → 32%</p>
+
+<p>🥈 América 1 - 0 Toluca → 24%</p>
+
+<p>🥉 América 1 - 1 Toluca → 18%</p>
+
+
 </div>
+
+
 
 
 
@@ -626,7 +618,9 @@ contenido.innerHTML=`
 
 
 <p>Victoria Tigres: 51%</p>
+
 <p>Empate: 26%</p>
+
 <p>Victoria Chivas: 23%</p>
 
 
@@ -636,7 +630,20 @@ contenido.innerHTML=`
 <p>📈 Confianza: Media</p>
 
 
+
+<h3>🎯 Resultados más probables</h3>
+
+
+<p>🥇 Tigres 2 - 0 Chivas → 30%</p>
+
+<p>🥈 Tigres 2 - 1 Chivas → 25%</p>
+
+<p>🥉 Tigres 1 - 1 Chivas → 20%</p>
+
+
 </div>
+
+
 
 
 
@@ -669,8 +676,11 @@ contenido.innerHTML=`
 
 
 <p>Victoria Cruz Azul: 35%</p>
+
 <p>Empate: 30%</p>
+
 <p>Victoria Monterrey: 35%</p>
+
 
 
 <p>🤖 Recomendación: Partido equilibrado</p>
@@ -679,159 +689,20 @@ contenido.innerHTML=`
 <p>📈 Confianza: Media</p>
 
 
-</div>
 
+<h3>🎯 Resultados más probables</h3>
 
-`;
 
-}
+<p>🥇 Cruz Azul 1 - 1 Monterrey → 30%</p>
 
+<p>🥈 Cruz Azul 1 - 0 Monterrey → 22%</p>
 
-
-
-
-if(seccion==="perfil"){
-
-
-contenido.innerHTML=`
-
-<h2>⚙️ Perfil</h2>
-
-
-
-<div class="card">
-
-
-<h3>👤 Usuario</h3>
-
-<p>Isaac</p>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h3>⚽ Equipo favorito</h3>
-
-
-<div class="team">
-
-<img src="images/america.png">
-
-<p>América</p>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h3>🔔 Preferencias</h3>
-
-
-<p>✅ Análisis antes de partidos</p>
-
-<p>✅ Predicciones favoritas</p>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h3>⭐ Partidos favoritos</h3>
-
-
-
-<div class="teams">
-
-<div class="team">
-<img src="images/america.png">
-<span>América</span>
-</div>
-
-
-<span class="vs">VS</span>
-
-
-<div class="team">
-<img src="images/toluca.png">
-<span>Toluca</span>
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="teams">
-
-<div class="team">
-<img src="images/tigres.png">
-<span>Tigres</span>
-</div>
-
-
-<span class="vs">VS</span>
-
-
-<div class="team">
-<img src="images/chivas.png">
-<span>Chivas</span>
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="teams">
-
-<div class="team">
-<img src="images/cruzazul.png">
-<span>Cruz Azul</span>
-</div>
-
-
-<span class="vs">VS</span>
-
-
-<div class="team">
-<img src="images/monterrey.png">
-<span>Monterrey</span>
-</div>
-
-
-</div>
-
+<p>🥉 Cruz Azul 2 - 1 Monterrey → 18%</p>
 
 
 </div>
 
 
 `;
-
-}
-
 
 }
