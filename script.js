@@ -1,210 +1,6 @@
-function cargarInicio(){
-
-let contenido = document.getElementById("contenido");
-
-contenido.innerHTML = `
-
-<h2>Liga MX - Jornada 1</h2>
-
-
-<div class="card">
-
-<div class="teams">
-<span>🦅 América</span>
-<span>VS</span>
-<span>🔴 Toluca</span>
-</div>
-
-<p>📍 Estadio Ciudad de los Deportes</p>
-<p>🕗 20:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="america"></div>
-</div>
-
-<p>América 58% - Empate 22% - Toluca 20%</p>
-
-<button onclick="mostrarAnalisis(this, 'america')">
-Ver análisis
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<div class="teams">
-<span>🐯 Tigres</span>
-<span>VS</span>
-<span>🐐 Chivas</span>
-</div>
-
-<p>📍 Estadio Universitario</p>
-<p>🕘 21:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="tigres"></div>
-</div>
-
-<p>Tigres 51% - Empate 26% - Chivas 23%</p>
-
-<button onclick="mostrarAnalisis(this, 'tigres')">
-Ver análisis
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<div class="teams">
-<span>🔵 Cruz Azul</span>
-<span>VS</span>
-<span>🔵 Monterrey</span>
-</div>
-
-<p>📍 Estadio Ciudad de los Deportes</p>
-<p>🕖 19:00</p>
-
-<div class="prediction">
-Probabilidad de victoria
-</div>
-
-<div class="bar">
-<div class="cruzazul"></div>
-</div>
-
-<p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
-
-<button onclick="mostrarAnalisis(this, 'cruzazul')">
-Ver análisis
-</button>
-
-</div>
-
-`;
-
-}
-
-
-
-
-function mostrarAnalisis(boton, equipo){
-
-let anterior = boton.parentElement.querySelector(".analisis");
-
-if(anterior){
-    anterior.remove();
-    return;
-}
-
-
-let tarjeta = document.createElement("div");
-
-tarjeta.className = "analisis";
-
-
-if(equipo === "america"){
-
-tarjeta.innerHTML = `
-
-<h2>🦅 América vs Toluca</h2>
-
-<p><b>📊 Forma reciente</b></p>
-<p>América: 🟢 G 🟢 G 🟡 E 🟢 G 🔴 P</p>
-<p>Toluca: 🟢 G 🟡 E 🟢 G 🔴 P 🟢 G</p>
-
-<p><b>⚽ Ataque</b></p>
-<p>América: 1.8 goles por partido</p>
-
-<p><b>🛡️ Defensa</b></p>
-<p>América: 0.9 goles recibidos</p>
-
-<p><b>🤖 Predicción MatchIQ</b></p>
-<p>América gana o empate</p>
-
-<p>📈 Confianza: 80%</p>
-
-`;
-
-}
-
-
-if(equipo === "tigres"){
-
-tarjeta.innerHTML = `
-
-<h2>🐯 Tigres vs Chivas</h2>
-
-<p><b>📊 Forma reciente</b></p>
-<p>Tigres: 🟢 G 🟢 G 🟡 E 🟢 G 🟡 E</p>
-<p>Chivas: 🟡 E 🔴 P 🟢 G 🟡 E 🔴 P</p>
-
-<p><b>⚽ Ataque</b></p>
-<p>Tigres: 1.6 goles por partido</p>
-
-<p><b>🛡️ Defensa</b></p>
-<p>Tigres tiene mayor equilibrio defensivo.</p>
-
-<p><b>🤖 Predicción MatchIQ</b></p>
-<p>Tigres gana o empate</p>
-
-<p>📈 Confianza: 75%</p>
-
-`;
-
-}
-
-
-if(equipo === "cruzazul"){
-
-tarjeta.innerHTML = `
-
-<h2>🔵 Cruz Azul vs Monterrey</h2>
-
-<p><b>📊 Forma reciente</b></p>
-<p>Cruz Azul: 🟢 G 🟡 E 🟢 G 🔴 P 🟢 G</p>
-<p>Monterrey: 🟢 G 🟢 G 🟡 E 🟡 E 🔴 P</p>
-
-<p><b>⚽ Ataque</b></p>
-<p>Partido equilibrado ofensivamente.</p>
-
-<p><b>🛡️ Defensa</b></p>
-<p>Puede ser un partido cerrado.</p>
-
-<p><b>🤖 Predicción MatchIQ</b></p>
-<p>Partido equilibrado</p>
-
-<p>📈 Confianza: 65%</p>
-
-`;
-
-}
-
-
-boton.parentElement.appendChild(tarjeta);
-
-}
-
-
-
-
-
 function mostrarSeccion(seccion){
 
-
 let contenido = document.getElementById("contenido");
-
 
 
 if(seccion === "inicio"){
@@ -221,7 +17,6 @@ contenido.innerHTML = `
 
 
 <h2>📊 Estadísticas Liga MX</h2>
-
 
 
 <div class="card">
@@ -242,7 +37,6 @@ contenido.innerHTML = `
 
 
 
-
 <div class="card">
 
 <h3>⚽ Líderes ofensivos</h3>
@@ -257,7 +51,6 @@ contenido.innerHTML = `
 
 
 
-
 <div class="card">
 
 <h3>🛡️ Mejor defensa</h3>
@@ -267,7 +60,6 @@ contenido.innerHTML = `
 <p>🐯 Tigres - 3 goles recibidos</p>
 
 </div>
-
 
 
 
@@ -297,18 +89,127 @@ if(seccion === "predicciones"){
 
 contenido.innerHTML = `
 
-<h2>🤖 Predicciones</h2>
+
+<h2>🤖 Predicciones MatchIQ</h2>
+
+
 
 <div class="card">
 
-<p>MatchIQ analiza datos históricos para generar predicciones inteligentes.</p>
+<h3>🦅 América vs Toluca</h3>
+
+<p>Victoria América: 58%</p>
+
+<p>Empate: 22%</p>
+
+<p>Victoria Toluca: 20%</p>
+
+
+<div class="prediction">
+
+Confianza del modelo
 
 </div>
+
+
+<div class="bar">
+
+<div class="america"></div>
+
+</div>
+
+
+<p>🤖 Recomendación:</p>
+
+<p>América gana o empate</p>
+
+<p>⚽ Tendencia: Menos de 3.5 goles</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>🐯 Tigres vs Chivas</h3>
+
+
+<p>Victoria Tigres: 51%</p>
+
+<p>Empate: 26%</p>
+
+<p>Victoria Chivas: 23%</p>
+
+
+<div class="prediction">
+
+Confianza del modelo
+
+</div>
+
+
+<div class="bar">
+
+<div class="tigres"></div>
+
+</div>
+
+
+<p>🤖 Recomendación:</p>
+
+<p>Tigres gana o empate</p>
+
+<p>⚽ Tendencia: Ambos equipos anotan posible</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>🔵 Cruz Azul vs Monterrey</h3>
+
+
+<p>Victoria Cruz Azul: 35%</p>
+
+<p>Empate: 30%</p>
+
+<p>Victoria Monterrey: 35%</p>
+
+
+<div class="prediction">
+
+Confianza del modelo
+
+</div>
+
+
+<div class="bar">
+
+<div class="cruzazul"></div>
+
+</div>
+
+
+<p>🤖 Recomendación:</p>
+
+<p>Partido muy equilibrado</p>
+
+<p>⚽ Tendencia: Menos de 2.5 goles</p>
+
+
+</div>
+
 
 `;
 
 }
-
 
 
 
@@ -329,6 +230,5 @@ contenido.innerHTML = `
 `;
 
 }
-
 
 }
