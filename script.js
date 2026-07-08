@@ -65,31 +65,24 @@ Ver análisis
 
 </div>
 
-
 <p>📍 Estadio Universitario</p>
 <p>🕘 21:00</p>
-
 
 <div class="prediction">
 Probabilidad de victoria
 </div>
 
-
 <div class="bar">
 <div class="tigres"></div>
 </div>
 
-
 <p>Tigres 51% - Empate 26% - Chivas 23%</p>
-
 
 <button onclick="mostrarAnalisis(this,'tigres')">
 Ver análisis
 </button>
 
-
 </div>
-
 
 
 
@@ -103,47 +96,38 @@ Ver análisis
 <span>Cruz Azul</span>
 </div>
 
-
 <span class="vs">VS</span>
-
 
 <div class="team">
 <img src="images/monterrey.png">
 <span>Monterrey</span>
 </div>
 
-
 </div>
-
 
 <p>📍 Estadio Ciudad de los Deportes</p>
 <p>🕖 19:00</p>
-
 
 <div class="prediction">
 Probabilidad de victoria
 </div>
 
-
 <div class="bar">
 <div class="cruzazul"></div>
 </div>
 
-
 <p>Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
-
 
 <button onclick="mostrarAnalisis(this,'cruzazul')">
 Ver análisis
 </button>
 
-
 </div>
-
 
 `;
 
 }
+
 
 
 
@@ -159,7 +143,7 @@ return;
 }
 
 
-let analisis=document.createElement("div");
+let analisis = document.createElement("div");
 
 analisis.className="analisis";
 
@@ -243,7 +227,7 @@ boton.parentElement.appendChild(analisis);
 
 function mostrarSeccion(seccion){
 
-let contenido=document.getElementById("contenido");
+let contenido = document.getElementById("contenido");
 
 
 
@@ -268,10 +252,30 @@ contenido.innerHTML=`
 
 <h3>🏆 Tabla de posiciones</h3>
 
-<p>1 🦅 América - 15 pts</p>
-<p>2 🐯 Tigres - 13 pts</p>
-<p>3 🔵 Monterrey - 12 pts</p>
-<p>4 🐐 Chivas - 10 pts</p>
+
+<div class="team">
+<img src="images/america.png">
+<p>América - 15 pts</p>
+</div>
+
+
+<div class="team">
+<img src="images/tigres.png">
+<p>Tigres - 13 pts</p>
+</div>
+
+
+<div class="team">
+<img src="images/monterrey.png">
+<p>Monterrey - 12 pts</p>
+</div>
+
+
+<div class="team">
+<img src="images/chivas.png">
+<p>Chivas - 10 pts</p>
+</div>
+
 
 </div>
 
@@ -280,21 +284,31 @@ contenido.innerHTML=`
 
 <h3>⚽ Ataque</h3>
 
-<p>🥇 América - 10 goles</p>
-<p>🥈 Monterrey - 9 goles</p>
-<p>🥉 Tigres - 8 goles</p>
+
+<p>🦅 América - 10 goles</p>
+<p>🔵 Monterrey - 9 goles</p>
+<p>🐯 Tigres - 8 goles</p>
+
 
 </div>
+
 
 
 <div class="card">
 
 <h3>🛡️ Mejor defensa</h3>
 
-<p>🐯 Tigres - 3 goles recibidos</p>
+
+<div class="team">
+
+<img src="images/tigres.png">
+
+<p>Tigres - 3 goles recibidos</p>
 
 </div>
 
+
+</div>
 
 `;
 
@@ -313,7 +327,22 @@ contenido.innerHTML=`
 
 <div class="card">
 
-<h3>🦅 América vs Toluca</h3>
+<div class="teams">
+
+<div class="team">
+<img src="images/america.png">
+<span>América</span>
+</div>
+
+<span class="vs">VS</span>
+
+<div class="team">
+<img src="images/toluca.png">
+<span>Toluca</span>
+</div>
+
+</div>
+
 
 <p>Victoria América: 58%</p>
 
@@ -325,13 +354,34 @@ contenido.innerHTML=`
 
 <p>📈 Confianza: Alta</p>
 
+
 </div>
+
 
 
 
 <div class="card">
 
-<h3>🐯 Tigres vs Chivas</h3>
+
+<div class="teams">
+
+<div class="team">
+<img src="images/tigres.png">
+<span>Tigres</span>
+</div>
+
+
+<span class="vs">VS</span>
+
+
+<div class="team">
+<img src="images/chivas.png">
+<span>Chivas</span>
+</div>
+
+
+</div>
+
 
 <p>Victoria Tigres: 51%</p>
 
@@ -343,8 +393,8 @@ contenido.innerHTML=`
 
 <p>📈 Confianza: Media</p>
 
-</div>
 
+</div>
 
 `;
 
@@ -370,13 +420,23 @@ contenido.innerHTML=`
 </div>
 
 
+
 <div class="card">
 
 <h3>⚽ Equipo favorito</h3>
 
-<p>🦅 América</p>
+
+<div class="team">
+
+<img src="images/america.png">
+
+<p>América</p>
 
 </div>
+
+
+</div>
+
 
 
 <div class="card">
@@ -387,19 +447,44 @@ contenido.innerHTML=`
 
 <p>✅ Predicciones favoritas</p>
 
+
 </div>
+
 
 
 <div class="card">
 
 <h3>⭐ Partidos favoritos</h3>
 
-<p>América vs Toluca</p>
 
-<p>Tigres vs Chivas</p>
+<div class="teams">
+
+
+<div class="team">
+
+<img src="images/america.png">
+
+<span>América</span>
 
 </div>
 
+
+<span class="vs">VS</span>
+
+
+<div class="team">
+
+<img src="images/toluca.png">
+
+<span>Toluca</span>
+
+</div>
+
+
+</div>
+
+
+</div>
 
 `;
 
