@@ -1,67 +1,92 @@
-function mostrarAnalisis(equipo){
+function mostrarAnalisis(boton, equipo){
 
-let analisis = "";
+// Si ya existe un análisis debajo, lo elimina
+let anterior = boton.parentElement.querySelector(".analisis");
+
+if(anterior){
+    anterior.remove();
+    return;
+}
+
+
+let tarjeta = document.createElement("div");
+
+tarjeta.className = "analisis";
+
 
 if(equipo === "america"){
-analisis = `
-<div class="card">
+
+tarjeta.innerHTML = `
 <h2>🦅 América vs Toluca</h2>
 
-<p>📊 Forma reciente: América llega con buen rendimiento ofensivo.</p>
+<p>📊 Forma reciente:</p>
+<p>América: G - G - E - G - P</p>
+<p>Toluca: G - E - G - P - G</p>
 
-<p>⚽ Ataque: Alto volumen de llegadas y posesión.</p>
+<p>⚽ Ataque:</p>
+<p>América genera más ocasiones de gol.</p>
 
-<p>🛡️ Defensa: Busca mantener control del partido.</p>
+<p>🛡️ Defensa:</p>
+<p>América recibe menos goles por partido.</p>
 
-<p>🏟️ Localía: Ventaja por jugar en casa.</p>
+<p>🤖 Predicción MatchIQ:</p>
+<p>América gana o empate</p>
 
-<p>🤖 Predicción MatchIQ: América 58% - Empate 22% - Toluca 20%</p>
-
-</div>
+<p>📈 Confianza: 80%</p>
 `;
+
 }
 
 
 if(equipo === "tigres"){
-analisis = `
-<div class="card">
+
+tarjeta.innerHTML = `
 <h2>🐯 Tigres vs Chivas</h2>
 
-<p>📊 Forma reciente: Tigres muestra mayor estabilidad.</p>
+<p>📊 Forma reciente:</p>
+<p>Tigres: G - G - E - G - E</p>
+<p>Chivas: E - P - G - E - P</p>
 
-<p>⚽ Ataque: Buen juego por bandas y llegada al área.</p>
+<p>⚽ Ataque:</p>
+<p>Tigres tiene mayor generación ofensiva.</p>
 
-<p>🛡️ Defensa: Una de sus principales fortalezas.</p>
+<p>🛡️ Defensa:</p>
+<p>Tigres muestra más equilibrio.</p>
 
-<p>🏟️ Localía: Factor importante para Tigres.</p>
+<p>🤖 Predicción MatchIQ:</p>
+<p>Tigres gana o empate</p>
 
-<p>🤖 Predicción MatchIQ: Tigres 51% - Empate 26% - Chivas 23%</p>
-
-</div>
+<p>📈 Confianza: 75%</p>
 `;
+
 }
 
 
 if(equipo === "cruzazul"){
-analisis = `
-<div class="card">
+
+tarjeta.innerHTML = `
 <h2>🔵 Cruz Azul vs Monterrey</h2>
 
-<p>📊 Forma reciente: Partido más equilibrado de la jornada.</p>
+<p>📊 Forma reciente:</p>
+<p>Cruz Azul: G - E - G - P - G</p>
+<p>Monterrey: G - G - E - E - P</p>
 
-<p>⚽ Ataque: Ambos equipos tienen jugadores desequilibrantes.</p>
+<p>⚽ Ataque:</p>
+<p>Ambos equipos tienen jugadores ofensivos importantes.</p>
 
-<p>🛡️ Defensa: Puede ser un partido cerrado.</p>
+<p>🛡️ Defensa:</p>
+<p>Partido con posible equilibrio.</p>
 
-<p>🏟️ Localía: Ligera ventaja para Cruz Azul.</p>
+<p>🤖 Predicción MatchIQ:</p>
+<p>Partido cerrado</p>
 
-<p>🤖 Predicción MatchIQ: Cruz Azul 35% - Empate 30% - Monterrey 35%</p>
-
-</div>
+<p>📈 Confianza: 65%</p>
 `;
+
 }
 
 
-document.querySelector("main").innerHTML += analisis;
+// Agrega el análisis debajo del partido seleccionado
+boton.parentElement.appendChild(tarjeta);
 
 }
