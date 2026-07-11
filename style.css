@@ -1366,3 +1366,121 @@ height:27px;
 
 
 }
+/* ======================================
+AJUSTES FINALES MATCHIQ MX
+BOTONES Y LOGOS
+====================================== */
+
+
+/* BOTONES DE PARTIDOS */
+
+.card button{
+
+width:160px;
+
+height:42px;
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:13px;
+
+}
+
+
+/* CONTENEDOR DE LOGOS */
+
+.match-header div{
+
+min-width:110px;
+
+}
+
+
+
+.match-header img{
+
+width:75px;
+
+height:75px;
+
+object-fit:contain;
+
+padding:8px;
+
+}
+
+
+
+/* LOGOS PEQUEÑOS EN LISTA DE PARTIDOS */
+
+.logo-small{
+
+width:45px;
+
+height:45px;
+
+object-fit:contain;
+
+padding:5px;
+
+}
+
+
+
+/* LOGOS GRANDES EN PARTIDO DESTACADO */
+
+.logo-medium{
+
+width:85px;
+
+height:85px;
+
+object-fit:contain;
+
+padding:8px;
+
+}
+
+
+
+/* EVITAR QUE ALGUN EQUIPO CREZCA MAS */
+
+.match-header img[src*="america"],
+.match-header img[src*="toluca"],
+.match-header img[src*="tigres"],
+.match-header img[src*="chivas"],
+.match-header img[src*="cruzazul"],
+.match-header img[src*="monterrey"]{
+
+transform:scale(.85);
+
+}
+
+
+/* ALINEAR BOTONES */
+
+.card{
+
+text-align:center;
+
+}
+
+
+.card p{
+
+text-align:left;
+
+}
+
+
+/* MANTENER EQUIPOS CENTRADOS */
+
+.match-header strong{
+
+text-align:center;
+
+}
