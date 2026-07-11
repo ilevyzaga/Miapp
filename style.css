@@ -17,13 +17,13 @@ padding-bottom:90px;
 }
 
 
-/* CONTENEDOR */
 
 #contenido{
 
 padding:20px;
 
 }
+
 
 
 h2{
@@ -35,9 +35,12 @@ margin-bottom:20px;
 }
 
 
+
 h3{
 
-margin-bottom:15px;
+color:#38bdf8;
+
+margin-top:18px;
 
 }
 
@@ -51,7 +54,7 @@ margin-bottom:15px;
 
 background:#111827;
 
-border:1px solid #243044;
+border:1px solid #263449;
 
 border-radius:22px;
 
@@ -66,21 +69,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.35);
 
 
 
-.hero-card{
-
-background:linear-gradient(
-145deg,
-#111827,
-#172554
-);
-
-}
-
-
-
-
-
-/* EQUIPOS */
+/* EQUIPOS Y PARTIDOS */
 
 .teams{
 
@@ -97,6 +86,7 @@ margin:25px 0;
 }
 
 
+
 .team{
 
 display:flex;
@@ -105,9 +95,9 @@ flex-direction:column;
 
 align-items:center;
 
-gap:10px;
+font-weight:bold;
 
-font-weight:700;
+gap:10px;
 
 text-align:center;
 
@@ -129,9 +119,9 @@ object-fit:contain;
 
 .vs{
 
-font-size:25px;
+font-size:24px;
 
-font-weight:800;
+font-weight:bold;
 
 color:#94a3b8;
 
@@ -159,15 +149,15 @@ background:#2563eb;
 
 color:white;
 
-padding:13px 18px;
+padding:13px;
 
 border-radius:14px;
 
-font-weight:bold;
-
 width:100%;
 
-margin-top:15px;
+margin-top:12px;
+
+font-weight:bold;
 
 }
 
@@ -182,6 +172,7 @@ background:#1d4ed8;
 
 
 
+
 /* REGRESAR */
 
 .back-button{
@@ -190,23 +181,11 @@ background:#1e293b;
 
 color:white;
 
-width:auto;
+width:auto!important;
 
-padding:10px 18px;
+padding:10px 18px!important;
 
-border-radius:14px;
-
-margin-bottom:18px;
-
-font-weight:bold;
-
-}
-
-
-
-.back-button:hover{
-
-background:#334155;
+margin-bottom:15px;
 
 }
 
@@ -214,68 +193,7 @@ background:#334155;
 
 
 
-/* FILTROS */
-
-.filters{
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:20px;
-
-}
-
-
-.filters button{
-
-background:#1e293b;
-
-color:white;
-
-padding:10px 15px;
-
-border-radius:12px;
-
-}
-
-
-
-
-
-/* ANALISIS */
-
-.analysis-card{
-
-border:1px solid #2563eb;
-
-}
-
-
-
-.analysis-card h3{
-
-color:#38bdf8;
-
-}
-
-
-
-.stars{
-
-color:#facc15;
-
-font-size:24px;
-
-letter-spacing:4px;
-
-}
-
-
-
-
-
-/* PERFIL */
+/* JUGADORES */
 
 .player-card{
 
@@ -291,9 +209,11 @@ border:1px solid #263449;
 
 border-radius:18px;
 
-padding:15px;
+padding:14px;
 
-margin-bottom:14px;
+margin-bottom:12px;
+
+cursor:pointer;
 
 }
 
@@ -319,41 +239,96 @@ flex:1;
 
 
 
-.player-card small{
-
-color:#94a3b8;
-
-}
 
 
+/* PERFIL JUGADOR */
 
-.player-card button{
+.jugador-profile{
 
-width:auto;
-
-margin:0;
-
-padding:10px 15px;
-
-background:#2563eb;
+text-align:center;
 
 }
 
 
 
+.player-image{
 
+width:130px;
 
-/* STATS */
+height:130px;
 
-.card p{
+object-fit:contain;
 
-color:#dbeafe;
-
-font-size:15px;
-
-line-height:1.6;
+margin:auto;
 
 }
+
+
+
+
+
+/* ESTADISTICAS */
+
+.progress{
+
+height:12px;
+
+background:#1e293b;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-bottom:15px;
+
+}
+
+
+
+.progress div{
+
+height:100%;
+
+background:#38bdf8;
+
+}
+
+
+
+
+
+/* RANKINGS */
+
+.ranking-item{
+
+display:flex;
+
+justify-content:space-between;
+
+background:#0b1220;
+
+padding:14px;
+
+border-radius:14px;
+
+margin-bottom:10px;
+
+}
+
+
+
+
+
+/* ESTRELLAS */
+
+.stars{
+
+color:#facc15;
+
+font-size:24px;
+
+}
+
 
 
 
@@ -369,6 +344,7 @@ padding:18px;
 border-bottom:1px solid #1e293b;
 
 }
+
 
 
 .liga-logo{
@@ -427,22 +403,6 @@ padding:0;
 
 font-size:12px;
 
-display:flex;
-
-flex-direction:column;
-
-gap:5px;
-
-align-items:center;
-
-}
-
-
-
-.navigation button:hover{
-
-color:white;
-
 }
 
 
@@ -461,7 +421,7 @@ object-fit:contain;
 
 
 
-/* RESPONSIVE */
+/* MOBILE */
 
 @media(max-width:600px){
 
