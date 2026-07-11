@@ -1,340 +1,526 @@
 *{
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    box-sizing:border-box;
+    font-family:Inter, Arial, Helvetica, sans-serif;
 }
 
+
 body{
+
     margin:0;
-    background:#0b1220;
-    color:white;
+
+    background:
+    radial-gradient(circle at top,#18253d,#070b14 55%);
+
+    color:#ffffff;
+
     padding-bottom:90px;
+
 }
 
 
 /* HEADER */
 
-.header{
-    position:sticky;
-    top:0;
-    z-index:10;
-    background:#0f172a;
-    padding:15px 20px;
-    border-bottom:1px solid #24324a;
+.top-header{
+
+    padding:20px;
+
+    background:rgba(10,16,30,.85);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
 }
 
 
-.brand{
+.brand-container{
+
     display:flex;
+
     align-items:center;
-    gap:14px;
+
+    gap:15px;
+
 }
 
 
-.liga-logo{
-    width:55px !important;
-    height:55px !important;
-    max-width:55px !important;
-    max-height:55px !important;
+.matchiq-logo{
+
+    width:58px;
+
+    height:58px;
+
     object-fit:contain;
-    display:block;
+
 }
 
 
-.brand h1{
+
+.brand-text h1{
+
     margin:0;
-    font-size:25px;
-    font-weight:700;
+
+    font-size:26px;
+
+    letter-spacing:.5px;
+
 }
 
 
-.brand p{
-    margin:4px 0 0;
+.brand-text p{
+
+    margin:5px 0 0;
+
     color:#94a3b8;
+
     font-size:14px;
+
 }
+
 
 
 /* CONTENIDO */
 
+
 #contenido{
+
     padding:20px;
+
 }
 
 
+
 h2{
-    font-size:22px;
+
+    font-size:24px;
+
     margin-bottom:20px;
+
 }
 
 
 h3{
-    margin-top:0;
+
+    font-size:17px;
+
 }
+
 
 
 /* TARJETAS */
 
+
 .card{
-    background:#111c32;
-    border:1px solid #22304a;
-    border-radius:18px;
-    padding:18px;
+
+    background:
+
+    linear-gradient(
+    145deg,
+    rgba(30,41,59,.95),
+    rgba(15,23,42,.95)
+    );
+
+
+    border-radius:24px;
+
+    padding:20px;
+
     margin-bottom:18px;
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+    border:1px solid rgba(255,255,255,.08);
+
+
+    box-shadow:
+
+    0 15px 35px rgba(0,0,0,.35);
+
+
 }
+
+
+
 
 
 /* PARTIDOS */
 
-.partido{
-    text-align:center;
-}
-
 
 .teams{
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
-    gap:25px;
+
+    gap:35px;
+
+    margin:15px 0;
+
 }
+
 
 
 .team{
+
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
-    gap:8px;
+
+    gap:10px;
+
     font-weight:600;
+
 }
 
 
 .team img{
-    width:65px;
-    height:65px;
-    max-width:65px;
-    max-height:65px;
+
+    width:75px;
+
+    height:75px;
+
     object-fit:contain;
+
 }
+
 
 
 .vs{
-    color:#94a3b8;
+
+    font-size:18px;
+
+    color:#64748b;
+
     font-weight:bold;
+
 }
+
 
 
 /* ESTADO */
 
+
 .status{
+
     display:inline-block;
-    background:#1e293b;
-    color:#60a5fa;
-    padding:6px 12px;
-    border-radius:20px;
+
+    background:#1e40af;
+
+    padding:7px 15px;
+
+    border-radius:30px;
+
     font-size:13px;
+
 }
+
+
+
 
 
 /* BOTONES */
 
+
 button{
-    cursor:pointer;
-    border:none;
+
+    font-family:inherit;
+
 }
+
 
 
 .partido button{
-    margin-top:15px;
+
+
+    width:100%;
+
+    padding:13px;
+
+    margin-top:12px;
+
+
+    border-radius:14px;
+
+    border:none;
+
+
     background:#2563eb;
+
     color:white;
-    padding:12px 20px;
-    border-radius:12px;
-    font-weight:bold;
+
+
+    font-weight:700;
+
+    font-size:14px;
+
 }
+
 
 
 .partido button:hover{
+
     background:#1d4ed8;
+
 }
 
 
-/* PROBABILIDAD */
 
-.bar{
-    height:10px;
-    background:#24324a;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-
-.america{
-    width:58%;
-    height:100%;
-    background:#2563eb;
-}
-
-
-.tigres{
-    width:51%;
-    height:100%;
-    background:#2563eb;
-}
-
-
-.cruzazul{
-    width:35%;
-    height:100%;
-    background:#2563eb;
-}
 
 
 /* ANALISIS */
 
+
 .analisis{
-    margin-top:20px;
+
+
+    margin-top:18px;
+
+
     padding:18px;
-    background:#0f172a;
-    border-radius:15px;
-    border:1px solid #334155;
-    animation:entrada .3s ease;
+
+
+    background:#090f1d;
+
+
+    border-radius:18px;
+
+
+    border:1px solid rgba(255,255,255,.08);
+
+
 }
 
 
-@keyframes entrada{
 
-from{
-    opacity:0;
-    transform:translateY(10px);
+
+
+/* BARRAS */
+
+
+.bar{
+
+
+    height:12px;
+
+
+    background:#273449;
+
+
+    border-radius:20px;
+
+
+    overflow:hidden;
+
+
 }
 
-to{
-    opacity:1;
-    transform:translateY(0);
-}
+
+
+.america,
+.tigres,
+.cruzazul{
+
+
+    height:100%;
+
+
+    background:linear-gradient(
+    90deg,
+    #2563eb,
+    #38bdf8
+    );
+
 
 }
+
+
+
 
 
 /* TABLAS */
 
+
 table{
+
+
     width:100%;
+
     border-collapse:collapse;
-    background:#111c32;
-    border-radius:15px;
+
     overflow:hidden;
+
+    border-radius:15px;
+
+
 }
+
 
 
 th{
-    background:#1e293b;
-    color:#cbd5e1;
-    padding:12px;
-    text-align:left;
+
+
+    background:#172033;
+
+    padding:14px;
+
+    color:#94a3b8;
+
+
 }
+
 
 
 td{
-    padding:12px;
-    border-bottom:1px solid #22304a;
+
+
+    padding:14px;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+
 }
+
+
+
 
 
 /* ESTRELLAS */
 
+
 .stars{
-    color:#fbbf24;
+
+
+    color:#facc15;
+
+
     letter-spacing:3px;
-    font-size:18px;
+
+
 }
 
 
-/* FAVORITOS */
-
-.favorite{
-    background:#111c32;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:12px;
-}
 
 
 /* NAVEGACION */
 
-.bottom-nav{
+
+.app-nav{
+
+
     position:fixed;
+
+
     bottom:0;
+
+
     left:0;
+
+
     right:0;
 
-    height:75px;
 
-    background:#0f172a;
+    height:78px;
 
-    border-top:1px solid #24324a;
 
     display:flex;
+
+
     justify-content:space-around;
+
+
     align-items:center;
 
-    z-index:20;
+
+    background:rgba(10,16,30,.95);
+
+
+    backdrop-filter:blur(15px);
+
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+
 }
 
 
-.bottom-nav button{
+
+.app-nav button{
+
 
     background:none;
+
+
+    border:none;
+
+
     color:#94a3b8;
 
+
     display:flex;
+
+
     flex-direction:column;
 
+
     align-items:center;
+
 
     gap:5px;
 
+
     font-size:12px;
 
-}
-
-
-.bottom-nav svg{
-
-    width:22px;
-    height:22px;
 
 }
 
 
-.bottom-nav button:hover{
+
+.app-nav img{
+
+
+    width:25px;
+
+
+    height:25px;
+
+
+}
+
+
+
+.app-nav button:hover{
+
 
     color:white;
 
-}
-
-
-/* EVITAR IMAGENES GIGANTES */
-
-img{
-
-    max-width:100%;
 
 }
 
 
-/* CELULAR */
+
+
+/* RESPONSIVE */
+
 
 @media(max-width:600px){
 
-    .brand h1{
-        font-size:22px;
-    }
+
+.team img{
+
+    width:60px;
+
+    height:60px;
+
+}
 
 
-    .team img{
-        width:55px;
-        height:55px;
-    }
+.brand-text h1{
+
+    font-size:22px;
+
+}
+
 
 }
