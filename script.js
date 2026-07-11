@@ -14,9 +14,9 @@ estadio:"Estadio Ciudad de los Deportes",
 prediccion:"América gana o empate",
 confianza:"80%",
 marcadores:[
-"América 2 - 1 Toluca",
-"América 1 - 0 Toluca",
-"América 1 - 1 Toluca"
+"América 2 - 1 Toluca 32%",
+"América 1 - 0 Toluca 24%",
+"América 1 - 1 Toluca 18%"
 ]
 },
 
@@ -31,9 +31,9 @@ estadio:"Estadio Universitario",
 prediccion:"Tigres gana o empate",
 confianza:"75%",
 marcadores:[
-"Tigres 2 - 0 Chivas",
-"Tigres 2 - 1 Chivas",
-"Tigres 1 - 1 Chivas"
+"Tigres 2 - 0 Chivas 30%",
+"Tigres 2 - 1 Chivas 25%",
+"Tigres 1 - 1 Chivas 20%"
 ]
 },
 
@@ -48,9 +48,9 @@ estadio:"Ciudad de los Deportes",
 prediccion:"Partido equilibrado",
 confianza:"65%",
 marcadores:[
-"Cruz Azul 1 - 1 Monterrey",
-"Cruz Azul 1 - 0 Monterrey",
-"Cruz Azul 0 - 1 Monterrey"
+"Cruz Azul 1 - 1 Monterrey 30%",
+"Cruz Azul 1 - 0 Monterrey 22%",
+"Cruz Azul 0 - 1 Monterrey 20%"
 ]
 }
 
@@ -101,7 +101,6 @@ JSON.stringify(equiposSeguidos)
 
 
 
-
 function seguirEquipo(nombre){
 
 if(equiposSeguidos.includes(nombre)){
@@ -116,6 +115,7 @@ e=>e!==nombre
 equiposSeguidos.push(nombre);
 
 }
+
 
 guardarEquipos();
 
@@ -133,6 +133,7 @@ let contenido=document.getElementById("contenido");
 
 let p=partidos[0];
 
+
 contenido.innerHTML=`
 
 <h2>Inicio</h2>
@@ -140,11 +141,11 @@ contenido.innerHTML=`
 
 <div class="card partido">
 
-
 <h3>Partido destacado</h3>
 
 
 <div class="teams">
+
 
 <div class="team">
 
@@ -170,6 +171,7 @@ VS
 
 </div>
 
+
 </div>
 
 
@@ -189,7 +191,6 @@ Ver análisis
 
 
 
-
 <div class="card">
 
 <h3>Próximos partidos</h3>
@@ -200,10 +201,10 @@ Ver análisis
 
 </div>
 
+
 `;
 
 }
-
 
 
 
@@ -268,12 +269,13 @@ Ver análisis
 
 </div>
 
+
 `).join("")}
+
 
 `;
 
 }
-
 
 
 
@@ -305,7 +307,9 @@ contenido.innerHTML=`
 
 <p>${p.prediccion}</p>
 
+
 <p>Confianza: ${p.confianza}</p>
+
 
 
 
@@ -320,7 +324,9 @@ ${p.marcadores.map(m=>`
 
 
 
+
 <h3>Factores clave</h3>
+
 
 <p>Ataque</p>
 
@@ -332,16 +338,15 @@ ${p.marcadores.map(m=>`
 <p class="stars">★★★★☆</p>
 
 
-
 </div>
 
 
 </div>
+
 
 `;
 
 }
-
 
 
 
@@ -382,7 +387,6 @@ ${partidos.map(p=>`
 
 
 
-
 function cargarEstadisticas(){
 
 let contenido=document.getElementById("contenido");
@@ -402,7 +406,7 @@ contenido.innerHTML=`
 
 <p>Gignac — 6 goles</p>
 
-<p>Berterame — 5 goles</p>
+<p>Germán Berterame — 5 goles</p>
 
 </div>
 
@@ -413,11 +417,11 @@ contenido.innerHTML=`
 
 <h3>Asistidores</h3>
 
-<p>Fidalgo — 5 asistencias</p>
+<p>Álvaro Fidalgo — 5 asistencias</p>
 
-<p>Quiñones — 4 asistencias</p>
+<p>Luis Romo — 4 asistencias</p>
 
-<p>Córdova — 4 asistencias</p>
+<p>Diego Valdés — 4 asistencias</p>
 
 </div>
 
@@ -443,11 +447,11 @@ contenido.innerHTML=`
 
 <h3>Tarjetas amarillas</h3>
 
-<p>Jugador América — 5</p>
+<p>Álvaro Fidalgo — 5 amarillas</p>
 
-<p>Jugador Tigres — 4</p>
+<p>Erick Sánchez — 4 amarillas</p>
 
-<p>Jugador Monterrey — 4</p>
+<p>Jesús Orozco — 4 amarillas</p>
 
 </div>
 
@@ -458,9 +462,9 @@ contenido.innerHTML=`
 
 <h3>Tarjetas rojas</h3>
 
-<p>Jugador América — 1</p>
+<p>Igor Lichnovsky — 1 roja</p>
 
-<p>Jugador Chivas — 1</p>
+<p>Antonio Briseño — 1 roja</p>
 
 </div>
 
@@ -471,7 +475,7 @@ contenido.innerHTML=`
 
 <h3>Porterías a cero</h3>
 
-<p>Malagón — 4 partidos</p>
+<p>Luis Malagón — 4 partidos</p>
 
 <p>Nahuel Guzmán — 3 partidos</p>
 
@@ -521,7 +525,7 @@ ${equipos.map(e=>`
 <div class="player-card">
 
 
-<img src="${e.logo}" width="50">
+<img src="${e.logo}">
 
 
 <div>
@@ -536,6 +540,7 @@ ${
 equiposSeguidos.includes(e.nombre)
 
 ?
+
 "Notificaciones activadas"
 
 :
@@ -545,6 +550,7 @@ equiposSeguidos.includes(e.nombre)
 }
 
 </small>
+
 
 </div>
 
@@ -586,12 +592,11 @@ equiposSeguidos.includes(e.nombre)
 
 <h3>Notificaciones</h3>
 
-
 <p>Próximos partidos</p>
 
-<p>Alineaciones confirmadas</p>
+<p>Alineaciones</p>
 
-<p>Resultados finales</p>
+<p>Resultados</p>
 
 <p>Predicciones</p>
 
@@ -647,6 +652,7 @@ cargarPerfil();
 
 
 }
+
 
 
 cargarInicio();
