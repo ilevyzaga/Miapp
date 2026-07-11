@@ -9,7 +9,7 @@
 // CONFIGURACIÓN
 // ===============================
 
-const API_URL = "https://miapp-peach-six.vercel.app/api/football";
+const API_URL = "https://miapp-peach-six.vercel.app/api/sportsdb";
 
 let temporada = 2024;
 
