@@ -1,43 +1,29 @@
+// =======================================
+// MATCHIQ MX
+// API FOOTBALL
+// FOOTBALL.JS NUEVO
+// =======================================
+
+
 export default async function handler(req, res) {
+
+
+try{
 
 
 const { type } = req.query;
 
 
 
-let endpoint = "";
+const API_KEY = process.env.API_KEY;
 
 
 
-if(type === "teams"){
+if(!API_KEY){
 
-endpoint = "/teams?league=262&season=2024";
+return res.status(500).json({
 
-}
-
-
-if(type === "standings"){
-
-endpoint = "/standings?league=262&season=2024";
-
-}
-
-
-
-if(type === "players"){
-
-endpoint = "/players?league=262&season=2024";
-
-}
-
-
-
-
-if(!endpoint){
-
-return res.status(400).json({
-
-error:"No API type provided"
+error:"API KEY no encontrada"
 
 });
 
@@ -46,22 +32,132 @@ error:"No API type provided"
 
 
 
+let url="";
 
-const response = await fetch(
 
-"https://v3.football.api-sports.io" + endpoint,
 
-{
+
+// ===============================
+// EQUIPOS LIGA MX
+// ===============================
+
+
+if(type==="teams"){
+
+
+url =
+"https://v3.football.api-sports.io/teams?league=262&season=2024";
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// PARTIDOS LIGA MX
+// ===============================
+
+
+if(type==="fixtures"){
+
+
+url =
+"https://v3.football.api-sports.io/fixtures?league=262&season=2024";
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// TABLA POSICIONES
+// ===============================
+
+
+if(type==="standings"){
+
+
+url =
+"https://v3.football.api-sports.io/standings?league=262&season=2024";
+
+
+}
+
+
+
+
+
+
+
+
+// ===============================
+// JUGADORES
+// ===============================
+
+
+if(type==="players"){
+
+
+const team=req.query.team;
+
+
+
+url =
+`https://v3.football.api-sports.io/players?team=${team}&season=2024`;
+
+
+
+}
+
+
+
+
+
+
+
+if(!url){
+
+
+return res.status(400).json({
+
+error:"Tipo de consulta no válido"
+
+});
+
+
+}
+
+
+
+
+
+
+
+const response = await fetch(url,{
+
 
 headers:{
 
-"x-apisports-key":process.env.API_KEY
+
+"x-apisports-key":API_KEY
+
 
 }
 
-}
 
-);
+});
+
+
+
+
 
 
 
@@ -69,7 +165,33 @@ const data = await response.json();
 
 
 
-res.status(200).json(data);
+
+
+
+return res.status(200).json(data);
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+return res.status(500).json({
+
+
+error:error.message
+
+
+});
+
+
+
+}
+
 
 
 }
