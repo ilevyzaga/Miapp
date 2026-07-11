@@ -1,22 +1,18 @@
 // =======================================
 // MATCHIQ MX
-// API FOOTBALL
-// FOOTBALL.JS NUEVO
+// API FOOTBALL VERCEL
+// FOOTBALL.JS COMPLETO
+// PARTE 1/2
 // =======================================
 
 
-export default async function handler(req, res) {
+export default async function handler(req,res){
 
 
 try{
 
 
-const { type } = req.query;
-
-
-
 const API_KEY = process.env.API_KEY;
-
 
 
 if(!API_KEY){
@@ -31,22 +27,32 @@ error:"API KEY no encontrada"
 
 
 
+const {type} = req.query;
+
+
+
+const season = req.query.season || 2024;
+
+const league = 262;
+
+
 
 let url="";
 
 
 
 
-// ===============================
-// EQUIPOS LIGA MX
-// ===============================
+
+// =======================================
+// EQUIPOS
+// =======================================
 
 
 if(type==="teams"){
 
 
 url =
-"https://v3.football.api-sports.io/teams?league=262&season=2024";
+`https://v3.football.api-sports.io/teams?league=${league}&season=${season}`;
 
 
 }
@@ -57,16 +63,36 @@ url =
 
 
 
-// ===============================
-// PARTIDOS LIGA MX
-// ===============================
+// =======================================
+// PARTIDOS
+// =======================================
 
 
 if(type==="fixtures"){
 
 
+const round=req.query.round;
+
+
+
+if(round){
+
+
 url =
-"https://v3.football.api-sports.io/fixtures?league=262&season=2024";
+`https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}&round=${encodeURIComponent(round)}`;
+
+
+}
+
+else{
+
+
+url =
+`https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}`;
+
+
+}
+
 
 
 }
@@ -77,16 +103,18 @@ url =
 
 
 
-// ===============================
+// =======================================
 // TABLA POSICIONES
-// ===============================
+// =======================================
 
 
 if(type==="standings"){
 
 
+
 url =
-"https://v3.football.api-sports.io/standings?league=262&season=2024";
+`https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
+
 
 
 }
@@ -98,12 +126,13 @@ url =
 
 
 
-// ===============================
+// =======================================
 // JUGADORES
-// ===============================
+// =======================================
 
 
 if(type==="players"){
+
 
 
 const team=req.query.team;
@@ -111,11 +140,62 @@ const team=req.query.team;
 
 
 url =
-`https://v3.football.api-sports.io/players?team=${team}&season=2024`;
+`https://v3.football.api-sports.io/players?team=${team}&season=${season}`;
 
 
 
 }
+
+
+
+
+
+
+
+
+// =======================================
+// GOLEADORES
+// =======================================
+
+
+if(type==="topscorers"){
+
+
+
+url =
+`https://v3.football.api-sports.io/players/topscorers?league=${league}&season=${season}`;
+
+
+
+}
+
+
+
+
+
+
+
+
+// =======================================
+// ESTADISTICAS EQUIPO
+// =======================================
+
+
+if(type==="teamstats"){
+
+
+
+const team=req.query.team;
+
+
+
+url =
+`https://v3.football.api-sports.io/teams/statistics?league=${league}&season=${season}&team=${team}`;
+
+
+
+}
+
 
 
 
@@ -128,7 +208,7 @@ if(!url){
 
 return res.status(400).json({
 
-error:"Tipo de consulta no válido"
+error:"Consulta no válida"
 
 });
 
@@ -141,7 +221,11 @@ error:"Tipo de consulta no válido"
 
 
 
-const response = await fetch(url,{
+const response = await fetch(
+
+url,
+
+{
 
 
 headers:{
@@ -153,8 +237,10 @@ headers:{
 }
 
 
-});
 
+}
+
+);
 
 
 
@@ -172,9 +258,9 @@ return res.status(200).json(data);
 
 
 
-
-
 }
+
+
 
 catch(error){
 
@@ -182,16 +268,96 @@ catch(error){
 
 return res.status(500).json({
 
-
 error:error.message
-
 
 });
 
 
-
 }
 
 
 
 }
+// =======================================
+// MATCHIQ MX
+// API FOOTBALL VERCEL
+// FOOTBALL.JS COMPLETO
+// PARTE 2/2
+// =======================================
+
+
+// Esta parte mantiene compatibilidad
+// con futuras consultas de MatchIQ MX
+
+
+
+// =======================================
+// FORMATO DE RESPUESTA API
+// =======================================
+
+
+function respuestaAPI(res,data){
+
+
+return res.status(200).json({
+
+success:true,
+
+data:data
+
+});
+
+
+}
+
+
+
+
+
+// =======================================
+// DATOS DE TORNEOS
+// =======================================
+
+
+const torneos = {
+
+
+clausura:{
+
+nombre:"Clausura 2024",
+
+roundPrefix:"Regular Season"
+
+},
+
+
+apertura:{
+
+nombre:"Apertura 2024",
+
+roundPrefix:"Regular Season"
+
+}
+
+
+};
+
+
+
+
+
+
+// =======================================
+// NOTA:
+//
+// API-FOOTBALL MANEJA AMBOS TORNEOS
+// CON EL MISMO LEAGUE ID.
+// EL FILTRO REAL SE HACE POR:
+// - TEMPORADA
+// - ROUND
+// - FECHAS DE FIXTURE
+//
+// EL FRONTEND DE MATCHIQ MX
+// USA ESTOS DATOS PARA SEPARARLOS.
+//
+// =======================================
