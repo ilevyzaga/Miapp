@@ -4,37 +4,21 @@ STYLE APP DEPORTIVA
 ===================================== */
 
 
-
 *{
-
 box-sizing:border-box;
-
 font-family:"Inter","Roboto",Arial,sans-serif;
-
 }
-
 
 
 body{
-
 margin:0;
-
 background:#f5f7fb;
-
 color:#101828;
-
 padding-bottom:90px;
-
 }
 
 
-
-
-
-/* =========================
-HEADER
-========================= */
-
+/* HEADER */
 
 .top-header{
 
@@ -59,7 +43,6 @@ z-index:50;
 }
 
 
-
 .brand h1{
 
 margin:0;
@@ -70,10 +53,7 @@ font-size:26px;
 
 font-weight:900;
 
-letter-spacing:-.5px;
-
 }
-
 
 
 .brand p{
@@ -102,13 +82,7 @@ cursor:pointer;
 
 
 
-
-
-
-
-/* =========================
-CONTENIDO
-========================= */
+/* CONTENIDO */
 
 
 #contenido{
@@ -122,7 +96,6 @@ padding:18px;
 }
 
 
-
 h2{
 
 font-size:26px;
@@ -134,10 +107,7 @@ margin:10px 0 18px;
 }
 
 
-
 h3{
-
-margin-top:8px;
 
 font-size:18px;
 
@@ -149,12 +119,7 @@ font-weight:800;
 
 
 
-
-
-
-/* =========================
-CARDS
-========================= */
+/* CARDS */
 
 
 .card{
@@ -178,9 +143,7 @@ border:1px solid #edf0f5;
 
 
 
-/* =========================
-PARTIDOS
-========================= */
+/* PARTIDOS */
 
 
 .match-header{
@@ -196,7 +159,6 @@ gap:35px;
 }
 
 
-
 .match-header div{
 
 display:flex;
@@ -208,29 +170,6 @@ align-items:center;
 text-align:center;
 
 }
-
-
-
-.match-header strong{
-
-margin-top:8px;
-
-font-size:15px;
-
-}
-
-
-
-.match-header h2{
-
-margin:0;
-
-font-size:20px;
-
-}
-
-
-
 
 
 
@@ -258,24 +197,9 @@ object-fit:contain;
 
 
 
-.logo-large{
-
-width:110px;
-
-height:110px;
-
-object-fit:contain;
-
-}
 
 
-
-
-
-
-/* =========================
-BOTONES
-========================= */
+/* BOTONES */
 
 
 button{
@@ -300,21 +224,10 @@ cursor:pointer;
 
 
 
-button:hover{
-
-opacity:.9;
-
-}
 
 
 
-
-
-
-
-/* =========================
-PROBABILIDAD
-========================= */
+/* PROBABILIDAD */
 
 
 .probabilidad{
@@ -324,19 +237,15 @@ margin:16px 0;
 }
 
 
-
 .prob-header{
 
 display:flex;
 
 justify-content:space-between;
 
-font-size:14px;
-
 margin-bottom:7px;
 
 }
-
 
 
 .barra{
@@ -352,7 +261,6 @@ overflow:hidden;
 }
 
 
-
 .relleno{
 
 height:100%;
@@ -362,7 +270,6 @@ border-radius:20px;
 }
 
 
-
 .relleno.local{
 
 background:#0057b8;
@@ -370,13 +277,11 @@ background:#0057b8;
 }
 
 
-
 .relleno.empate{
 
 background:#98a2b3;
 
 }
-
 
 
 .relleno.visitante{
@@ -389,23 +294,7 @@ background:#d92d20;
 
 
 
-
-
-/* =========================
-ALINEACIONES
-========================= */
-
-
-.alineacion-container{
-
-display:flex;
-
-flex-direction:column;
-
-gap:12px;
-
-}
-
+/* ALINEACIONES */
 
 
 .player-card{
@@ -427,7 +316,6 @@ cursor:pointer;
 }
 
 
-
 .player-card img{
 
 width:55px;
@@ -444,11 +332,7 @@ object-fit:cover;
 
 
 
-
-
-/* =========================
-POPUP
-========================= */
+/* POPUP */
 
 
 #player-popup{
@@ -462,7 +346,6 @@ inset:0;
 z-index:1000;
 
 }
-
 
 
 .popup-background{
@@ -505,9 +388,9 @@ text-align:center;
 
 .player-photo{
 
-height:120px;
-
 width:120px;
+
+height:120px;
 
 border-radius:50%;
 
@@ -519,11 +402,7 @@ object-fit:cover;
 
 
 
-
-
-/* =========================
-TABLA POSICIONES
-========================= */
+/* TABLA STATS */
 
 
 .table-container{
@@ -570,6 +449,7 @@ text-align:center;
 
 
 
+
 .team-cell{
 
 display:flex;
@@ -586,11 +466,33 @@ font-weight:700;
 
 
 
+
+/* CORRECCIÓN LOGOS TABLA */
+
 .table-logo{
 
-width:28px;
+width:28px!important;
 
-height:28px;
+height:28px!important;
+
+max-width:28px;
+
+max-height:28px;
+
+object-fit:contain;
+
+flex-shrink:0;
+
+}
+
+
+
+
+.team-cell img{
+
+width:28px!important;
+
+height:28px!important;
 
 object-fit:contain;
 
@@ -599,13 +501,7 @@ object-fit:contain;
 
 
 
-
-
-
-
-/* =========================
-STATS
-========================= */
+/* STATS */
 
 
 .stats-ranking{
@@ -636,9 +532,7 @@ object-fit:contain;
 
 
 
-/* =========================
-PERFIL
-========================= */
+/* PERFIL */
 
 
 .team-follow{
@@ -656,7 +550,6 @@ gap:12px;
 }
 
 
-
 .team-follow strong{
 
 flex:1;
@@ -668,9 +561,7 @@ flex:1;
 
 
 
-/* =========================
-MENU INFERIOR
-========================= */
+/* MENU */
 
 
 .bottom-menu{
@@ -711,14 +602,6 @@ padding:5px;
 
 margin:0;
 
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-gap:4px;
-
 }
 
 
@@ -738,58 +621,5 @@ height:28px;
 font-size:11px;
 
 font-weight:700;
-
-}
-
-
-
-
-
-
-
-/* =========================
-RESPONSIVE
-========================= */
-
-
-@media(max-width:600px){
-
-
-
-.brand h1{
-
-font-size:22px;
-
-}
-
-
-
-.liga-logo{
-
-width:50px;
-
-height:50px;
-
-}
-
-
-
-.match-header{
-
-gap:18px;
-
-}
-
-
-
-.logo-medium{
-
-width:60px;
-
-height:60px;
-
-}
-
-
 
 }
