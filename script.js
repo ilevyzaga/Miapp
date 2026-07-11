@@ -1,13 +1,14 @@
 // =======================================
 // MATCHIQ MX
 // SCRIPT.JS COMPLETO
-// PARTE 1
+// PARTE 1/4
 // =======================================
 
 
 // ===============================
-// CONFIGURACIÓN
+// CONFIGURACIÓN API
 // ===============================
+
 
 const API_KEY = "TU_API_KEY";
 
@@ -19,8 +20,10 @@ const temporada = 2024;
 
 
 
+
+
 // ===============================
-// VARIABLES
+// VARIABLES GLOBALES
 // ===============================
 
 
@@ -28,9 +31,11 @@ let notificaciones =
 JSON.parse(localStorage.getItem("notificaciones")) || [];
 
 
+
 let torneoSeleccionado = "clausura";
 
 let jornadaSeleccionada = 1;
+
 
 
 let partidos = [];
@@ -39,15 +44,21 @@ let partidosAPI = [];
 
 let tablaAPI = [];
 
+let equiposAPI = [];
+
+
+
+
 
 
 
 // ===============================
-// EQUIPOS LIGA MX
+// EQUIPOS BASE
 // ===============================
 
 
-const equipos = [
+let equipos = [
+
 
 
 {
@@ -57,11 +68,13 @@ logo:"images/chivas.png"
 },
 
 
+
 {
 id:2279,
 nombre:"Tigres",
 logo:"images/tigres.png"
 },
+
 
 
 {
@@ -71,11 +84,13 @@ logo:"images/tijuana.png"
 },
 
 
+
 {
 id:2281,
 nombre:"Toluca",
 logo:"images/toluca.png"
 },
+
 
 
 {
@@ -85,11 +100,13 @@ logo:"images/monterrey.png"
 },
 
 
+
 {
 id:2283,
 nombre:"Atlas",
 logo:"images/atlas.png"
 },
+
 
 
 {
@@ -99,11 +116,13 @@ logo:"images/santos.png"
 },
 
 
+
 {
 id:2286,
 nombre:"Pumas",
 logo:"images/pumas.png"
 },
+
 
 
 {
@@ -113,11 +132,13 @@ logo:"images/america.png"
 },
 
 
+
 {
 id:2288,
 nombre:"Necaxa",
 logo:"images/necaxa.png"
 },
+
 
 
 {
@@ -127,11 +148,13 @@ logo:"images/leon.png"
 },
 
 
+
 {
 id:2290,
 nombre:"Querétaro",
 logo:"images/queretaro.png"
 },
+
 
 
 {
@@ -141,11 +164,13 @@ logo:"images/puebla.png"
 },
 
 
+
 {
 id:2292,
 nombre:"Pachuca",
 logo:"images/pachuca.png"
 },
+
 
 
 {
@@ -155,11 +180,13 @@ logo:"images/cruzazul.png"
 },
 
 
+
 {
 id:2298,
 nombre:"FC Juárez",
 logo:"images/juarez.png"
 },
+
 
 
 {
@@ -169,6 +196,7 @@ logo:"images/atleticosanluis.png"
 },
 
 
+
 {
 id:14002,
 nombre:"Mazatlán",
@@ -176,7 +204,12 @@ logo:"images/mazatlan.png"
 }
 
 
+
 ];
+
+
+
+
 
 
 
@@ -187,6 +220,7 @@ logo:"images/mazatlan.png"
 
 
 let jugadores = [
+
 
 
 {
@@ -200,7 +234,9 @@ posicion:"Delantero",
 
 foto:"images/henry.png",
 
+
 stats:{
+
 
 goles:0,
 
@@ -212,9 +248,13 @@ amarillas:0,
 
 rojas:0
 
-}
 
 }
+
+
+
+}
+
 
 
 ];
@@ -222,12 +262,16 @@ rojas:0
 
 
 
+
+
+
 // ===============================
-// LLAMAR API
+// LLAMADA API
 // ===============================
 
 
 async function llamarAPI(endpoint){
+
 
 
 try{
@@ -239,13 +283,18 @@ API_URL + endpoint,
 
 {
 
+
 headers:{
+
 
 "x-apisports-key":API_KEY
 
-}
 
 }
+
+
+}
+
 
 );
 
@@ -258,12 +307,19 @@ const data = await respuesta.json();
 return data.response || [];
 
 
+
 }
 
 catch(error){
 
 
-console.log("Error API:",error);
+console.log(
+
+"Error API:",
+
+error
+
+);
 
 
 return [];
@@ -278,32 +334,55 @@ return [];
 
 
 
+
+
+
 // ===============================
-// CARGAR PARTIDOS API
+// CARGAR EQUIPOS API
 // ===============================
 
 
-async function cargarPartidosAPI(){
+async function cargarEquiposAPI(){
 
 
 
-const datos = await llamarAPI(
+let datos = await llamarAPI(
 
-`/fixtures?league=${ligaMX}&season=${temporada}&round=Regular Season - ${jornadaSeleccionada}`
+`/teams?league=${ligaMX}&season=${temporada}`
 
 );
 
 
 
-partidosAPI = datos;
+if(datos.length>0){
 
 
 
-return datos;
+equiposAPI = datos.map(e=>({
+
+
+id:e.team.id,
+
+
+nombre:e.team.name,
+
+
+logo:e.team.logo
+
+
+
+}));
+
+
+}
 
 
 
 }
+
+
+
+
 
 
 
@@ -313,11 +392,38 @@ return datos;
 // ===============================
 
 
-function buscarEquipoAPI(nombre){
+function buscarEquipo(nombre){
 
 
 
-return equipos.find(e =>
+let encontrado = equiposAPI.find(e=>
+
+
+nombre.toLowerCase()
+
+.includes(
+
+e.nombre.toLowerCase()
+
+)
+
+
+);
+
+
+
+if(encontrado){
+
+
+return encontrado;
+
+
+}
+
+
+
+
+return equipos.find(e=>
 
 
 nombre.toLowerCase()
@@ -331,15 +437,156 @@ e.nombre.toLowerCase()
 
 )
 
-||
+||{
 
-{
 
 nombre:nombre,
 
+
 logo:"images/default.png"
 
+
+
 };
+
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// CARGAR PARTIDOS API
+// ===============================
+
+
+async function cargarPartidosAPI(){
+
+
+
+let tipo = torneoSeleccionado==="clausura"
+
+?
+
+"Regular Season"
+
+:
+
+"Regular Season";
+
+
+
+
+let datos = await llamarAPI(
+
+
+`/fixtures?league=${ligaMX}&season=${temporada}&round=${tipo} - ${jornadaSeleccionada}`
+
+
+);
+
+
+
+
+
+partidosAPI = datos;
+
+
+
+partidos = datos.map(p=>{
+
+
+
+return {
+
+
+id:p.fixture.id,
+
+
+local:{
+
+nombre:p.teams.home.name,
+
+logo:p.teams.home.logo
+
+
+},
+
+
+
+visitante:{
+
+
+nombre:p.teams.away.name,
+
+logo:p.teams.away.logo
+
+
+},
+
+
+
+hora:new Date(
+
+p.fixture.date
+
+).toLocaleTimeString(
+
+"es-MX",
+
+{
+
+hour:"2-digit",
+
+minute:"2-digit"
+
+}
+
+),
+
+
+
+estadio:
+
+p.fixture.venue?.name || "Por confirmar",
+
+
+
+resultado:
+
+p.goals.home !== null
+
+?
+
+`${p.goals.home}-${p.goals.away}`
+
+:
+
+null,
+
+
+
+prediccion:
+
+"Analizando estadísticas MatchIQ"
+
+
+
+};
+
+
+
+});
+
+
+
+
+
+return partidos;
 
 
 
@@ -347,7 +594,7 @@ logo:"images/default.png"
 // =======================================
 // MATCHIQ MX
 // SCRIPT.JS COMPLETO
-// PARTE 2
+// PARTE 2/4
 // =======================================
 
 
@@ -356,50 +603,20 @@ logo:"images/default.png"
 // ===============================
 
 
-function cargarInicio(){
-
-
-const contenido=document.getElementById("contenido");
-
-
-let p = partidos[0];
+async function cargarInicio(){
 
 
 
-if(!p){
+const contenido=document.getElementById(
 
+"contenido"
 
-contenido.innerHTML=`
-
-<div class="card">
-
-<h2>
-
-MatchIQ MX
-
-</h2>
-
-
-<p>
-
-No hay partidos cargados todavía.
-
-</p>
-
-
-</div>
-
-`;
-
-
-return;
-
-
-}
+);
 
 
 
 contenido.innerHTML=`
+
 
 
 <h2>
@@ -413,6 +630,104 @@ Inicio
 <div class="card">
 
 
+<p>
+
+Cargando partidos...
+
+</p>
+
+
+</div>
+
+
+
+`;
+
+
+
+
+
+if(partidos.length===0){
+
+
+await cargarPartidosAPI();
+
+
+}
+
+
+
+
+
+if(partidos.length===0){
+
+
+
+contenido.innerHTML=`
+
+
+
+<h2>
+
+Inicio
+
+</h2>
+
+
+
+<div class="card">
+
+
+<p>
+
+No hay partidos cargados todavía.
+
+</p>
+
+
+</div>
+
+
+
+`;
+
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+let p = partidos[0];
+
+
+
+
+
+contenido.innerHTML=`
+
+
+
+<h2>
+
+Inicio
+
+</h2>
+
+
+
+
+
+<div class="card">
+
+
+
 <h3>
 
 Partido destacado
@@ -421,13 +736,25 @@ Partido destacado
 
 
 
+
+
 <div class="match-header">
+
+
+
 
 
 <div>
 
 
-${mostrarLogo(p.local.logo,"medium")}
+${mostrarLogo(
+
+p.local.logo,
+
+"medium"
+
+)}
+
 
 
 <strong>
@@ -441,6 +768,9 @@ ${p.local.nombre}
 
 
 
+
+
+
 <h2>
 
 VS
@@ -449,10 +779,20 @@ VS
 
 
 
+
+
+
 <div>
 
 
-${mostrarLogo(p.visitante.logo,"medium")}
+${mostrarLogo(
+
+p.visitante.logo,
+
+"medium"
+
+)}
+
 
 
 <strong>
@@ -462,11 +802,18 @@ ${p.visitante.nombre}
 </strong>
 
 
+
+</div>
+
+
+
+
+
 </div>
 
 
 
-</div>
+
 
 
 
@@ -477,6 +824,10 @@ ${p.hora}
 </p>
 
 
+
+
+
+
 <p>
 
 ${p.estadio}
@@ -485,23 +836,25 @@ ${p.estadio}
 
 
 
+
+
+
+
 <button onclick="mostrarAnalisis('${p.id}')">
+
 
 Ver análisis
 
-</button>
-
-
-
-<button onclick="mostrarAlineacion('${p.local.nombre}')">
-
-Ver alineaciones
 
 </button>
+
+
 
 
 
 </div>
+
+
 
 
 
@@ -516,15 +869,19 @@ Predicción MatchIQ
 </h3>
 
 
+
+
 <p>
 
-${p.prediccion || "Analizando datos..."}
+${p.prediccion}
 
 </p>
 
 
 
 </div>
+
+
 
 
 `;
@@ -537,17 +894,27 @@ ${p.prediccion || "Analizando datos..."}
 
 
 
+
+
+
+
+
 // ===============================
 // PARTIDOS
-// APERTURA / CLAUSURA
-// JORNADAS
 // ===============================
 
 
-function cargarPartidos(){
+async function cargarPartidos(){
 
 
-const contenido=document.getElementById("contenido");
+
+const contenido=document.getElementById(
+
+"contenido"
+
+);
+
+
 
 
 
@@ -564,18 +931,23 @@ Partidos Liga MX
 
 
 
+
 <div class="card">
+
 
 
 <h3>
 
-Torneo
+Selecciona torneo
 
 </h3>
 
 
 
-<select id="tipoTorneo" onchange="actualizarPartidos()">
+
+<select id="tipoTorneo"
+
+onchange="cambiarTorneo()">
 
 
 
@@ -584,6 +956,7 @@ Torneo
 Clausura 2024
 
 </option>
+
 
 
 
@@ -600,16 +973,22 @@ Apertura 2024
 
 
 
+
+
+
 <h3>
 
-Jornada
+Selecciona jornada
 
 </h3>
 
 
 
 
-<select id="jornadaLiga" onchange="actualizarPartidos()">
+
+<select id="jornadaLiga"
+
+onchange="cambiarJornada()">
 
 
 
@@ -621,7 +1000,9 @@ ${crearOpcionesJornadas()}
 
 
 
+
 </div>
+
 
 
 
@@ -630,7 +1011,7 @@ ${crearOpcionesJornadas()}
 <div id="listaPartidosLiga">
 
 
-${crearListaPartidos()}
+Cargando partidos...
 
 
 </div>
@@ -641,47 +1022,72 @@ ${crearListaPartidos()}
 
 
 
+
+
+await cargarPartidosAPI();
+
+
+
+mostrarListaPartidos();
+
+
+
 }
 
 
 
 
 
+
+
+
+
 // ===============================
-// CREAR JORNADAS
+// OPCIONES JORNADAS
 // ===============================
 
 
 function crearOpcionesJornadas(){
 
 
-let opciones="";
+
+let html="";
+
 
 
 for(let i=1;i<=17;i++){
 
 
-opciones+=`
+
+html+=`
+
 
 
 <option value="${i}">
 
+
 Jornada ${i}
 
+
 </option>
+
 
 
 `;
 
 
+
+}
+
+
+
+return html;
+
+
+
 }
 
 
-
-return opciones;
-
-
-}
 
 
 
@@ -690,36 +1096,28 @@ return opciones;
 
 
 // ===============================
-// ACTUALIZAR PARTIDOS
+// CAMBIAR TORNEO
 // ===============================
 
 
-function actualizarPartidos(){
+async function cambiarTorneo(){
 
 
 
-const torneo =
-document.getElementById("tipoTorneo").value;
-
-
-
-const jornada =
-document.getElementById("jornadaLiga").value;
-
-
-
-torneoSeleccionado = torneo;
-
-
-jornadaSeleccionada = jornada;
-
-
+torneoSeleccionado =
 
 document.getElementById(
 
-"listaPartidosLiga"
+"tipoTorneo"
 
-).innerHTML = crearListaPartidos();
+).value;
+
+
+
+await cargarPartidosAPI();
+
+
+mostrarListaPartidos();
 
 
 
@@ -729,56 +1127,79 @@ document.getElementById(
 
 
 
+
+
+
+
 // ===============================
-// CREAR LISTA PARTIDOS
+// CAMBIAR JORNADA
 // ===============================
 
 
-function crearListaPartidos(){
+async function cambiarJornada(){
 
 
 
-let torneo =
+jornadaSeleccionada =
 
-document.getElementById("tipoTorneo")?.value
+document.getElementById(
 
-||
+"jornadaLiga"
 
-torneoSeleccionado;
-
-
-
-let jornada =
-
-document.getElementById("jornadaLiga")?.value
-
-||
-
-jornadaSeleccionada;
+).value;
 
 
 
+await cargarPartidosAPI();
 
 
-let partidosFiltrados = partidos.filter(p=>
+mostrarListaPartidos();
 
 
-p.torneo === torneo &&
 
-p.jornada == jornada
+}
 
+
+
+
+
+
+
+
+
+// ===============================
+// MOSTRAR PARTIDOS
+// ===============================
+
+
+function mostrarListaPartidos(){
+
+
+
+const lista=document.getElementById(
+
+"listaPartidosLiga"
 
 );
 
 
 
+if(!lista){
+
+return;
+
+}
 
 
 
-if(partidosFiltrados.length===0){
 
 
-return `
+if(partidos.length===0){
+
+
+
+lista.innerHTML=`
+
 
 
 <div class="card">
@@ -794,7 +1215,12 @@ No hay partidos registrados para esta jornada.
 </div>
 
 
+
 `;
+
+
+
+return;
 
 
 }
@@ -803,7 +1229,9 @@ No hay partidos registrados para esta jornada.
 
 
 
-return partidosFiltrados.map(p=>`
+
+
+lista.innerHTML=partidos.map(p=>`
 
 
 
@@ -811,14 +1239,25 @@ return partidosFiltrados.map(p=>`
 
 
 
+
+
 <div class="match-header">
+
+
 
 
 
 <div>
 
 
-${mostrarLogo(p.local.logo,"small")}
+${mostrarLogo(
+
+p.local.logo,
+
+"small"
+
+)}
+
 
 
 <strong>
@@ -828,7 +1267,11 @@ ${p.local.nombre}
 </strong>
 
 
+
 </div>
+
+
+
 
 
 
@@ -842,10 +1285,20 @@ VS
 
 
 
+
+
+
 <div>
 
 
-${mostrarLogo(p.visitante.logo,"small")}
+${mostrarLogo(
+
+p.visitante.logo,
+
+"small"
+
+)}
+
 
 
 <strong>
@@ -855,20 +1308,17 @@ ${p.visitante.nombre}
 </strong>
 
 
-</div>
-
-
-
 
 </div>
 
 
 
-<p>
 
-Jornada ${p.jornada}
+</div>
 
-</p>
+
+
+
 
 
 
@@ -877,6 +1327,8 @@ Jornada ${p.jornada}
 ${p.hora}
 
 </p>
+
+
 
 
 
@@ -889,17 +1341,24 @@ ${p.estadio}
 
 
 
-${p.resultado ?
 
+
+
+${
+
+p.resultado
+
+?
 
 `
 
 <h3>
 
-Resultado: ${p.resultado}
+Resultado:
+
+${p.resultado}
 
 </h3>
-
 
 `
 
@@ -911,11 +1370,11 @@ Resultado: ${p.resultado}
 
 
 
-
-
 <button onclick="mostrarAnalisis('${p.id}')">
 
+
 Ver análisis
+
 
 </button>
 
@@ -924,9 +1383,13 @@ Ver análisis
 
 <button onclick="mostrarAlineacion('${p.local.nombre}')">
 
-Ver alineaciones
+
+Ver alineación
+
 
 </button>
+
+
 
 
 
@@ -942,401 +1405,8 @@ Ver alineaciones
 // =======================================
 // MATCHIQ MX
 // SCRIPT.JS COMPLETO
-// PARTE 3
+// PARTE 3/4
 // =======================================
-
-
-// ===============================
-// ALINEACIONES
-// ===============================
-
-
-function mostrarAlineacion(equipo){
-
-
-const contenido=document.getElementById("contenido");
-
-
-
-let plantilla = jugadores.filter(
-
-jugador=>jugador.equipo===equipo
-
-);
-
-
-
-
-contenido.innerHTML=`
-
-
-
-<button onclick="cargarPartidos()">
-
-Regresar
-
-</button>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-Alineación ${equipo}
-
-</h2>
-
-
-
-
-<div class="alineacion-container">
-
-
-
-${
-
-
-plantilla.length > 0
-
-
-?
-
-
-plantilla.map(j=>`
-
-
-
-<div class="player-card"
-
-onclick="mostrarJugador('${j.id}')">
-
-
-
-<img
-
-src="${j.foto}"
-
-alt="${j.nombre}">
-
-
-
-
-
-<div>
-
-
-<strong>
-
-${j.nombre}
-
-</strong>
-
-
-<p>
-
-${j.posicion}
-
-</p>
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-`).join("")
-
-
-
-:
-
-
-`
-
-<p>
-
-Alineación oficial cargando desde API...
-
-</p>
-
-`
-
-
-
-}
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-}
-
-
-
-
-
-
-
-
-// ===============================
-// MODAL JUGADOR
-// ===============================
-
-
-function mostrarJugador(id){
-
-
-
-const jugador = buscarJugador(id);
-
-
-
-if(!jugador){
-
-return;
-
-}
-
-
-
-const popup = document.getElementById(
-
-"player-popup"
-
-);
-
-
-
-if(!popup){
-
-return;
-
-}
-
-
-
-
-popup.innerHTML=`
-
-
-
-<div class="popup-background"
-
-onclick="cerrarJugador()">
-
-</div>
-
-
-
-
-
-<div class="player-modal">
-
-
-
-<img
-
-src="${jugador.foto}"
-
-class="player-photo">
-
-
-
-
-<h2>
-
-${jugador.nombre}
-
-</h2>
-
-
-
-<p>
-
-${jugador.equipo}
-
-</p>
-
-
-
-<p>
-
-${jugador.posicion}
-
-</p>
-
-
-
-
-${crearStatsJugador(jugador)}
-
-
-
-
-<button onclick="cerrarJugador()">
-
-Cerrar
-
-</button>
-
-
-
-
-</div>
-
-
-
-`;
-
-
-
-popup.style.display="block";
-
-
-
-}
-
-
-
-
-
-
-
-function cerrarJugador(){
-
-
-
-const popup=document.getElementById(
-
-"player-popup"
-
-);
-
-
-
-if(popup){
-
-
-popup.style.display="none";
-
-
-popup.innerHTML="";
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-// ===============================
-// ESTADÍSTICAS JUGADOR
-// ===============================
-
-
-function crearStatsJugador(jugador){
-
-
-
-let s = jugador.stats || {};
-
-
-
-return `
-
-
-
-<div class="stats-box">
-
-
-<h3>
-
-Estadísticas
-
-</h3>
-
-
-
-<p>
-
-Goles: ${s.goles ?? "-"}
-
-</p>
-
-
-
-<p>
-
-Asistencias: ${s.asistencias ?? "-"}
-
-</p>
-
-
-
-<p>
-
-Tiros a puerta: ${s.tirosPuerta ?? "-"}
-
-</p>
-
-
-
-<p>
-
-Tarjetas amarillas: ${s.amarillas ?? "-"}
-
-</p>
-
-
-
-<p>
-
-Tarjetas rojas: ${s.rojas ?? "-"}
-
-</p>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-}
-
-
-
-
-
-
 
 
 // ===============================
@@ -1344,7 +1414,7 @@ Tarjetas rojas: ${s.rojas ?? "-"}
 // ===============================
 
 
-function cargarPredicciones(){
+async function cargarPredicciones(){
 
 
 
@@ -1353,6 +1423,19 @@ const contenido=document.getElementById(
 "contenido"
 
 );
+
+
+
+if(partidos.length===0){
+
+
+await cargarPartidosAPI();
+
+
+
+}
+
+
 
 
 
@@ -1371,6 +1454,28 @@ Predicciones MatchIQ
 
 
 ${
+partidos.length===0
+
+?
+
+`
+
+<div class="card">
+
+
+<p>
+
+No hay partidos disponibles para analizar.
+
+</p>
+
+
+</div>
+
+`
+
+:
+
 partidos.map(p=>`
 
 
@@ -1392,20 +1497,61 @@ ${p.visitante.nombre}
 
 
 
+
 <p>
 
-${p.prediccion || "Analizando estadísticas..."}
+Predicción inteligente basada en:
 
 </p>
 
 
 
 
+<ul>
+
+
+<li>
+
+Forma reciente
+
+</li>
+
+
+<li>
+
+Goles anotados
+
+</li>
+
+
+<li>
+
+Defensa
+
+</li>
+
+
+<li>
+
+Historial del equipo
+
+</li>
+
+
+</ul>
+
+
+
+
+
 <button onclick="mostrarAnalisis('${p.id}')">
+
 
 Ver análisis
 
+
 </button>
+
 
 
 
@@ -1431,8 +1577,11 @@ Ver análisis
 
 
 
+
+
+
 // ===============================
-// ANALISIS
+// ANALISIS PARTIDO
 // ===============================
 
 
@@ -1442,21 +1591,15 @@ function mostrarAnalisis(id){
 
 let p = partidos.find(
 
-x=>x.id===id
+x=>x.id==id
 
 );
 
 
 
-
 if(!p){
 
-
-alert("Partido no encontrado");
-
-
 return;
-
 
 }
 
@@ -1469,6 +1612,8 @@ const contenido=document.getElementById(
 "contenido"
 
 );
+
+
 
 
 
@@ -1503,6 +1648,8 @@ ${p.visitante.nombre}
 
 
 
+
+
 <h3>
 
 Predicción MatchIQ
@@ -1513,9 +1660,30 @@ Predicción MatchIQ
 
 <p>
 
-${p.prediccion || "Calculando..."}
+${p.prediccion}
 
 </p>
+
+
+
+
+
+<h3>
+
+Resultado
+
+</h3>
+
+
+
+<p>
+
+${p.resultado || "Pendiente"}
+
+</p>
+
+
+
 
 
 
@@ -1551,6 +1719,7 @@ Marcadores probables
 
 
 
+
 </div>
 
 
@@ -1567,12 +1736,330 @@ Marcadores probables
 
 
 
+
+
+
+
+// ===============================
+// ALINEACIONES
+// ===============================
+
+
+function mostrarAlineacion(equipo){
+
+
+
+const contenido=document.getElementById(
+
+"contenido"
+
+);
+
+
+
+
+
+let plantilla = jugadores.filter(
+
+j=>j.equipo===equipo
+
+);
+
+
+
+
+
+contenido.innerHTML=`
+
+
+
+<button onclick="cargarPartidos()">
+
+Regresar
+
+</button>
+
+
+
+
+
+<div class="card">
+
+
+
+<h2>
+
+Alineación ${equipo}
+
+</h2>
+
+
+
+
+
+<div class="alineacion-container">
+
+
+
+
+
+${
+plantilla.length>0
+
+
+?
+
+
+plantilla.map(j=>`
+
+
+
+<div class="player-card"
+
+onclick="mostrarJugador('${j.id}')">
+
+
+
+<img
+
+src="${j.foto}"
+
+alt="${j.nombre}">
+
+
+
+
+
+<strong>
+
+${j.nombre}
+
+</strong>
+
+
+
+
+
+<p>
+
+${j.posicion}
+
+</p>
+
+
+
+
+</div>
+
+
+
+`).join("")
+
+
+
+:
+
+
+`
+
+<p>
+
+Alineación oficial cargando desde API...
+
+</p>
+
+`
+
+}
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ===============================
+// MODAL JUGADOR
+// ===============================
+
+
+function mostrarJugador(id){
+
+
+
+let jugador = buscarJugador(id);
+
+
+
+if(!jugador){
+
+return;
+
+}
+
+
+
+
+
+let popup=document.getElementById(
+
+"player-popup"
+
+);
+
+
+
+
+
+popup.innerHTML=`
+
+
+
+<div class="popup-background"
+
+onclick="cerrarJugador()">
+
+</div>
+
+
+
+
+
+<div class="player-modal">
+
+
+
+<img
+
+src="${jugador.foto}"
+
+class="player-photo">
+
+
+
+
+
+<h2>
+
+${jugador.nombre}
+
+</h2>
+
+
+
+
+<p>
+
+${jugador.equipo}
+
+</p>
+
+
+
+
+
+<p>
+
+${jugador.posicion}
+
+</p>
+
+
+
+
+
+${crearStatsJugador(jugador)}
+
+
+
+
+<button onclick="cerrarJugador()">
+
+Cerrar
+
+</button>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+
+
+popup.style.display="block";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function cerrarJugador(){
+
+
+
+let popup=document.getElementById(
+
+"player-popup"
+
+);
+
+
+
+popup.style.display="none";
+
+popup.innerHTML="";
+
+
+
+}
+
+
+
+
+
+
+
+
+
 // ===============================
 // BUSCAR JUGADOR
 // ===============================
 
 
 function buscarJugador(id){
+
 
 
 return jugadores.find(
@@ -1584,22 +2071,190 @@ j=>j.id===id
 
 
 }
+
+
+
+
+
+
+
+
+
+// ===============================
+// STATS JUGADOR
+// ===============================
+
+
+function crearStatsJugador(jugador){
+
+
+
+let s=jugador.stats || {};
+
+
+
+
+
+return `
+
+
+
+<div class="stats-box">
+
+
+
+<h3>
+
+Estadísticas
+
+</h3>
+
+
+
+
+<p>
+
+Goles:
+
+${s.goles ?? "-"}
+
+</p>
+
+
+
+
+<p>
+
+Asistencias:
+
+${s.asistencias ?? "-"}
+
+</p>
+
+
+
+
+<p>
+
+Tiros a puerta:
+
+${s.tirosPuerta ?? "-"}
+
+</p>
+
+
+
+
+<p>
+
+Amarillas:
+
+${s.amarillas ?? "-"}
+
+</p>
+
+
+
+
+<p>
+
+Rojas:
+
+${s.rojas ?? "-"}
+
+</p>
+
+
+
+
+</div>
+
+
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ===============================
+// LOGOS
+// ===============================
+
+
+function mostrarLogo(url,tamaño){
+
+
+
+let width="40";
+
+
+
+if(tamaño==="medium"){
+
+width="80";
+
+}
+
+
+
+if(tamaño==="small"){
+
+width="35";
+
+}
+
+
+
+
+return `
+
+
+
+<img
+
+src="${url}"
+
+width="${width}"
+
+onerror="this.src='images/default.png'">
+
+
+
+`;
+
+
+
+}
 // =======================================
 // MATCHIQ MX
 // SCRIPT.JS COMPLETO
-// PARTE 4
+// PARTE 4/4
 // =======================================
 
 
 // ===============================
-// STATS LIGA MX
+// ESTADÍSTICAS LIGA MX
 // ===============================
 
 
 async function cargarStats(){
 
 
-const contenido=document.getElementById("contenido");
+
+const contenido=document.getElementById(
+
+"contenido"
+
+);
 
 
 
@@ -1617,13 +2272,11 @@ Stats Liga MX
 
 <div class="card">
 
-
 <p>
 
 Cargando estadísticas...
 
 </p>
-
 
 </div>
 
@@ -1633,7 +2286,10 @@ Cargando estadísticas...
 
 
 
+
+
 try{
+
 
 
 let datos = await llamarAPI(
@@ -1644,7 +2300,32 @@ let datos = await llamarAPI(
 
 
 
+
+
+if(!datos || datos.length===0){
+
+
+
+throw new Error(
+
+"No hay datos"
+
+);
+
+
+
+}
+
+
+
+
+
+
 tablaAPI = datos[0].league.standings[0];
+
+
+
+
 
 
 
@@ -1654,9 +2335,10 @@ contenido.innerHTML=`
 
 <h2>
 
-Tabla Liga MX
+Tabla Liga MX 2024
 
 </h2>
+
 
 
 
@@ -1676,11 +2358,13 @@ Tabla Liga MX
 
 </th>
 
+
 <th>
 
 Equipo
 
 </th>
+
 
 <th>
 
@@ -1688,11 +2372,13 @@ PTS
 
 </th>
 
+
 <th>
 
 GF
 
 </th>
+
 
 <th>
 
@@ -1700,7 +2386,10 @@ GC
 
 </th>
 
+
 </tr>
+
+
 
 
 
@@ -1723,11 +2412,22 @@ ${e.rank}
 
 <td>
 
-<img src="${e.team.logo}" width="30">
+
+
+<img
+
+src="${e.team.logo}"
+
+width="30">
+
+
 
 ${e.team.name}
 
+
+
 </td>
+
 
 
 
@@ -1739,11 +2439,13 @@ ${e.points}
 
 
 
+
 <td>
 
 ${e.all.goals.for}
 
 </td>
+
 
 
 
@@ -1755,11 +2457,15 @@ ${e.all.goals.against}
 
 
 
+
 </tr>
 
 
 
 `).join("")}
+
+
+
 
 
 
@@ -1775,9 +2481,15 @@ ${e.all.goals.against}
 
 
 
+
+
 }
 
 catch(error){
+
+
+
+console.log(error);
 
 
 
@@ -1787,7 +2499,13 @@ contenido.innerHTML=`
 
 <div class="card">
 
-Error cargando estadísticas
+
+<p>
+
+No se pudieron cargar las estadísticas.
+
+</p>
+
 
 </div>
 
@@ -1809,12 +2527,14 @@ Error cargando estadísticas
 
 
 
+
+
 // ===============================
 // PERFIL
 // ===============================
 
 
-function cargarPerfil(){
+async function cargarPerfil(){
 
 
 
@@ -1823,6 +2543,40 @@ const contenido=document.getElementById(
 "contenido"
 
 );
+
+
+
+
+
+if(equiposAPI.length===0){
+
+
+
+await cargarEquiposAPI();
+
+
+
+}
+
+
+
+
+
+
+
+let listaEquipos = equiposAPI.length>0
+
+?
+
+equiposAPI
+
+:
+
+equipos;
+
+
+
+
 
 
 
@@ -1839,7 +2593,16 @@ Perfil
 
 
 
+
 <div class="card">
+
+
+
+<img
+
+src="images/profile.svg"
+
+class="section-icon">
 
 
 
@@ -1851,6 +2614,7 @@ Usuario
 
 
 
+
 <p>
 
 Isaac
@@ -1859,7 +2623,9 @@ Isaac
 
 
 
+
 </div>
+
 
 
 
@@ -1881,7 +2647,9 @@ Equipos seguidos
 
 
 
-${equipos.map(e=>`
+
+
+${listaEquipos.map(e=>`
 
 
 
@@ -1889,11 +2657,18 @@ ${equipos.map(e=>`
 
 
 
+
+
 <img
 
 src="${e.logo}"
 
-width="35">
+width="40"
+
+onerror="this.src='images/default.png'">
+
+
+
 
 
 
@@ -1902,6 +2677,9 @@ width="35">
 ${e.nombre}
 
 </strong>
+
+
+
 
 
 
@@ -1930,11 +2708,16 @@ notificaciones.includes(e.id)
 
 
 
+
 </div>
 
 
 
+
+
 `).join("")}
+
+
 
 
 
@@ -1947,6 +2730,8 @@ notificaciones.includes(e.id)
 
 
 }
+
+
 
 
 
@@ -1980,10 +2765,14 @@ x=>x!==id
 else{
 
 
+
 notificaciones.push(id);
 
 
+
 }
+
+
 
 
 
@@ -1997,11 +2786,14 @@ JSON.stringify(notificaciones)
 
 
 
+
+
 cargarPerfil();
 
 
 
 }
+
 
 
 
@@ -2025,39 +2817,67 @@ switch(seccion){
 
 case "inicio":
 
+
+
 cargarInicio();
 
+
+
 break;
+
+
 
 
 
 case "partidos":
 
+
+
 cargarPartidos();
 
+
+
 break;
+
+
 
 
 
 case "predicciones":
 
+
+
 cargarPredicciones();
 
+
+
 break;
+
+
 
 
 
 case "stats":
 
+
+
 cargarStats();
 
+
+
 break;
+
+
 
 
 
 case "perfil":
 
+
+
 cargarPerfil();
+
+
 
 break;
 
@@ -2069,45 +2889,6 @@ break;
 
 }
 
-
-
-
-
-
-
-
-// ===============================
-// LOGOS
-// ===============================
-
-
-function mostrarLogo(url,tamano){
-
-
-
-return `
-
-
-
-<img
-
-src="${url}"
-
-class="logo-${tamano}"
-
-alt="logo"
-
-
-
->
-
-
-
-`;
-
-
-
-}
 
 
 
@@ -2125,7 +2906,9 @@ document.addEventListener(
 
 "DOMContentLoaded",
 
-()=>{
+async ()=>{
+
+
 
 
 
@@ -2137,6 +2920,8 @@ const logoLiga=document.getElementById(
 
 
 
+
+
 if(logoLiga){
 
 
@@ -2144,7 +2929,9 @@ if(logoLiga){
 logoLiga.onclick=()=>{
 
 
+
 cargarInicio();
+
 
 
 };
@@ -2155,7 +2942,18 @@ cargarInicio();
 
 
 
-cargarInicio();
+
+
+
+await cargarEquiposAPI();
+
+
+
+
+
+await cargarInicio();
+
+
 
 
 
