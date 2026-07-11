@@ -1,26 +1,22 @@
 /* =====================================
 MATCHIQ MX
-STYLE CSS CORREGIDO
+STYLE CSS
 ===================================== */
 
 
 *{
-
 box-sizing:border-box;
-
 font-family:Arial, Helvetica, sans-serif;
-
 }
-
 
 
 body{
 
 margin:0;
 
-background:#f3f5f8;
+background:#eef2f7;
 
-color:#111;
+color:#111827;
 
 padding-bottom:90px;
 
@@ -29,25 +25,48 @@ padding-bottom:90px;
 
 
 
-
-/* =====================================
-HEADER
-===================================== */
-
+/* HEADER */
 
 .top-header{
 
-height:75px;
+background:#071d49;
 
-background:#06285f;
+height:90px;
 
 display:flex;
 
 align-items:center;
 
-justify-content:center;
+justify-content:space-between;
+
+padding:15px 25px;
 
 }
+
+
+
+.brand h1{
+
+margin:0;
+
+color:white;
+
+font-size:28px;
+
+}
+
+
+
+.brand p{
+
+margin:5px 0 0;
+
+color:#dbeafe;
+
+font-size:13px;
+
+}
+
 
 
 
@@ -67,16 +86,16 @@ cursor:pointer;
 
 
 
-
-
-/* =====================================
-CONTENIDO
-===================================== */
+/* CONTENIDO */
 
 
 #contenido{
 
-padding:15px;
+padding:18px;
+
+max-width:900px;
+
+margin:auto;
 
 }
 
@@ -86,7 +105,7 @@ h2{
 
 font-size:26px;
 
-margin-bottom:15px;
+margin-bottom:20px;
 
 }
 
@@ -94,7 +113,7 @@ margin-bottom:15px;
 
 h3{
 
-margin-top:12px;
+margin-top:10px;
 
 }
 
@@ -102,23 +121,20 @@ margin-top:12px;
 
 
 
-
-/* =====================================
-CARDS
-===================================== */
+/* TARJETAS */
 
 
 .card{
 
 background:white;
 
-border-radius:20px;
+border-radius:18px;
 
-padding:18px;
+padding:20px;
 
-margin-bottom:15px;
+margin-bottom:18px;
 
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+box-shadow:0 4px 14px rgba(0,0,0,.08);
 
 }
 
@@ -127,27 +143,22 @@ box-shadow:0 5px 15px rgba(0,0,0,.08);
 
 
 
-
-/* =====================================
-BOTONES
-===================================== */
+/* BOTONES */
 
 
 button{
 
-background:#06285f;
+border:none;
+
+background:#071d49;
 
 color:white;
 
-border:none;
+padding:12px 18px;
 
-border-radius:14px;
-
-padding:11px 16px;
+border-radius:12px;
 
 font-weight:bold;
-
-margin:5px;
 
 cursor:pointer;
 
@@ -165,55 +176,7 @@ opacity:.85;
 
 
 
-
-/* =====================================
-LOGOS
-===================================== */
-
-
-.logo-small{
-
-width:35px;
-
-height:35px;
-
-object-fit:contain;
-
-}
-
-
-
-.logo-medium{
-
-width:75px;
-
-height:75px;
-
-object-fit:contain;
-
-}
-
-
-
-.logo-large{
-
-width:110px;
-
-height:110px;
-
-object-fit:contain;
-
-}
-
-
-
-
-
-
-
-/* =====================================
-PARTIDOS
-===================================== */
+/* PARTIDOS */
 
 
 .match-header{
@@ -244,9 +207,9 @@ align-items:center;
 
 
 
-.match-header h3{
+.match-header strong{
 
-margin:5px;
+margin-top:8px;
 
 }
 
@@ -254,14 +217,53 @@ margin:5px;
 
 
 
-/* =====================================
-PROBABILIDADES
-===================================== */
+/* LOGOS */
+
+
+.logo-small{
+
+width:35px;
+
+height:35px;
+
+object-fit:contain;
+
+}
+
+
+
+.logo-medium{
+
+width:70px;
+
+height:70px;
+
+object-fit:contain;
+
+}
+
+
+
+.logo-large{
+
+width:110px;
+
+height:110px;
+
+object-fit:contain;
+
+}
+
+
+
+
+
+/* PROBABILIDADES */
 
 
 .probabilidad{
 
-margin:15px 0;
+margin:18px 0;
 
 }
 
@@ -273,9 +275,9 @@ display:flex;
 
 justify-content:space-between;
 
-font-weight:bold;
+margin-bottom:7px;
 
-margin-bottom:6px;
+font-size:14px;
 
 }
 
@@ -283,11 +285,11 @@ margin-bottom:6px;
 
 .barra{
 
+height:13px;
+
 width:100%;
 
-height:14px;
-
-background:#e2e5ea;
+background:#e5e7eb;
 
 border-radius:20px;
 
@@ -317,7 +319,7 @@ background:#0066cc;
 
 .relleno.empate{
 
-background:#777;
+background:#6b7280;
 
 }
 
@@ -325,7 +327,7 @@ background:#777;
 
 .relleno.visitante{
 
-background:#d71920;
+background:#c1121f;
 
 }
 
@@ -333,11 +335,7 @@ background:#d71920;
 
 
 
-
-
-/* =====================================
-JUGADORES
-===================================== */
+/* JUGADORES */
 
 
 .player-card{
@@ -348,13 +346,13 @@ align-items:center;
 
 gap:15px;
 
-background:#f6f7fa;
-
-border-radius:16px;
+background:#f8fafc;
 
 padding:12px;
 
-margin:10px 0;
+border-radius:15px;
+
+margin-bottom:10px;
 
 cursor:pointer;
 
@@ -364,9 +362,9 @@ cursor:pointer;
 
 .player-card img{
 
-width:60px;
+width:55px;
 
-height:60px;
+height:55px;
 
 border-radius:50%;
 
@@ -380,9 +378,9 @@ object-fit:cover;
 
 .player-photo{
 
-width:140px;
+width:130px;
 
-height:140px;
+height:130px;
 
 border-radius:50%;
 
@@ -394,11 +392,7 @@ object-fit:cover;
 
 
 
-
-
-/* =====================================
-POPUP
-===================================== */
+/* POPUP */
 
 
 #player-popup{
@@ -425,11 +419,11 @@ z-index:1000;
 
 position:absolute;
 
-background:rgba(0,0,0,.55);
-
 width:100%;
 
 height:100%;
+
+background:rgba(0,0,0,.55);
 
 }
 
@@ -445,19 +439,19 @@ width:90%;
 
 max-width:420px;
 
-left:50%;
-
 top:50%;
+
+left:50%;
 
 transform:translate(-50%,-50%);
 
-border-radius:25px;
+border-radius:22px;
 
 padding:25px;
 
-text-align:center;
-
 z-index:2;
+
+text-align:center;
 
 }
 
@@ -467,9 +461,7 @@ z-index:2;
 
 
 
-/* =====================================
-PERFIL
-===================================== */
+/* PERFIL */
 
 
 .team-follow{
@@ -488,7 +480,7 @@ justify-content:space-between;
 
 flex:1;
 
-margin-left:12px;
+margin-left:15px;
 
 }
 
@@ -498,32 +490,7 @@ margin-left:12px;
 
 
 
-
-/* =====================================
-STATS
-===================================== */
-
-
-.stats-box{
-
-background:#eef2f7;
-
-border-radius:15px;
-
-padding:12px;
-
-margin:10px 0;
-
-}
-
-
-
-
-
-
-/* =====================================
-MENU INFERIOR
-===================================== */
+/* MENU */
 
 
 .bottom-menu{
@@ -546,9 +513,7 @@ justify-content:space-around;
 
 align-items:center;
 
-box-shadow:0 -4px 15px rgba(0,0,0,.12);
-
-z-index:500;
+box-shadow:0 -3px 12px rgba(0,0,0,.15);
 
 }
 
@@ -558,25 +523,11 @@ z-index:500;
 
 background:none;
 
-color:#06285f;
+color:#071d49;
 
-display:flex;
+padding:8px;
 
-flex-direction:column;
-
-align-items:center;
-
-font-size:12px;
-
-padding:5px;
-
-}
-
-
-
-.bottom-menu span{
-
-margin-top:3px;
+font-size:13px;
 
 }
 
@@ -585,17 +536,31 @@ margin-top:3px;
 
 
 
-/* =====================================
-RESPONSIVE
-===================================== */
+/* RESPONSIVE */
 
 
 @media(max-width:600px){
 
 
+.top-header{
+
+padding:12px;
+
+}
+
+
+
+.brand h1{
+
+font-size:23px;
+
+}
+
+
+
 .match-header{
 
-gap:20px;
+gap:18px;
 
 }
 
@@ -603,12 +568,11 @@ gap:20px;
 
 .logo-medium{
 
-width:60px;
+width:55px;
 
-height:60px;
+height:55px;
 
 }
-
 
 
 }
