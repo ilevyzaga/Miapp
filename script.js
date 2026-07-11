@@ -9,13 +9,15 @@ local:"América",
 visitante:"Toluca",
 logoLocal:"images/america.png",
 logoVisitante:"images/toluca.png",
-estadio:"Estadio Ciudad de los Deportes",
 hora:"20:00",
-probabilidades:{
-local:58,
-empate:22,
-visitante:20
-}
+estadio:"Estadio Ciudad de los Deportes",
+prediccion:"América gana o empate",
+confianza:"80%",
+marcadores:[
+"América 2 - 1 Toluca",
+"América 1 - 0 Toluca",
+"América 1 - 1 Toluca"
+]
 },
 
 {
@@ -24,13 +26,15 @@ local:"Tigres",
 visitante:"Chivas",
 logoLocal:"images/tigres.png",
 logoVisitante:"images/chivas.png",
-estadio:"Estadio Universitario",
 hora:"21:00",
-probabilidades:{
-local:51,
-empate:26,
-visitante:23
-}
+estadio:"Estadio Universitario",
+prediccion:"Tigres gana o empate",
+confianza:"75%",
+marcadores:[
+"Tigres 2 - 0 Chivas",
+"Tigres 2 - 1 Chivas",
+"Tigres 1 - 1 Chivas"
+]
 },
 
 {
@@ -39,16 +43,19 @@ local:"Cruz Azul",
 visitante:"Monterrey",
 logoLocal:"images/cruzazul.png",
 logoVisitante:"images/monterrey.png",
-estadio:"Estadio Ciudad de los Deportes",
 hora:"19:00",
-probabilidades:{
-local:35,
-empate:30,
-visitante:35
-}
+estadio:"Ciudad de los Deportes",
+prediccion:"Partido equilibrado",
+confianza:"65%",
+marcadores:[
+"Cruz Azul 1 - 1 Monterrey",
+"Cruz Azul 1 - 0 Monterrey",
+"Cruz Azul 0 - 1 Monterrey"
+]
 }
 
 ];
+
 
 
 
@@ -64,17 +71,16 @@ JSON.stringify(favoritos)
 
 
 
+
 function cambiarFavorito(id){
 
 if(favoritos.includes(id)){
 
-favoritos = favoritos.filter(
+favoritos=favoritos.filter(
 x=>x!==id
 );
 
-}
-
-else{
+}else{
 
 favoritos.push(id);
 
@@ -83,9 +89,12 @@ favoritos.push(id);
 
 guardarFavoritos();
 
-mostrarSeccion("inicio");
+mostrarSeccion("perfil");
 
 }
+
+
+
 
 
 
@@ -96,14 +105,19 @@ function cargarInicio(){
 let contenido=document.getElementById("contenido");
 
 
+let destacado=partidos[0];
+
+
 contenido.innerHTML=`
 
-<h2>Partidos destacados</h2>
+<h2>Inicio</h2>
 
 
-${partidos.map(p=>`
 
 <div class="card partido">
+
+
+<h3>Partido destacado</h3>
 
 
 <div class="teams">
@@ -111,12 +125,11 @@ ${partidos.map(p=>`
 
 <div class="team">
 
-<img src="${p.logoLocal}">
+<img src="${destacado.logoLocal}">
 
-<span>${p.local}</span>
+<span>${destacado.local}</span>
 
 </div>
-
 
 
 <div class="vs">
@@ -126,55 +139,156 @@ VS
 </div>
 
 
-
 <div class="team">
 
-<img src="${p.logoVisitante}">
+<img src="${destacado.logoVisitante}">
 
-<span>${p.visitante}</span>
+<span>${destacado.visitante}</span>
+
+</div>
+
 
 </div>
 
 
 
-</div>
+<p>${destacado.hora}</p>
 
-
-<span class="status">
-
-Próximo partido
-
-</span>
-
-
-<p>${p.estadio}</p>
-
-<p>${p.hora}</p>
+<p>${destacado.estadio}</p>
 
 
 
-<div class="bar">
+<button onclick="mostrarAnalisis('${destacado.id}')">
 
-<div style="width:${p.probabilidades.local}%"></div>
+Ver análisis
+
+</button>
+
 
 </div>
 
 
+
+
+
+<div class="card">
+
+
+<h3>Próximos partidos</h3>
+
+
+${partidos.slice(1).map(p=>`
 
 <p>
 
-${p.local} ${p.probabilidades.local}% 
+${p.hora}
 
-|
+&nbsp;
 
- Empate ${p.probabilidades.empate}% 
-
-|
-
- ${p.visitante} ${p.probabilidades.visitante}%
+${p.local} vs ${p.visitante}
 
 </p>
 
+
+`).join("")}
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>Tabla rápida</h3>
+
+
+<p>1. América — 15 pts</p>
+
+<p>2. Tigres — 13 pts</p>
+
+<p>3. Monterrey — 12 pts</p>
+
+<p>4. Chivas — 10 pts</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>Jugador destacado</h3>
+
+
+<p>Henry Martín</p>
+
+<p>7 goles en la temporada</p>
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+
+function cargarPartidos(){
+
+
+let contenido=document.getElementById("contenido");
+
+
+contenido.innerHTML=`
+
+<h2>Partidos Liga MX</h2>
+
+
+<div class="card">
+
+
+<h3>Jornada 1</h3>
+
+
+${partidos.map(p=>`
+
+<div class="player-card">
+
+
+<div>
+
+<strong>${p.local}</strong>
+
+<br>
+
+vs
+
+<br>
+
+<strong>${p.visitante}</strong>
+
+</div>
+
+
+<div>
+
+${p.hora}
+
+</div>
+
+
+</div>
 
 
 <button onclick="mostrarAnalisis('${p.id}')">
@@ -184,25 +298,11 @@ Ver análisis
 </button>
 
 
-
-<button onclick="cambiarFavorito('${p.id}')">
-
-${
-favoritos.includes(p.id)
-?
-"Quitar favorito"
-:
-"Agregar favorito"
-}
-
-</button>
-
+`).join("")}
 
 
 </div>
 
-
-`).join("")}
 
 `;
 
@@ -211,84 +311,18 @@ favoritos.includes(p.id)
 
 
 
+
+
+
 function mostrarAnalisis(id){
 
 
-let contenido=document.getElementById("contenido");
-
-
-
-let datos={
-
-
-america:{
-
-prediccion:"América gana o empate",
-
-confianza:"80%",
-
-marcadores:[
-"América 2 - 1 Toluca",
-"América 1 - 0 Toluca",
-"América 1 - 1 Toluca"
-],
-
-ataque:"★★★★★",
-
-defensa:"★★★"
-
-},
-
-
-tigres:{
-
-prediccion:"Tigres gana o empate",
-
-confianza:"75%",
-
-marcadores:[
-"Tigres 2 - 0 Chivas",
-"Tigres 2 - 1 Chivas",
-"Tigres 1 - 1 Chivas"
-],
-
-ataque:"★★★★★",
-
-defensa:"★★★★"
-
-},
-
-
-cruzazul:{
-
-prediccion:"Partido equilibrado",
-
-confianza:"65%",
-
-marcadores:[
-"Cruz Azul 1 - 1 Monterrey",
-"Cruz Azul 1 - 0 Monterrey",
-"Cruz Azul 0 - 1 Monterrey"
-],
-
-ataque:"★★★★",
-
-defensa:"★★★★"
-
-}
-
-
-};
-
-
-
-let partido=partidos.find(
-p=>p.id===id
+let p=partidos.find(
+x=>x.id===id
 );
 
 
-let d=datos[id];
-
+let contenido=document.getElementById("contenido");
 
 
 contenido.innerHTML=`
@@ -296,11 +330,7 @@ contenido.innerHTML=`
 <div class="card">
 
 
-<h2>
-
-${partido.local} vs ${partido.visitante}
-
-</h2>
+<h2>${p.local} vs ${p.visitante}</h2>
 
 
 <div class="analisis">
@@ -309,35 +339,37 @@ ${partido.local} vs ${partido.visitante}
 <h3>Predicción</h3>
 
 
-<p>${d.prediccion}</p>
+<p>${p.prediccion}</p>
 
 
-<p>Confianza ${d.confianza}</p>
+<p>Confianza: ${p.confianza}</p>
+
 
 
 
 <h3>Resultados probables</h3>
 
 
-${d.marcadores.map(x=>`
+${p.marcadores.map(m=>`
 
-<p>${x}</p>
+<p>${m}</p>
 
 `).join("")}
 
 
 
-<h3>Comparación</h3>
+
+<h3>Factores clave</h3>
 
 
 <p>Ataque</p>
 
-<p class="stars">${d.ataque}</p>
+<p class="stars">★★★★★</p>
 
 
 <p>Defensa</p>
 
-<p class="stars">${d.defensa}</p>
+<p class="stars">★★★★☆</p>
 
 
 
@@ -355,22 +387,12 @@ ${d.marcadores.map(x=>`
 
 
 
-function mostrarSeccion(seccion){
+
+
+function cargarPredicciones(){
 
 
 let contenido=document.getElementById("contenido");
-
-
-
-if(seccion==="inicio"){
-
-cargarInicio();
-
-}
-
-
-
-if(seccion==="predicciones"){
 
 
 contenido.innerHTML=`
@@ -378,39 +400,35 @@ contenido.innerHTML=`
 <h2>Predicciones</h2>
 
 
+${partidos.map(p=>`
+
 <div class="card">
 
-<h3>América vs Toluca</h3>
 
-<p>Predicción: América gana o empate</p>
+<h3>${p.local} vs ${p.visitante}</h3>
 
-<p>Confianza: 80%</p>
+
+<p>${p.prediccion}</p>
+
+
+<p>Confianza: ${p.confianza}</p>
+
+
+<h4>Resultados favoritos</h4>
+
+
+${p.marcadores.map(m=>`
+
+<p>${m}</p>
+
+`).join("")}
+
 
 </div>
 
 
+`).join("")}
 
-<div class="card">
-
-<h3>Tigres vs Chivas</h3>
-
-<p>Predicción: Tigres gana o empate</p>
-
-<p>Confianza: 75%</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Cruz Azul vs Monterrey</h3>
-
-<p>Predicción: Partido equilibrado</p>
-
-<p>Confianza: 65%</p>
-
-</div>
 
 `;
 
@@ -418,7 +436,14 @@ contenido.innerHTML=`
 
 
 
-if(seccion==="estadisticas"){
+
+
+
+
+function cargarEstadisticas(){
+
+
+let contenido=document.getElementById("contenido");
 
 
 contenido.innerHTML=`
@@ -431,45 +456,11 @@ contenido.innerHTML=`
 <h3>Tabla Liga MX</h3>
 
 
-<table>
+<p>1. América — 15 pts</p>
 
-<tr>
+<p>2. Tigres — 13 pts</p>
 
-<th>Equipo</th>
-
-<th>Puntos</th>
-
-</tr>
-
-
-<tr>
-
-<td>América</td>
-
-<td>15</td>
-
-</tr>
-
-
-<tr>
-
-<td>Tigres</td>
-
-<td>13</td>
-
-</tr>
-
-
-<tr>
-
-<td>Monterrey</td>
-
-<td>12</td>
-
-</tr>
-
-
-</table>
+<p>3. Monterrey — 12 pts</p>
 
 
 </div>
@@ -480,22 +471,10 @@ contenido.innerHTML=`
 
 <h3>Goleadores</h3>
 
-<div class="player-card">
 
-Henry Martín
+<p>Henry Martín — 7 goles</p>
 
-7 goles
-
-</div>
-
-
-<div class="player-card">
-
-Gignac
-
-6 goles
-
-</div>
+<p>Gignac — 6 goles</p>
 
 
 </div>
@@ -506,13 +485,8 @@ Gignac
 
 <h3>Asistidores</h3>
 
-<div class="player-card">
 
-Fidalgo
-
-5 asistencias
-
-</div>
+<p>Fidalgo — 5 asistencias</p>
 
 
 </div>
@@ -523,13 +497,8 @@ Fidalgo
 
 <h3>Porterías a cero</h3>
 
-<div class="player-card">
 
-Malagón
-
-4 partidos
-
-</div>
+<p>Malagón — 4 partidos</p>
 
 
 </div>
@@ -541,7 +510,14 @@ Malagón
 
 
 
-if(seccion==="perfil"){
+
+
+
+
+function cargarPerfil(){
+
+
+let contenido=document.getElementById("contenido");
 
 
 contenido.innerHTML=`
@@ -549,9 +525,45 @@ contenido.innerHTML=`
 <h2>Perfil</h2>
 
 
+
 <div class="card">
 
-<h3>Favoritos</h3>
+
+<h3>Usuario</h3>
+
+
+<p>Isaac</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>Equipo favorito</h3>
+
+
+<img src="images/america.png" width="70">
+
+
+<p>América</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>Mis partidos favoritos</h3>
+
 
 
 ${
@@ -561,15 +573,26 @@ favoritos.length
 
 favoritos.map(id=>{
 
-let p=partidos.find(x=>x.id===id);
+let p=partidos.find(
+x=>x.id===id
+);
 
-return `<p>${p.local} vs ${p.visitante}</p>`
+return`
+
+<p>
+
+${p.local} vs ${p.visitante}
+
+</p>
+
+`;
 
 }).join("")
 
+
 :
 
-"<p>No tienes partidos favoritos</p>"
+"<p>No tienes favoritos todavía</p>"
 
 }
 
@@ -582,7 +605,52 @@ return `<p>${p.local} vs ${p.visitante}</p>`
 }
 
 
+
+
+
+
+
+
+function mostrarSeccion(seccion){
+
+
+if(seccion==="inicio"){
+
+cargarInicio();
+
 }
+
+
+if(seccion==="partidos"){
+
+cargarPartidos();
+
+}
+
+
+if(seccion==="predicciones"){
+
+cargarPredicciones();
+
+}
+
+
+if(seccion==="estadisticas"){
+
+cargarEstadisticas();
+
+}
+
+
+if(seccion==="perfil"){
+
+cargarPerfil();
+
+}
+
+
+}
+
 
 
 cargarInicio();
