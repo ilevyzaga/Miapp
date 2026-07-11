@@ -1,59 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MatchIQ MX</title>
+<title>MatchIQ MX</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
+
+
 <body>
 
-    <header class="topbar">
-        <div class="brand">
-            <img src="/images/ligamx.png" alt="Liga MX" class="brand-logo">
 
-            <div class="brand-text">
-                <h1>MatchIQ MX</h1>
-                <p>Resultados y predicciones inteligentes</p>
-            </div>
-        </div>
-    </header>
+<header class="header">
 
-    <main id="contenido"></main>
+<div class="brand">
 
-    <nav class="bottom-nav">
-        <button onclick="mostrarSeccion('inicio')">
-            <i data-lucide="home"></i>
-            <span>Inicio</span>
-        </button>
+<img src="images/ligamx.png" class="liga-logo">
 
-        <button onclick="mostrarSeccion('estadisticas')">
-            <i data-lucide="bar-chart-3"></i>
-            <span>Stats</span>
-        </button>
+<div>
+<h1>MatchIQ MX</h1>
+<p>Resultados y predicciones inteligentes</p>
+</div>
 
-        <button onclick="mostrarSeccion('predicciones')">
-            <i data-lucide="sparkles"></i>
-            <span>IA</span>
-        </button>
+</div>
 
-        <button onclick="mostrarSeccion('perfil')">
-            <i data-lucide="user"></i>
-            <span>Perfil</span>
-        </button>
-    </nav>
+</header>
 
-    <script src="script.js"></script>
 
-    <script>
-        cargarInicio();
-        lucide.createIcons();
-    </script>
+
+<main id="contenido">
+
+</main>
+
+
+
+<nav class="bottom-nav">
+
+
+<button onclick="mostrarSeccion('inicio')">
+
+<i data-lucide="home"></i>
+
+<span>Inicio</span>
+
+</button>
+
+
+
+<button onclick="mostrarSeccion('estadisticas')">
+
+<i data-lucide="bar-chart-3"></i>
+
+<span>Stats</span>
+
+</button>
+
+
+
+<button onclick="mostrarSeccion('predicciones')">
+
+<i data-lucide="brain"></i>
+
+<span>IA</span>
+
+</button>
+
+
+
+<button onclick="mostrarSeccion('perfil')">
+
+<i data-lucide="user"></i>
+
+<span>Perfil</span>
+
+</button>
+
+
+
+</nav>
+
+
+
+<script src="script.js"></script>
+
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
 
 </body>
+
 </html>
