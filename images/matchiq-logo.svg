@@ -1,13 +1,52 @@
-<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 
-<circle cx="60" cy="60" r="55" fill="#2563EB"/>
+<defs>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#FACC15"/>
+<stop offset="100%" stop-color="#EAB308"/>
+</linearGradient>
 
-<path d="M35 75V45L60 30L85 45V75L60 90L35 75Z" fill="#0F172A"/>
+<linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#1E3A8A"/>
+<stop offset="100%" stop-color="#020617"/>
+</linearGradient>
 
-<path d="M45 65V50L60 42L75 50V65L60 73L45 65Z" fill="#38BDF8"/>
+</defs>
 
-<path d="M60 42V73" stroke="white" stroke-width="4"/>
 
-<path d="M45 57H75" stroke="white" stroke-width="4"/>
+<path d="M100 10L175 35V100C175 145 145 175 100 190C55 175 25 145 25 100V35L100 10Z"
+fill="url(#blue)"
+stroke="url(#gold)"
+stroke-width="8"/>
+
+
+<circle cx="100" cy="90" r="45"
+fill="#0F172A"
+stroke="#FACC15"
+stroke-width="5"/>
+
+
+<path d="M65 115V70L100 50L135 70V115L100 135L65 115Z"
+fill="#2563EB"/>
+
+
+<path d="M78 108V80L100 68L122 80V108"
+stroke="white"
+stroke-width="6"
+fill="none"/>
+
+
+<text x="100"
+y="165"
+font-size="22"
+font-family="Arial"
+font-weight="bold"
+fill="white"
+text-anchor="middle">
+
+MIQ
+
+</text>
+
 
 </svg>
