@@ -2795,3 +2795,148 @@ height:45px!important;
 
 
 }
+/* ======================================
+MATCHIQ MX
+FIX FINAL CANCHA + STATS
+====================================== */
+
+
+/* CANCHA REAL */
+
+.cancha{
+
+display:flex!important;
+
+flex-direction:column!important;
+
+justify-content:space-between!important;
+
+min-height:900px;
+
+}
+
+
+
+.equipo-cancha{
+
+display:flex!important;
+
+flex-direction:column!important;
+
+gap:20px!important;
+
+}
+
+
+
+.fila-cancha{
+
+display:flex!important;
+
+justify-content:space-around!important;
+
+align-items:center!important;
+
+width:100%;
+
+}
+
+
+
+
+/* JUGADORES EN CANCHA */
+
+
+.jugador-cancha{
+
+width:80px!important;
+
+display:flex!important;
+
+flex-direction:column!important;
+
+align-items:center!important;
+
+}
+
+
+
+.jugador-cancha img{
+
+width:55px!important;
+
+height:55px!important;
+
+border-radius:50%!important;
+
+object-fit:cover!important;
+
+}
+
+
+
+
+
+/* STATS FOTOS */
+
+
+.leader-card img{
+
+width:55px!important;
+
+height:55px!important;
+
+border-radius:50%!important;
+
+object-fit:cover!important;
+
+}
+
+
+
+.stats-player-card img{
+
+width:60px!important;
+
+height:60px!important;
+
+border-radius:50%!important;
+
+object-fit:cover!important;
+
+}
+
+
+
+
+
+/* TABLA EQUIPOS */
+
+
+.table-logo{
+
+width:30px!important;
+
+height:30px!important;
+
+object-fit:contain!important;
+
+}
+
+
+
+
+
+/* POPUP */
+
+.player-photo{
+
+width:120px!important;
+
+height:120px!important;
+
+border-radius:50%!important;
+
+object-fit:cover!important;
+
+}
