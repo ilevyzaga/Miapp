@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>MatchIQ MX</title>
@@ -16,14 +17,16 @@
 <body>
 
 
-<header class="top-header">
-
-<div class="brand-container">
-
-<img src="images/matchiq-logo.svg" class="matchiq-logo">
+<header class="main-header">
 
 
-<div class="brand-text">
+<div class="brand">
+
+
+<img src="images/matchiq-logo.svg" class="brand-logo">
+
+
+<div>
 
 <h1>MatchIQ MX</h1>
 
@@ -34,7 +37,9 @@
 
 </div>
 
+
 </header>
+
 
 
 
@@ -48,7 +53,7 @@
 
 
 
-<nav class="app-nav">
+<nav class="navigation">
 
 
 <button onclick="mostrarSeccion('inicio')">
@@ -56,6 +61,26 @@
 <img src="images/home.svg">
 
 <span>Inicio</span>
+
+</button>
+
+
+
+<button onclick="mostrarSeccion('partidos')">
+
+<img src="images/matches.svg">
+
+<span>Partidos</span>
+
+</button>
+
+
+
+<button onclick="mostrarSeccion('predicciones')">
+
+<img src="images/matchiq.svg">
+
+<span>MatchIQ</span>
 
 </button>
 
@@ -71,16 +96,6 @@
 
 
 
-<button onclick="mostrarSeccion('predicciones')">
-
-<img src="images/prediction.svg">
-
-<span>IA</span>
-
-</button>
-
-
-
 <button onclick="mostrarSeccion('perfil')">
 
 <img src="images/profile.svg">
@@ -88,7 +103,6 @@
 <span>Perfil</span>
 
 </button>
-
 
 
 </nav>
@@ -101,5 +115,6 @@
 
 
 </body>
+
 
 </html>
