@@ -1,0 +1,13 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<circle cx="60" cy="60" r="55" fill="#2563EB"/>
+
+<path d="M35 75V45L60 30L85 45V75L60 90L35 75Z" fill="#0F172A"/>
+
+<path d="M45 65V50L60 42L75 50V65L60 73L45 65Z" fill="#38BDF8"/>
+
+<path d="M60 42V73" stroke="white" stroke-width="4"/>
+
+<path d="M45 57H75" stroke="white" stroke-width="4"/>
+
+</svg>
