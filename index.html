@@ -9,33 +9,26 @@
 
 <title>MatchIQ MX</title>
 
+
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
 
 
-<header class="main-header">
+
+<header>
 
 
-<div class="brand">
-
-
-<img src="images/ligamx.png" class="liga-logo">
-
-
-<div class="brand-info">
-
-<h1>MatchIQ MX</h1>
-
-<p>Resultados y predicciones inteligentes</p>
-
-</div>
-
-
-</div>
+<img 
+src="images/liga-mx.png"
+class="liga-logo"
+onclick="cargarInicio()"
+alt="Liga MX">
 
 
 </header>
@@ -44,7 +37,11 @@
 
 
 
+
 <main id="contenido">
+
+
+<!-- Aquí se carga todo dinámicamente -->
 
 </main>
 
@@ -52,59 +49,104 @@
 
 
 
-<nav class="navigation">
+
+
+<nav>
 
 
 <button onclick="mostrarSeccion('inicio')">
 
-<img src="images/home.svg">
+🏠
 
-<span>Inicio</span>
+<br>
+
+Inicio
 
 </button>
+
+
 
 
 
 <button onclick="mostrarSeccion('partidos')">
 
-<img src="images/matches.svg">
+⚽
 
-<span>Partidos</span>
+<br>
+
+Partidos
 
 </button>
+
+
+
 
 
 
 <button onclick="mostrarSeccion('predicciones')">
 
-<img src="images/prediction.svg">
+📊
 
-<span>Predicciones</span>
+<br>
+
+Predicciones
+
+</button>
+
+
+
+
+
+
+
+<button onclick="mostrarSeccion('stats')">
+
+📈
+
+<br>
+
+Stats
 
 </button>
 
 
 
-<button onclick="mostrarSeccion('estadisticas')">
 
-<img src="images/stats.svg">
-
-<span>Stats</span>
-
-</button>
 
 
 
 <button onclick="mostrarSeccion('perfil')">
 
-<img src="images/profile.svg">
+👤
 
-<span>Perfil</span>
+<br>
+
+Perfil
 
 </button>
 
 
+
 </nav>
+
+
+
+
+
+
+
+
+
+<!-- POPUP JUGADOR -->
+
+
+<div id="player-popup">
+
+
+</div>
+
+
+
 
 
 
@@ -114,5 +156,6 @@
 
 
 </body>
+
 
 </html>
