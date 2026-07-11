@@ -8,7 +8,7 @@ body{
 
 margin:0;
 
-background:#060b16;
+background:#050b18;
 
 color:white;
 
@@ -40,7 +40,7 @@ h3{
 
 color:#38bdf8;
 
-margin-top:18px;
+margin-top:20px;
 
 }
 
@@ -48,11 +48,11 @@ margin-top:18px;
 
 
 
-/* TARJETAS */
+/* TARJETAS GENERALES */
 
 .card{
 
-background:#111827;
+background:#101827;
 
 border:1px solid #263449;
 
@@ -62,14 +62,15 @@ padding:20px;
 
 margin-bottom:18px;
 
-box-shadow:0 10px 30px rgba(0,0,0,.35);
+box-shadow:0 8px 25px rgba(0,0,0,.35);
 
 }
 
 
 
 
-/* EQUIPOS Y PARTIDOS */
+
+/* EQUIPOS PARTIDOS */
 
 .teams{
 
@@ -97,9 +98,9 @@ align-items:center;
 
 font-weight:bold;
 
-gap:10px;
-
 text-align:center;
+
+gap:10px;
 
 }
 
@@ -107,9 +108,9 @@ text-align:center;
 
 .team img{
 
-width:85px;
+width:80px;
 
-height:85px;
+height:80px;
 
 object-fit:contain;
 
@@ -119,9 +120,9 @@ object-fit:contain;
 
 .vs{
 
-font-size:24px;
+font-size:26px;
 
-font-weight:bold;
+font-weight:900;
 
 color:#94a3b8;
 
@@ -159,6 +160,8 @@ margin-top:12px;
 
 font-weight:bold;
 
+transition:.2s;
+
 }
 
 
@@ -173,13 +176,11 @@ background:#1d4ed8;
 
 
 
-/* REGRESAR */
+/* BOTON REGRESAR */
 
 .back-button{
 
-background:#1e293b;
-
-color:white;
+background:#1e293b!important;
 
 width:auto!important;
 
@@ -193,7 +194,7 @@ margin-bottom:15px;
 
 
 
-/* JUGADORES */
+/* PERFIL Y EQUIPOS */
 
 .player-card{
 
@@ -239,6 +240,18 @@ flex:1;
 
 
 
+.player-card button{
+
+width:auto;
+
+margin:0;
+
+padding:10px 15px;
+
+}
+
+
+
 
 
 /* PERFIL JUGADOR */
@@ -259,7 +272,19 @@ height:130px;
 
 object-fit:contain;
 
-margin:auto;
+}
+
+
+
+
+
+.jugador-profile h1{
+
+font-size:45px;
+
+margin:10px;
+
+color:#22c55e;
 
 }
 
@@ -268,6 +293,24 @@ margin:auto;
 
 
 /* ESTADISTICAS */
+
+.stat-box{
+
+display:flex;
+
+justify-content:space-between;
+
+background:#0b1220;
+
+padding:14px;
+
+border-radius:15px;
+
+margin-bottom:10px;
+
+}
+
+
 
 .progress{
 
@@ -279,7 +322,7 @@ border-radius:20px;
 
 overflow:hidden;
 
-margin-bottom:15px;
+margin:10px 0 15px;
 
 }
 
@@ -297,21 +340,53 @@ background:#38bdf8;
 
 
 
-/* RANKINGS */
+/* ANALISIS */
 
-.ranking-item{
+.analysis-card{
 
-display:flex;
+border:1px solid #2563eb;
 
-justify-content:space-between;
+}
+
+
+
+.analysis-card p{
+
+font-size:16px;
+
+line-height:1.6;
+
+}
+
+
+
+
+
+/* ALINEACIONES */
+
+.lineup{
 
 background:#0b1220;
 
-padding:14px;
+border-radius:20px;
 
-border-radius:14px;
+padding:20px;
 
-margin-bottom:10px;
+text-align:center;
+
+}
+
+
+
+.lineup-player{
+
+background:#111827;
+
+border-radius:15px;
+
+padding:12px;
+
+margin:10px;
 
 }
 
@@ -319,49 +394,7 @@ margin-bottom:10px;
 
 
 
-/* ESTRELLAS */
-
-.stars{
-
-color:#facc15;
-
-font-size:24px;
-
-}
-
-
-
-
-
-/* HEADER */
-
-.main-header{
-
-background:#0f172a;
-
-padding:18px;
-
-border-bottom:1px solid #1e293b;
-
-}
-
-
-
-.liga-logo{
-
-width:70px;
-
-height:70px;
-
-object-fit:contain;
-
-}
-
-
-
-
-
-/* NAVEGACION */
+/* NAVEGACION INFERIOR */
 
 .navigation{
 
@@ -377,7 +410,7 @@ height:80px;
 
 background:#0f172a;
 
-border-top:1px solid #1e293b;
+border-top:1px solid #263449;
 
 display:flex;
 
@@ -401,7 +434,13 @@ margin:0;
 
 padding:0;
 
-font-size:12px;
+}
+
+
+
+.navigation button:hover{
+
+color:white;
 
 }
 
@@ -421,9 +460,32 @@ object-fit:contain;
 
 
 
-/* MOBILE */
+/* LOGO LIGA */
+
+.liga-logo{
+
+width:75px;
+
+height:75px;
+
+object-fit:contain;
+
+}
+
+
+
+
+
+/* RESPONSIVE */
 
 @media(max-width:600px){
+
+
+.teams{
+
+gap:20px;
+
+}
 
 
 .team img{
@@ -431,13 +493,6 @@ object-fit:contain;
 width:65px;
 
 height:65px;
-
-}
-
-
-.teams{
-
-gap:20px;
 
 }
 
