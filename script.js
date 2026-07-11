@@ -11,19 +11,13 @@ logoLocal:"images/america.png",
 logoVisitante:"images/toluca.png",
 hora:"20:00",
 estadio:"Estadio Ciudad de los Deportes",
-formaLocal:"G G G E G",
-formaVisitante:"G E G G",
 prediccion:"América gana o empate",
 confianza:"80%",
 marcadores:[
-"América 2 - 1 Toluca 32%",
-"América 1 - 0 Toluca 24%",
-"América 1 - 1 Toluca 18%"
-],
-ataqueLocal:5,
-ataqueVisitante:4,
-defensaLocal:3,
-defensaVisitante:4
+"América 2 - 1 Toluca",
+"América 1 - 0 Toluca",
+"América 1 - 1 Toluca"
+]
 },
 
 {
@@ -34,19 +28,13 @@ logoLocal:"images/tigres.png",
 logoVisitante:"images/chivas.png",
 hora:"21:00",
 estadio:"Estadio Universitario",
-formaLocal:"G G E G",
-formaVisitante:"E G G E",
 prediccion:"Tigres gana o empate",
 confianza:"75%",
 marcadores:[
-"Tigres 2 - 0 Chivas 30%",
-"Tigres 2 - 1 Chivas 25%",
-"Tigres 1 - 1 Chivas 20%"
-],
-ataqueLocal:5,
-ataqueVisitante:3,
-defensaLocal:4,
-defensaVisitante:3
+"Tigres 2 - 0 Chivas",
+"Tigres 2 - 1 Chivas",
+"Tigres 1 - 1 Chivas"
+]
 },
 
 {
@@ -57,23 +45,16 @@ logoLocal:"images/cruzazul.png",
 logoVisitante:"images/monterrey.png",
 hora:"19:00",
 estadio:"Ciudad de los Deportes",
-formaLocal:"G G E E",
-formaVisitante:"G E G G",
 prediccion:"Partido equilibrado",
 confianza:"65%",
 marcadores:[
-"Cruz Azul 1 - 1 Monterrey 30%",
-"Cruz Azul 1 - 0 Monterrey 22%",
-"Cruz Azul 0 - 1 Monterrey 20%"
-],
-ataqueLocal:4,
-ataqueVisitante:4,
-defensaLocal:4,
-defensaVisitante:4
+"Cruz Azul 1 - 1 Monterrey",
+"Cruz Azul 1 - 0 Monterrey",
+"Cruz Azul 0 - 1 Monterrey"
+]
 }
 
 ];
-
 
 
 
@@ -109,7 +90,6 @@ logo:"images/monterrey.png"
 
 
 
-
 function guardarEquipos(){
 
 localStorage.setItem(
@@ -122,27 +102,20 @@ JSON.stringify(equiposSeguidos)
 
 
 
-
 function seguirEquipo(nombre){
 
-
 if(equiposSeguidos.includes(nombre)){
-
 
 equiposSeguidos =
 equiposSeguidos.filter(
 e=>e!==nombre
 );
 
-
 }else{
-
 
 equiposSeguidos.push(nombre);
 
-
 }
-
 
 guardarEquipos();
 
@@ -154,15 +127,11 @@ mostrarSeccion("perfil");
 
 
 
-
 function cargarInicio(){
-
 
 let contenido=document.getElementById("contenido");
 
-
 let p=partidos[0];
-
 
 contenido.innerHTML=`
 
@@ -176,7 +145,6 @@ contenido.innerHTML=`
 
 
 <div class="teams">
-
 
 <div class="team">
 
@@ -202,7 +170,6 @@ VS
 
 </div>
 
-
 </div>
 
 
@@ -219,6 +186,7 @@ Ver análisis
 
 
 </div>
+
 
 
 
@@ -243,7 +211,6 @@ Ver análisis
 
 
 function cargarPartidos(){
-
 
 let contenido=document.getElementById("contenido");
 
@@ -301,9 +268,7 @@ Ver análisis
 
 </div>
 
-
 `).join("")}
-
 
 `;
 
@@ -316,7 +281,6 @@ Ver análisis
 
 
 function mostrarAnalisis(id){
-
 
 let p=partidos.find(
 x=>x.id===id
@@ -339,16 +303,13 @@ contenido.innerHTML=`
 
 <h3>Predicción</h3>
 
-
 <p>${p.prediccion}</p>
-
 
 <p>Confianza: ${p.confianza}</p>
 
 
 
-
-<h3>Resultados más probables</h3>
+<h3>Resultados probables</h3>
 
 
 ${p.marcadores.map(m=>`
@@ -359,60 +320,16 @@ ${p.marcadores.map(m=>`
 
 
 
-
-<h3>Forma reciente</h3>
-
-
-<p>${p.local}</p>
-
-<p>${p.formaLocal}</p>
-
-
-<p>${p.visitante}</p>
-
-<p>${p.formaVisitante}</p>
-
-
-
-
-<h3>Comparación</h3>
-
+<h3>Factores clave</h3>
 
 <p>Ataque</p>
 
-
-<p class="stars">
-
-${"★".repeat(p.ataqueLocal)}
-
-&nbsp;
-
-${"★".repeat(p.ataqueVisitante)}
-
-</p>
-
+<p class="stars">★★★★★</p>
 
 
 <p>Defensa</p>
 
-
-<p class="stars">
-
-${"★".repeat(p.defensaLocal)}
-
-&nbsp;
-
-${"★".repeat(p.defensaVisitante)}
-
-</p>
-
-
-
-
-<h3>Factores clave</h3>
-
-
-<p>Localía, forma actual y rendimiento ofensivo.</p>
+<p class="stars">★★★★☆</p>
 
 
 
@@ -420,7 +337,6 @@ ${"★".repeat(p.defensaVisitante)}
 
 
 </div>
-
 
 `;
 
@@ -433,7 +349,6 @@ ${"★".repeat(p.defensaVisitante)}
 
 
 function cargarPredicciones(){
-
 
 let contenido=document.getElementById("contenido");
 
@@ -455,8 +370,8 @@ ${partidos.map(p=>`
 
 </div>
 
-`).join("")}
 
+`).join("")}
 
 `;
 
@@ -470,7 +385,6 @@ ${partidos.map(p=>`
 
 function cargarEstadisticas(){
 
-
 let contenido=document.getElementById("contenido");
 
 
@@ -479,31 +393,87 @@ contenido.innerHTML=`
 <h2>Estadísticas</h2>
 
 
+
 <div class="card">
 
 <h3>Goleadores</h3>
 
-<p>Henry Martín - 7 goles</p>
+<p>Henry Martín — 7 goles</p>
 
-<p>Gignac - 6 goles</p>
+<p>Gignac — 6 goles</p>
+
+<p>Berterame — 5 goles</p>
 
 </div>
+
+
 
 
 <div class="card">
 
 <h3>Asistidores</h3>
 
-<p>Fidalgo - 5 asistencias</p>
+<p>Fidalgo — 5 asistencias</p>
+
+<p>Quiñones — 4 asistencias</p>
+
+<p>Córdova — 4 asistencias</p>
 
 </div>
+
+
+
+
+<div class="card">
+
+<h3>Contribuciones de gol</h3>
+
+<p>Henry Martín — 10 G+A</p>
+
+<p>Gignac — 8 G+A</p>
+
+<p>Fidalgo — 7 G+A</p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>Tarjetas amarillas</h3>
+
+<p>Jugador América — 5</p>
+
+<p>Jugador Tigres — 4</p>
+
+<p>Jugador Monterrey — 4</p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>Tarjetas rojas</h3>
+
+<p>Jugador América — 1</p>
+
+<p>Jugador Chivas — 1</p>
+
+</div>
+
+
 
 
 <div class="card">
 
 <h3>Porterías a cero</h3>
 
-<p>Malagón - 4 partidos</p>
+<p>Malagón — 4 partidos</p>
+
+<p>Nahuel Guzmán — 3 partidos</p>
 
 </div>
 
@@ -520,7 +490,6 @@ contenido.innerHTML=`
 
 function cargarPerfil(){
 
-
 let contenido=document.getElementById("contenido");
 
 
@@ -529,7 +498,8 @@ contenido.innerHTML=`
 <h2>Perfil</h2>
 
 
-<div class="card">
+
+<div class="card perfil-header">
 
 <h3>Usuario</h3>
 
@@ -539,33 +509,63 @@ contenido.innerHTML=`
 
 
 
-<div class="card">
 
+
+<div class="card">
 
 <h3>Equipos seguidos</h3>
 
 
 ${equipos.map(e=>`
 
-
 <div class="player-card">
 
 
-<img src="${e.logo}" width="45">
+<img src="${e.logo}" width="50">
 
 
-<span>${e.nombre}</span>
+<div>
+
+<strong>${e.nombre}</strong>
+
+<br>
+
+<small>
+
+${
+equiposSeguidos.includes(e.nombre)
+
+?
+"Notificaciones activadas"
+
+:
+
+"Sin seguimiento"
+
+}
+
+</small>
+
+</div>
+
 
 
 <button onclick="seguirEquipo('${e.nombre}')">
 
+
 ${
 equiposSeguidos.includes(e.nombre)
+
 ?
+
 "Siguiendo"
+
 :
+
 "Seguir"
+
 }
+
 
 </button>
 
@@ -581,20 +581,19 @@ equiposSeguidos.includes(e.nombre)
 
 
 
-<div class="card">
 
+<div class="card">
 
 <h3>Notificaciones</h3>
 
 
 <p>Próximos partidos</p>
 
-<p>Resultados</p>
+<p>Alineaciones confirmadas</p>
 
-<p>Alineaciones</p>
+<p>Resultados finales</p>
 
 <p>Predicciones</p>
-
 
 </div>
 
@@ -612,28 +611,42 @@ equiposSeguidos.includes(e.nombre)
 function mostrarSeccion(seccion){
 
 
-if(seccion==="inicio")
+if(seccion==="inicio"){
+
 cargarInicio();
-
-
-if(seccion==="partidos")
-cargarPartidos();
-
-
-if(seccion==="predicciones")
-cargarPredicciones();
-
-
-if(seccion==="estadisticas")
-cargarEstadisticas();
-
-
-if(seccion==="perfil")
-cargarPerfil();
-
 
 }
 
+
+if(seccion==="partidos"){
+
+cargarPartidos();
+
+}
+
+
+if(seccion==="predicciones"){
+
+cargarPredicciones();
+
+}
+
+
+if(seccion==="estadisticas"){
+
+cargarEstadisticas();
+
+}
+
+
+if(seccion==="perfil"){
+
+cargarPerfil();
+
+}
+
+
+}
 
 
 cargarInicio();
