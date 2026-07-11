@@ -1,551 +1,340 @@
 *{
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
-
 
 body{
-
-margin:0;
-background:#0b1220;
-color:white;
-padding-bottom:90px;
-
+    margin:0;
+    background:#0b1220;
+    color:white;
+    padding-bottom:90px;
 }
-
 
 
 /* HEADER */
 
 .header{
-
-position:sticky;
-top:0;
-z-index:10;
-
-background:#0f172a;
-
-padding:15px 20px;
-
-border-bottom:1px solid #24324a;
-
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#0f172a;
+    padding:15px 20px;
+    border-bottom:1px solid #24324a;
 }
 
 
 .brand{
-
-display:flex;
-align-items:center;
-gap:14px;
-
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
 
 .liga-logo{
-
-width:55px;
-height:55px;
-
-object-fit:contain;
-
+    width:55px !important;
+    height:55px !important;
+    max-width:55px !important;
+    max-height:55px !important;
+    object-fit:contain;
+    display:block;
 }
 
 
 .brand h1{
-
-margin:0;
-
-font-size:26px;
-
-font-weight:700;
-
+    margin:0;
+    font-size:25px;
+    font-weight:700;
 }
 
 
 .brand p{
-
-margin:4px 0 0;
-
-color:#94a3b8;
-
-font-size:14px;
-
+    margin:4px 0 0;
+    color:#94a3b8;
+    font-size:14px;
 }
-
-
-
 
 
 /* CONTENIDO */
 
 #contenido{
-
-padding:20px;
-
+    padding:20px;
 }
-
-
-
 
 
 h2{
-
-font-size:22px;
-
-margin-bottom:20px;
-
+    font-size:22px;
+    margin-bottom:20px;
 }
 
 
-
+h3{
+    margin-top:0;
+}
 
 
 /* TARJETAS */
 
-
 .card{
-
-background:#111c32;
-
-border:1px solid #22304a;
-
-border-radius:18px;
-
-padding:18px;
-
-margin-bottom:18px;
-
-box-shadow:0 8px 25px rgba(0,0,0,.25);
-
+    background:#111c32;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
-
-
-
-
-.card h3{
-
-margin-top:0;
-
-}
-
-
-
 
 
 /* PARTIDOS */
 
-
 .partido{
-
-text-align:center;
-
+    text-align:center;
 }
-
 
 
 .teams{
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-gap:25px;
-
-margin-bottom:15px;
-
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:25px;
 }
-
 
 
 .team{
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-gap:8px;
-
-font-weight:600;
-
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
 }
-
 
 
 .team img{
-
-width:65px;
-
-height:65px;
-
-object-fit:contain;
-
+    width:65px;
+    height:65px;
+    max-width:65px;
+    max-height:65px;
+    object-fit:contain;
 }
-
 
 
 .vs{
-
-font-size:18px;
-
-font-weight:bold;
-
-color:#94a3b8;
-
+    color:#94a3b8;
+    font-weight:bold;
 }
-
-
-
 
 
 /* ESTADO */
 
-
 .status{
-
-display:inline-block;
-
-padding:6px 12px;
-
-border-radius:20px;
-
-font-size:13px;
-
-background:#1e293b;
-
-color:#60a5fa;
-
+    display:inline-block;
+    background:#1e293b;
+    color:#60a5fa;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
 }
-
-
-
 
 
 /* BOTONES */
 
-
 button{
-
-border:none;
-
-cursor:pointer;
-
+    cursor:pointer;
+    border:none;
 }
-
 
 
 .partido button{
-
-margin-top:15px;
-
-background:#2563eb;
-
-color:white;
-
-padding:12px 20px;
-
-border-radius:12px;
-
-font-weight:bold;
-
+    margin-top:15px;
+    background:#2563eb;
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:bold;
 }
-
 
 
 .partido button:hover{
-
-background:#1d4ed8;
-
+    background:#1d4ed8;
 }
 
 
-
-
-
-/* BARRAS */
-
+/* PROBABILIDAD */
 
 .bar{
-
-height:10px;
-
-background:#24324a;
-
-border-radius:10px;
-
-overflow:hidden;
-
-margin:15px 0;
-
+    height:10px;
+    background:#24324a;
+    border-radius:10px;
+    overflow:hidden;
 }
-
 
 
 .america{
-
-height:100%;
-
-width:58%;
-
-background:#2563eb;
-
+    width:58%;
+    height:100%;
+    background:#2563eb;
 }
-
 
 
 .tigres{
-
-height:100%;
-
-width:51%;
-
-background:#2563eb;
-
+    width:51%;
+    height:100%;
+    background:#2563eb;
 }
-
 
 
 .cruzazul{
-
-height:100%;
-
-width:35%;
-
-background:#2563eb;
-
+    width:35%;
+    height:100%;
+    background:#2563eb;
 }
-
-
-
 
 
 /* ANALISIS */
 
-
 .analisis{
-
-margin-top:20px;
-
-padding:18px;
-
-background:#0f172a;
-
-border-radius:15px;
-
-border:1px solid #334155;
-
-animation:aparecer .3s ease;
-
+    margin-top:20px;
+    padding:18px;
+    background:#0f172a;
+    border-radius:15px;
+    border:1px solid #334155;
+    animation:entrada .3s ease;
 }
 
 
-
-@keyframes aparecer{
+@keyframes entrada{
 
 from{
-
-opacity:0;
-
-transform:translateY(10px);
-
+    opacity:0;
+    transform:translateY(10px);
 }
 
 to{
-
-opacity:1;
-
-transform:translateY(0);
-
+    opacity:1;
+    transform:translateY(0);
 }
 
 }
-
-
-
 
 
 /* TABLAS */
 
-
 table{
-
-width:100%;
-
-border-collapse:collapse;
-
-background:#111c32;
-
-border-radius:15px;
-
-overflow:hidden;
-
+    width:100%;
+    border-collapse:collapse;
+    background:#111c32;
+    border-radius:15px;
+    overflow:hidden;
 }
-
 
 
 th{
-
-text-align:left;
-
-padding:12px;
-
-background:#1e293b;
-
-color:#cbd5e1;
-
+    background:#1e293b;
+    color:#cbd5e1;
+    padding:12px;
+    text-align:left;
 }
-
 
 
 td{
-
-padding:12px;
-
-border-bottom:1px solid #22304a;
-
+    padding:12px;
+    border-bottom:1px solid #22304a;
 }
 
 
+/* ESTRELLAS */
 
-tr:last-child td{
-
-border-bottom:none;
-
+.stars{
+    color:#fbbf24;
+    letter-spacing:3px;
+    font-size:18px;
 }
 
 
+/* FAVORITOS */
 
-
-
-/* PERFIL */
-
-
-.profile-item{
-
-background:#111c32;
-
-padding:15px;
-
-border-radius:15px;
-
-margin-bottom:12px;
-
+.favorite{
+    background:#111c32;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:12px;
 }
-
-
-
 
 
 /* NAVEGACION */
 
 .bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
 
-position:fixed;
+    height:75px;
 
-bottom:0;
+    background:#0f172a;
 
-left:0;
+    border-top:1px solid #24324a;
 
-right:0;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
 
-height:75px;
-
-background:#0f172a;
-
-border-top:1px solid #24324a;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-z-index:20;
-
+    z-index:20;
 }
-
 
 
 .bottom-nav button{
 
-background:none;
+    background:none;
+    color:#94a3b8;
 
-color:#94a3b8;
+    display:flex;
+    flex-direction:column;
 
-display:flex;
+    align-items:center;
 
-flex-direction:column;
+    gap:5px;
 
-align-items:center;
-
-gap:5px;
-
-font-size:12px;
+    font-size:12px;
 
 }
-
 
 
 .bottom-nav svg{
 
-width:22px;
-
-height:22px;
+    width:22px;
+    height:22px;
 
 }
-
 
 
 .bottom-nav button:hover{
 
-color:white;
+    color:white;
 
 }
 
 
+/* EVITAR IMAGENES GIGANTES */
 
+img{
 
-
-/* ESTRELLAS */
-
-
-.stars{
-
-color:#fbbf24;
-
-font-size:20px;
-
-letter-spacing:3px;
+    max-width:100%;
 
 }
 
 
-
-
-
-/* RESPONSIVE */
-
+/* CELULAR */
 
 @media(max-width:600px){
 
-
-.brand h1{
-
-font-size:22px;
-
-}
+    .brand h1{
+        font-size:22px;
+    }
 
 
-.team img{
-
-width:55px;
-
-height:55px;
-
-}
-
+    .team img{
+        width:55px;
+        height:55px;
+    }
 
 }
