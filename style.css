@@ -8,13 +8,14 @@ body{
 
 margin:0;
 
-background:#060b16;
+background:#070b14;
 
 color:white;
 
 padding-bottom:90px;
 
 }
+
 
 
 /* HEADER */
@@ -67,9 +68,9 @@ font-weight:800;
 
 margin:5px 0;
 
-color:#94a3b8;
-
 font-size:14px;
+
+color:#94a3b8;
 
 }
 
@@ -104,6 +105,7 @@ margin-top:0;
 
 
 
+
 /* TARJETAS */
 
 .card{
@@ -126,7 +128,7 @@ box-shadow:0 12px 30px rgba(0,0,0,.35);
 
 
 
-/* EQUIPOS */
+/* PARTIDOS */
 
 .teams{
 
@@ -143,7 +145,6 @@ margin:20px 0;
 }
 
 
-
 .team{
 
 display:flex;
@@ -152,14 +153,11 @@ flex-direction:column;
 
 align-items:center;
 
-gap:10px;
+gap:8px;
 
 font-weight:bold;
 
-font-size:16px;
-
 }
-
 
 
 .team img{
@@ -171,7 +169,6 @@ height:85px;
 object-fit:contain;
 
 }
-
 
 
 .vs{
@@ -201,15 +198,13 @@ cursor:pointer;
 
 .card button{
 
-width:100%;
-
-padding:13px;
-
-border-radius:14px;
-
 background:#2563eb;
 
 color:white;
+
+padding:12px 18px;
+
+border-radius:14px;
 
 font-weight:bold;
 
@@ -228,35 +223,15 @@ background:#1d4ed8;
 
 
 
-/* ESTADO */
-
-.status{
-
-display:inline-block;
-
-background:#172554;
-
-color:#38bdf8;
-
-padding:7px 15px;
-
-border-radius:20px;
-
-}
-
-
-
-
-
 /* ANALISIS */
 
 .analisis{
 
 background:#0b1220;
 
-border-radius:18px;
-
 padding:18px;
+
+border-radius:18px;
 
 border:1px solid #263449;
 
@@ -272,10 +247,6 @@ margin-top:20px;
 }
 
 
-
-
-/* ESTRELLAS */
-
 .stars{
 
 color:#facc15;
@@ -290,7 +261,15 @@ letter-spacing:3px;
 
 
 
-/* PERFIL */
+/* PERFIL EQUIPOS */
+
+.perfil-header{
+
+text-align:center;
+
+}
+
+
 
 .player-card{
 
@@ -302,21 +281,45 @@ justify-content:space-between;
 
 background:#0b1220;
 
-border-radius:15px;
+border:1px solid #263449;
 
-padding:14px;
+border-radius:18px;
+
+padding:15px;
 
 margin-bottom:12px;
 
 }
 
 
-
 .player-card img{
+
+width:55px;
+
+height:55px;
 
 object-fit:contain;
 
 }
+
+
+.player-card div{
+
+flex:1;
+
+margin-left:15px;
+
+}
+
+
+.player-card small{
+
+color:#94a3b8;
+
+}
+
+
+
 
 
 .player-card button{
@@ -325,9 +328,19 @@ width:auto;
 
 margin:0;
 
-padding:8px 16px;
+padding:10px 16px;
 
-font-size:12px;
+background:#2563eb;
+
+font-size:13px;
+
+}
+
+
+
+.player-card button:hover{
+
+background:#1d4ed8;
 
 }
 
@@ -335,14 +348,16 @@ font-size:12px;
 
 
 
-/* PREDICCIONES */
+/* STATS */
 
+.card p{
 
-.prediction-card{
+color:#dbeafe;
 
-border-left:4px solid #38bdf8;
+line-height:1.6;
 
 }
+
 
 
 
@@ -410,11 +425,16 @@ flex-direction:column;
 
 align-items:center;
 
-gap:6px;
+gap:5px;
 
 font-size:12px;
 
+margin:0;
+
+padding:0;
+
 }
+
 
 
 .navigation button:hover{
@@ -439,9 +459,14 @@ object-fit:contain;
 
 
 
-/* RESPONSIVE */
-
 @media(max-width:600px){
+
+
+.brand-info h1{
+
+font-size:22px;
+
+}
 
 
 .team img{
@@ -449,13 +474,6 @@ object-fit:contain;
 width:65px;
 
 height:65px;
-
-}
-
-
-.brand-info h1{
-
-font-size:22px;
 
 }
 
