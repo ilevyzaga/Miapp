@@ -1,6 +1,7 @@
 /* ======================================
 MATCHIQ MX
-STYLE NUEVO - APP DEPORTIVA
+STYLE ACTUALIZADO
+APP DEPORTIVA
 ====================================== */
 
 
@@ -18,7 +19,7 @@ margin:0;
 
 background:#08111f;
 
-color:#ffffff;
+color:white;
 
 padding-bottom:90px;
 
@@ -61,8 +62,6 @@ font-weight:900;
 
 letter-spacing:-1px;
 
-color:white;
-
 }
 
 
@@ -90,6 +89,8 @@ object-fit:contain;
 cursor:pointer;
 
 }
+
+
 
 
 
@@ -128,8 +129,6 @@ font-size:18px;
 
 font-weight:800;
 
-margin-top:10px;
-
 }
 
 
@@ -154,6 +153,18 @@ margin-bottom:15px;
 border:1px solid rgba(255,255,255,.06);
 
 box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+
+
+.card p{
+
+color:#d2dbea;
+
+line-height:1.5;
+
+font-size:15px;
 
 }
 
@@ -188,7 +199,21 @@ flex-direction:column;
 
 align-items:center;
 
-justify-content:center;
+min-width:120px;
+
+}
+
+
+
+.match-header img{
+
+width:80px;
+
+height:80px;
+
+object-fit:contain;
+
+filter:drop-shadow(0 5px 8px rgba(0,0,0,.3));
 
 }
 
@@ -200,6 +225,8 @@ font-size:15px;
 
 margin-top:10px;
 
+text-align:center;
+
 }
 
 
@@ -207,8 +234,6 @@ margin-top:10px;
 .match-header h2{
 
 font-size:22px;
-
-margin:0;
 
 color:#9fb3d9;
 
@@ -218,13 +243,11 @@ color:#9fb3d9;
 
 
 
-
-
 .logo-small{
 
-width:36px;
+width:45px!important;
 
-height:36px;
+height:45px!important;
 
 object-fit:contain;
 
@@ -234,9 +257,9 @@ object-fit:contain;
 
 .logo-medium{
 
-width:80px;
+width:85px!important;
 
-height:80px;
+height:85px!important;
 
 object-fit:contain;
 
@@ -246,14 +269,13 @@ object-fit:contain;
 
 .logo-large{
 
-width:120px;
+width:120px!important;
 
-height:120px;
+height:120px!important;
 
 object-fit:contain;
 
 }
-
 
 
 
@@ -300,6 +322,59 @@ opacity:.9;
 
 
 
+
+
+/* ======================================
+PREDICCIONES
+====================================== */
+
+
+.prediction-card{
+
+background:
+
+linear-gradient(
+
+160deg,
+
+#12243e,
+
+#0b1527
+
+);
+
+}
+
+
+
+.prediction-card h3{
+
+color:#00c853;
+
+}
+
+
+
+.analysis-section{
+
+margin-top:20px;
+
+}
+
+
+
+.analysis-section h3{
+
+border-left:4px solid #00c853;
+
+padding-left:10px;
+
+}
+
+
+
+
+
 /* ======================================
 PROBABILIDADES
 ====================================== */
@@ -319,11 +394,7 @@ display:flex;
 
 justify-content:space-between;
 
-font-size:14px;
-
 font-weight:700;
-
-color:#d7e2f5;
 
 }
 
@@ -374,6 +445,807 @@ background:#8b98ad;
 .relleno.visitante{
 
 background:#ff5252;
+
+}
+/* ======================================
+MATCHIQ MX
+STYLE ACTUALIZADO
+ALINEACIONES PROFESIONALES
+====================================== */
+
+
+/* ======================================
+CANCHA DE ALINEACIONES
+====================================== */
+
+
+.cancha-container{
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#0c6b35,
+
+#084d29
+
+);
+
+border-radius:20px;
+
+padding:20px;
+
+position:relative;
+
+margin-top:20px;
+
+border:3px solid rgba(255,255,255,.15);
+
+overflow:hidden;
+
+}
+
+
+
+.cancha-container:before{
+
+content:"";
+
+position:absolute;
+
+left:50%;
+
+top:0;
+
+height:100%;
+
+width:2px;
+
+background:rgba(255,255,255,.4);
+
+transform:translateX(-50%);
+
+}
+
+
+
+.cancha-container:after{
+
+content:"";
+
+position:absolute;
+
+left:50%;
+
+top:50%;
+
+width:90px;
+
+height:90px;
+
+border:2px solid rgba(255,255,255,.4);
+
+border-radius:50%;
+
+transform:translate(-50%,-50%);
+
+}
+
+
+
+
+
+/* ======================================
+FORMACIONES
+====================================== */
+
+
+.formacion-equipo{
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+gap:20px;
+
+position:relative;
+
+z-index:2;
+
+}
+
+
+
+.jugador-cancha{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+color:white;
+
+font-size:11px;
+
+font-weight:700;
+
+}
+
+
+
+.jugador-cancha img{
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:3px solid white;
+
+background:#111;
+
+}
+
+
+
+.jugador-cancha span{
+
+margin-top:5px;
+
+background:rgba(0,0,0,.45);
+
+padding:3px 7px;
+
+border-radius:10px;
+
+text-align:center;
+
+}
+
+
+
+
+
+/* filas de jugadores */
+
+.linea-jugadores{
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+margin:15px 0;
+
+}
+
+
+
+
+
+/* ======================================
+DOS EQUIPOS ALINEACION
+====================================== */
+
+
+.alineaciones-doble{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:20px;
+
+}
+
+
+
+.equipo-alineacion{
+
+background:#101d31;
+
+border-radius:15px;
+
+padding:15px;
+
+}
+
+
+
+.equipo-alineacion h3{
+
+text-align:center;
+
+color:#00c853;
+
+}
+
+
+
+
+
+/* ======================================
+BANCA
+====================================== */
+
+
+.banca-container{
+
+margin-top:20px;
+
+background:#101d31;
+
+border-radius:15px;
+
+padding:15px;
+
+}
+
+
+
+.banca-title{
+
+color:#00c853;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+
+
+.banca-jugador{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:10px;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+
+
+.banca-jugador:last-child{
+
+border:none;
+
+}
+
+
+
+.banca-jugador img{
+
+width:42px;
+
+height:42px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+
+
+
+
+/* ======================================
+JUGADORES LISTA
+====================================== */
+
+
+.player-card{
+
+background:#14243b;
+
+border-radius:12px;
+
+padding:12px;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+border:1px solid rgba(255,255,255,.05);
+
+}
+
+
+
+.player-card img{
+
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:2px solid #00c853;
+
+}
+
+
+
+
+
+/* ======================================
+POPUP JUGADOR
+====================================== */
+
+
+#player-popup{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+z-index:999;
+
+}
+
+
+
+.popup-background{
+
+position:absolute;
+
+inset:0;
+
+background:rgba(0,0,0,.75);
+
+}
+
+
+
+.player-modal{
+
+position:absolute;
+
+left:50%;
+
+top:50%;
+
+transform:translate(-50%,-50%);
+
+width:90%;
+
+max-width:420px;
+
+background:#101d31;
+
+border-radius:20px;
+
+padding:25px;
+
+text-align:center;
+
+}
+
+
+
+.player-photo{
+
+width:130px;
+
+height:130px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:3px solid #00c853;
+
+}
+
+
+
+
+
+
+
+/* ======================================
+STATS JUGADOR
+====================================== */
+
+
+.stats-box{
+
+background:#14243b;
+
+padding:15px;
+
+border-radius:14px;
+
+margin-top:15px;
+
+}
+
+
+
+.stats-box h3{
+
+color:#00c853;
+
+}
+
+
+
+.stats-box p{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:8px;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+
+
+
+
+/* ======================================
+TABLAS ESTADISTICAS
+====================================== */
+
+
+.table-container{
+
+overflow-x:auto;
+
+}
+
+
+
+.liga-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+background:#101d31;
+
+border-radius:15px;
+
+overflow:hidden;
+
+}
+
+
+
+.liga-table th{
+
+background:#071d49;
+
+padding:14px;
+
+font-size:13px;
+
+}
+
+
+
+.liga-table td{
+
+padding:12px;
+
+text-align:center;
+
+border-bottom:1px solid rgba(255,255,255,.06);
+
+}
+
+
+
+
+
+/* ======================================
+SELECTORES TORNEO
+====================================== */
+
+
+select{
+
+background:#101d31;
+
+color:white;
+
+border:1px solid rgba(255,255,255,.2);
+
+border-radius:8px;
+
+padding:10px;
+
+font-weight:700;
+
+margin:5px;
+
+}
+
+
+
+select option{
+
+background:#101d31;
+
+color:white;
+
+}
+/* ======================================
+MATCHIQ MX
+STYLE ACTUALIZADO
+STATS + PERFIL + MENU
+====================================== */
+
+
+/* ======================================
+STATS COMPLETOS
+====================================== */
+
+
+.stats-card{
+
+background:#101d31;
+
+border-radius:15px;
+
+padding:18px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.stats-card h3{
+
+color:#00c853;
+
+margin-bottom:15px;
+
+}
+
+
+
+
+.goleador-card{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+background:#14243b;
+
+padding:12px;
+
+border-radius:12px;
+
+margin-bottom:10px;
+
+}
+
+
+
+.goleador-card img{
+
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:2px solid #00c853;
+
+}
+
+
+
+.goleador-info{
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+
+
+.goleador-info strong{
+
+font-size:16px;
+
+}
+
+
+
+.goleador-info span{
+
+color:#9fb1ca;
+
+font-size:13px;
+
+}
+
+
+
+
+
+/* ======================================
+TABLA APERTURA CLAUSURA
+====================================== */
+
+
+.torneo-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+
+
+.torneo-badge{
+
+background:#00c853;
+
+color:#06111f;
+
+padding:8px 14px;
+
+border-radius:20px;
+
+font-weight:900;
+
+}
+
+
+
+
+
+/* ======================================
+PERFIL
+====================================== */
+
+
+.perfil-card{
+
+background:
+
+linear-gradient(
+
+145deg,
+
+#102442,
+
+#0b1628
+
+);
+
+text-align:center;
+
+}
+
+
+
+.section-icon{
+
+width:60px;
+
+height:60px;
+
+object-fit:contain;
+
+}
+
+
+
+
+.team-follow{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+padding:14px 5px;
+
+border-bottom:1px solid rgba(255,255,255,.07);
+
+}
+
+
+
+.team-follow img{
+
+width:42px;
+
+height:42px;
+
+object-fit:contain;
+
+}
+
+
+
+.team-follow strong{
+
+flex:1;
+
+font-size:15px;
+
+}
+
+
+
+
+
+/* ======================================
+EQUIPOS API
+====================================== */
+
+
+.api-team-logo{
+
+width:45px;
+
+height:45px;
+
+object-fit:contain;
+
+}
+
+
+
+
+/* ======================================
+PARTIDOS SIN DATOS
+====================================== */
+
+
+.empty-state{
+
+background:#101d31;
+
+border-radius:15px;
+
+padding:25px;
+
+text-align:center;
+
+color:#b7c4dc;
 
 }
 
@@ -440,6 +1312,8 @@ width:30px;
 
 height:30px;
 
+filter:brightness(.8);
+
 }
 
 
@@ -450,860 +1324,20 @@ font-size:11px;
 
 margin-top:4px;
 
-}
-
-
-
-.bottom-menu button:hover{
-
-transform:none;
-
-color:white;
-
-}
-
-
-
-/* ======================================
-SCROLL
-====================================== */
-
-
-::-webkit-scrollbar{
-
-width:7px;
-
-}
-
-
-::-webkit-scrollbar-track{
-
-background:#08111f;
-
-}
-
-
-::-webkit-scrollbar-thumb{
-
-background:#314563;
-
-border-radius:10px;
-
-}
-/* ======================================
-MATCHIQ MX
-STYLE NUEVO
-PARTE 2
-====================================== */
-
-
-
-/* ======================================
-PARTIDO DESTACADO
-====================================== */
-
-
-.home-match{
-
-background:
-
-linear-gradient(
-
-145deg,
-
-#102442,
-
-#0b1628
-
-);
-
-}
-
-
-
-.home-match h3{
-
-color:#00c853;
-
-text-transform:uppercase;
-
-font-size:13px;
-
-letter-spacing:1px;
-
-}
-
-
-
-
-
-/* ======================================
-INFO DEL PARTIDO
-====================================== */
-
-
-.card p{
-
-color:#d2dbea;
-
-line-height:1.5;
-
-font-size:15px;
-
-}
-
-
-
-.card p strong{
-
-color:white;
-
-}
-
-
-
-
-
-
-/* ======================================
-ANALISIS
-====================================== */
-
-
-.analysis-section{
-
-margin-top:20px;
-
-}
-
-
-
-.analysis-section h3{
-
-border-left:4px solid #00c853;
-
-padding-left:10px;
-
-}
-
-
-
-
-
-/* ======================================
-PREDICCIONES
-====================================== */
-
-
-.prediction-card{
-
-background:
-
-linear-gradient(
-
-160deg,
-
-#12243e,
-
-#0b1527
-
-);
-
-}
-
-
-
-
-.prediction-card h3{
-
-color:#00c853;
-
-}
-
-
-
-
-
-
-/* ======================================
-MARCADORES PROBABLES
-====================================== */
-
-
-.score-box{
-
-display:flex;
-
-gap:12px;
-
-margin-top:15px;
-
-}
-
-
-
-.score-box div{
-
-background:#182b46;
-
-padding:12px 18px;
-
-border-radius:10px;
-
-font-weight:900;
-
-font-size:18px;
-
-border:1px solid rgba(255,255,255,.08);
-
-}
-
-
-
-
-
-
-
-/* ======================================
-EQUIPOS EN PARTIDOS
-====================================== */
-
-
-.match-header img{
-
-filter:drop-shadow(0 5px 8px rgba(0,0,0,.3));
-
-}
-
-
-
-
-
-/* ======================================
-ALINEACIONES
-====================================== */
-
-
-.alineacion-container{
-
-display:flex;
-
-flex-direction:column;
-
-gap:12px;
-
-}
-
-
-
-
-.player-card{
-
-background:#14243b;
-
-border-radius:12px;
-
-padding:12px;
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-border:1px solid rgba(255,255,255,.05);
-
-transition:.2s;
-
-}
-
-
-
-.player-card:hover{
-
-background:#193153;
-
-transform:translateX(5px);
-
-}
-
-
-
-.player-card img{
-
-width:58px;
-
-height:58px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:2px solid #00c853;
-
-}
-
-
-
-
-
-.player-card strong{
-
-font-size:16px;
-
-}
-
-
-
-.player-card p{
-
-margin:5px 0 0;
-
-color:#9fb1ca;
-
-font-size:13px;
-
-}
-
-
-
-
-
-/* ======================================
-POPUP JUGADOR
-====================================== */
-
-
-#player-popup{
-
-display:none;
-
-position:fixed;
-
-inset:0;
-
-z-index:999;
-
-}
-
-
-
-.popup-background{
-
-position:absolute;
-
-inset:0;
-
-background:rgba(0,0,0,.75);
-
-}
-
-
-
-.player-modal{
-
-position:absolute;
-
-left:50%;
-
-top:50%;
-
-transform:translate(-50%,-50%);
-
-width:90%;
-
-max-width:420px;
-
-background:#101d31;
-
-border-radius:20px;
-
-padding:25px;
-
-text-align:center;
-
-border:1px solid rgba(255,255,255,.1);
-
-}
-
-
-
-.player-photo{
-
-width:130px;
-
-height:130px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:3px solid #00c853;
-
-}
-
-
-
-.player-modal h2{
-
-margin:15px 0 5px;
-
-}
-
-
-
-.player-modal button{
-
-margin-top:15px;
-
-}
-
-
-
-
-
-
-/* ======================================
-STATS DE JUGADOR
-====================================== */
-
-
-.stats-box{
-
-background:#14243b;
-
-padding:15px;
-
-border-radius:14px;
-
-margin-top:15px;
-
-}
-
-
-
-.stats-box h3{
-
-color:#00c853;
-
-font-size:16px;
-
-}
-
-
-
-.stats-box p{
-
-display:flex;
-
-justify-content:space-between;
-
-border-bottom:1px solid rgba(255,255,255,.08);
-
-padding:8px 0;
-
-margin:0;
-
-}
-
-
-
-
-/* ======================================
-RESPONSIVE PARTIDOS
-====================================== */
-
-
-@media(max-width:600px){
-
-
-.match-header{
-
-gap:20px;
-
-}
-
-
-.logo-medium{
-
-width:65px;
-
-height:65px;
-
-}
-
-
-.card{
-
-padding:16px;
-
-}
-
-
-}
-/* ======================================
-MATCHIQ MX
-STYLE NUEVO
-PARTE 3 FINAL
-====================================== */
-
-
-
-/* ======================================
-TABLA DE POSICIONES
-====================================== */
-
-
-.table-container{
-
-overflow-x:auto;
-
-}
-
-
-
-.liga-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-background:#101d31;
-
-border-radius:15px;
-
-overflow:hidden;
-
-}
-
-
-
-.liga-table th{
-
-background:#071d49;
-
-color:white;
-
-padding:14px 10px;
-
-font-size:13px;
-
-text-transform:uppercase;
-
-}
-
-
-
-.liga-table td{
-
-padding:12px 8px;
-
-text-align:center;
-
-border-bottom:1px solid rgba(255,255,255,.06);
-
-color:#d8e2f3;
-
-font-size:13px;
-
-}
-
-
-
-
-.liga-table tr:hover{
-
-background:#152942;
-
-}
-
-
-
-
-.team-cell{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-font-weight:800;
-
-color:white!important;
-
-text-align:left!important;
-
-}
-
-
-
-.table-logo{
-
-width:30px!important;
-
-height:30px!important;
-
-max-width:30px;
-
-max-height:30px;
-
-object-fit:contain;
-
-flex-shrink:0;
-
-}
-
-
-
-
-
-
-/* ======================================
-STATS GENERALES
-====================================== */
-
-
-.stats-ranking{
-
-display:flex;
-
-align-items:center;
-
-gap:18px;
-
-background:#101d31;
-
-border:1px solid rgba(255,255,255,.06);
-
-}
-
-
-
-.stats-ranking:hover{
-
-background:#152942;
-
-}
-
-
-
-.section-icon{
-
-width:45px;
-
-height:45px;
-
-object-fit:contain;
-
-}
-
-
-
-
-.stats-ranking h3{
-
-margin:0;
-
-color:white;
-
-}
-
-
-
-.stats-ranking p{
-
-margin:5px 0 0;
-
-font-size:14px;
-
-color:#9fb1ca;
-
-}
-
-
-
-
-
-
-
-/* ======================================
-PERFIL
-====================================== */
-
-
-.perfil-card{
-
-text-align:center;
-
-background:
-
-linear-gradient(
-
-145deg,
-
-#102442,
-
-#0b1628
-
-);
-
-}
-
-
-
-.perfil-card .section-icon{
-
-width:70px;
-
-height:70px;
-
-margin-bottom:10px;
-
-}
-
-
-
-
-.perfil-card h3{
-
-color:#00c853;
-
-}
-
-
-
-
-
-/* ======================================
-EQUIPOS SEGUIDOS
-====================================== */
-
-
-.team-follow{
-
-display:flex;
-
-align-items:center;
-
-gap:14px;
-
-padding:14px 5px;
-
-border-bottom:1px solid rgba(255,255,255,.07);
-
-}
-
-
-
-.team-follow:last-child{
-
-border-bottom:none;
-
-}
-
-
-
-.team-follow .logo-small{
-
-width:35px;
-
-height:35px;
-
-}
-
-
-
-.team-follow strong{
-
-flex:1;
-
-font-size:15px;
-
-}
-
-
-
-.team-follow button{
-
-background:#00c853;
-
-padding:8px 13px;
-
-font-size:12px;
-
-}
-
-
-
-
-
-
-
-/* ======================================
-MENU ICONOS SVG
-====================================== */
-
-
-.bottom-menu img{
-
-filter:brightness(.8);
-
-transition:.2s;
-
-}
-
-
-
-.bottom-menu button:hover img{
-
-filter:brightness(1.2);
-
-}
-
-
-
-.bottom-menu span{
-
 color:#aebbd0;
 
 }
 
 
 
-.bottom-menu button:hover span{
-
-color:white;
-
-}
-
-
-
-
-
 
 
 /* ======================================
-ESTADOS
+RESPONSIVE
 ====================================== */
 
 
-.active-section{
-
-color:#00c853!important;
-
-}
-
-
-
-
-
-/* ======================================
-MEJORAS MOVIL
-====================================== */
-
-
-@media(max-width:600px){
+@media(max-width:700px){
 
 
 
@@ -1323,25 +1357,45 @@ font-size:24px;
 
 
 
-.liga-table{
+.match-header{
 
-font-size:12px;
-
-}
-
-
-
-.liga-table th{
-
-padding:10px 6px;
+gap:20px;
 
 }
 
 
 
-.liga-table td{
+.match-header img{
 
-padding:10px 5px;
+width:65px;
+
+height:65px;
+
+}
+
+
+
+.alineaciones-doble{
+
+grid-template-columns:1fr;
+
+}
+
+
+
+.cancha-container{
+
+padding:12px;
+
+}
+
+
+
+.jugador-cancha img{
+
+width:45px;
+
+height:45px;
 
 }
 
@@ -1357,130 +1411,52 @@ height:75px;
 
 .bottom-menu img{
 
-width:27px;
+width:26px;
 
-height:27px;
+height:26px;
+
+}
+
+
 
 }
 
 
 
-}
+
+
+
 /* ======================================
-AJUSTES FINALES MATCHIQ MX
-BOTONES Y LOGOS
+ANIMACIONES
 ====================================== */
 
 
-/* BOTONES DE PARTIDOS */
-
-.card button{
-
-width:160px;
-
-height:42px;
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:13px;
-
-}
-
-
-/* CONTENEDOR DE LOGOS */
-
-.match-header div{
-
-min-width:110px;
-
-}
-
-
-
-.match-header img{
-
-width:75px;
-
-height:75px;
-
-object-fit:contain;
-
-padding:8px;
-
-}
-
-
-
-/* LOGOS PEQUEÑOS EN LISTA DE PARTIDOS */
-
-.logo-small{
-
-width:45px;
-
-height:45px;
-
-object-fit:contain;
-
-padding:5px;
-
-}
-
-
-
-/* LOGOS GRANDES EN PARTIDO DESTACADO */
-
-.logo-medium{
-
-width:85px;
-
-height:85px;
-
-object-fit:contain;
-
-padding:8px;
-
-}
-
-
-
-/* EVITAR QUE ALGUN EQUIPO CREZCA MAS */
-
-.match-header img[src*="america"],
-.match-header img[src*="toluca"],
-.match-header img[src*="tigres"],
-.match-header img[src*="chivas"],
-.match-header img[src*="cruzazul"],
-.match-header img[src*="monterrey"]{
-
-transform:scale(.85);
-
-}
-
-
-/* ALINEAR BOTONES */
-
 .card{
 
-text-align:center;
+transition:.2s;
 
 }
 
 
-.card p{
 
-text-align:left;
+.card:hover{
+
+transform:translateY(-2px);
 
 }
 
 
-/* MANTENER EQUIPOS CENTRADOS */
 
-.match-header strong{
+.player-card:hover{
 
-text-align:center;
+background:#193153;
+
+}
+
+
+
+button:hover{
+
+opacity:.9;
 
 }
