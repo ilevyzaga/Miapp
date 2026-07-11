@@ -1,12 +1,10 @@
 // =======================================
 // MATCHIQ MX
 // API FOOTBALL VERCEL
-// FOOTBALL.JS FIX
+// FOOTBALL.JS
 // =======================================
 
-
 export default async function handler(req,res){
-
 
 try{
 
@@ -17,24 +15,24 @@ const API_KEY = process.env.API_KEY;
 if(!API_KEY){
 
 return res.status(500).json({
-
 error:"API KEY no encontrada"
-
 });
 
 }
 
 
+const {type}=req.query;
 
-const type = req.query.type;
 
-
+// Liga MX
 const league = 262;
 
-const season = 2024;
+
+// temporada dinámica
+const season = req.query.season || 2025;
 
 
-let url = "";
+let url="";
 
 
 
@@ -44,13 +42,10 @@ let url = "";
 
 if(type==="teams"){
 
-
 url =
 `https://v3.football.api-sports.io/teams?league=${league}&season=${season}`;
 
-
 }
-
 
 
 
@@ -60,13 +55,10 @@ url =
 
 else if(type==="fixtures"){
 
-
 url =
 `https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}`;
 
-
 }
-
 
 
 
@@ -76,22 +68,18 @@ url =
 
 else if(type==="standings"){
 
-
 url =
 `https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
-
 
 }
 
 
 
-
 // ===============================
-// JUGADORES POR EQUIPO
+// JUGADORES EQUIPO
 // ===============================
 
 else if(type==="players"){
-
 
 const team=req.query.team;
 
@@ -99,9 +87,7 @@ const team=req.query.team;
 if(!team){
 
 return res.status(400).json({
-
 error:"Falta team"
-
 });
 
 }
@@ -110,10 +96,23 @@ error:"Falta team"
 url =
 `https://v3.football.api-sports.io/players?team=${team}&season=${season}`;
 
-
 }
 
 
+
+// ===============================
+// JUGADOR INDIVIDUAL
+// ===============================
+
+else if(type==="player"){
+
+const id=req.query.id;
+
+
+url =
+`https://v3.football.api-sports.io/players?id=${id}&season=${season}`;
+
+}
 
 
 
@@ -123,50 +122,35 @@ url =
 
 else if(type==="topscorers"){
 
-
 url =
 `https://v3.football.api-sports.io/players/topscorers?league=${league}&season=${season}`;
 
-
 }
 
 
 
+// ===============================
+// ERROR
+// ===============================
 
 else{
 
-
 return res.status(400).json({
-
-error:"Tipo inválido"
-
+error:"Consulta no válida"
 });
 
-
 }
-
-
 
 
 
 
 const response = await fetch(url,{
 
-
 headers:{
-
-
-"x-apisports-key":API_KEY,
-
-"Accept":"application/json"
-
-
+"x-apisports-key":API_KEY
 }
 
-
 });
-
-
 
 
 
@@ -174,11 +158,16 @@ const data = await response.json();
 
 
 
+// mostrar errores reales
+if(data.errors && Object.keys(data.errors).length){
 
+return res.status(500).json({
 
-console.log(data);
+error:data.errors
 
+});
 
+}
 
 
 
@@ -189,9 +178,7 @@ return res.status(200).json(data);
 }
 
 
-
 catch(error){
-
 
 
 return res.status(500).json({
