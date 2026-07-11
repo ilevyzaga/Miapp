@@ -16,18 +16,16 @@
 </head>
 
 
-
 <body>
 
 
-
-<header>
+<header class="top-header">
 
 
 <img 
 src="images/liga-mx.png"
 class="liga-logo"
-onclick="cargarInicio()"
+id="ligaLogo"
 alt="Liga MX">
 
 
@@ -37,11 +35,8 @@ alt="Liga MX">
 
 
 
-
 <main id="contenido">
 
-
-<!-- Aquí se carga todo dinámicamente -->
 
 </main>
 
@@ -51,16 +46,28 @@ alt="Liga MX">
 
 
 
-<nav>
+<!-- POPUP DE JUGADOR -->
+
+<div id="player-popup">
+
+
+</div>
+
+
+
+
+
+
+
+
+<nav class="bottom-menu">
 
 
 <button onclick="mostrarSeccion('inicio')">
 
 🏠
 
-<br>
-
-Inicio
+<span>Inicio</span>
 
 </button>
 
@@ -72,12 +79,9 @@ Inicio
 
 ⚽
 
-<br>
-
-Partidos
+<span>Partidos</span>
 
 </button>
-
 
 
 
@@ -87,13 +91,9 @@ Partidos
 
 📊
 
-<br>
-
-Predicciones
+<span>Predicciones</span>
 
 </button>
-
-
 
 
 
@@ -103,13 +103,9 @@ Predicciones
 
 📈
 
-<br>
-
-Stats
+<span>Stats</span>
 
 </button>
-
-
 
 
 
@@ -119,32 +115,13 @@ Stats
 
 👤
 
-<br>
-
-Perfil
+<span>Perfil</span>
 
 </button>
 
 
 
 </nav>
-
-
-
-
-
-
-
-
-
-<!-- POPUP JUGADOR -->
-
-
-<div id="player-popup">
-
-
-</div>
-
 
 
 
