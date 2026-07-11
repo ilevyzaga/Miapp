@@ -1,47 +1,68 @@
-export default async function handler(req, res) {
+export default async function handler(req, res){
 
-  const { type } = req.query;
+const API_KEY = "3";
 
-  const API_KEY = "3";
-  const BASE = "https://www.thesportsdb.com/api/v1/json";
+const type = req.query.type || "events";
 
-  try {
-
-    let url = "";
-
-    if(type === "fixtures"){
-      url = `${BASE}/${API_KEY}/eventsnextleague.php?id=4350`;
-    }
-
-    else if(type === "teams"){
-      url = `${BASE}/${API_KEY}/lookup_all_teams.php?id=4350`;
-    }
-
-    else if(type === "standings"){
-      url = `${BASE}/${API_KEY}/lookuptable.php?l=4350`;
-    }
-
-    else {
-      return res.status(400).json({
-        error:"Tipo no válido"
-      });
-    }
+let url = "";
 
 
-    const response = await fetch(url);
+// Liga MX
+const league = "4350";
 
-    const data = await response.json();
+if(type === "teams"){
+
+url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/lookup_all_teams.php?id=${league}`;
+
+}
 
 
-    res.status(200).json(data);
+else if(type === "fixtures"){
+
+url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/eventsnextleague.php?id=${league}`;
+
+}
 
 
-  } catch(error){
+else if(type === "past"){
 
-    res.status(500).json({
-      error:error.message
-    });
+url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/eventspastleague.php?id=${league}`;
 
-  }
+}
+
+
+else{
+
+url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/eventsnextleague.php?id=${league}`;
+
+}
+
+
+
+try{
+
+
+const respuesta = await fetch(url);
+
+const datos = await respuesta.json();
+
+
+res.status(200).json(datos);
+
+
+}
+
+catch(error){
+
+
+res.status(500).json({
+
+error:error.message
+
+});
+
+
+}
+
 
 }
