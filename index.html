@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,24 +10,27 @@
 
 <link rel="stylesheet" href="style.css">
 
-<script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 
 
 <body>
 
 
-<header class="header">
+<header class="top-header">
 
-<div class="brand">
+<div class="brand-container">
 
-<img src="images/ligamx.png" class="liga-logo">
+<img src="images/matchiq-logo.svg" class="matchiq-logo">
 
-<div>
+
+<div class="brand-text">
+
 <h1>MatchIQ MX</h1>
-<p>Resultados y predicciones inteligentes</p>
+
+<p>Inteligencia futbolística</p>
+
 </div>
+
 
 </div>
 
@@ -34,18 +38,22 @@
 
 
 
+
 <main id="contenido">
+
 
 </main>
 
 
 
-<nav class="bottom-nav">
+
+
+<nav class="app-nav">
 
 
 <button onclick="mostrarSeccion('inicio')">
 
-<i data-lucide="home"></i>
+<img src="images/home.svg">
 
 <span>Inicio</span>
 
@@ -55,7 +63,7 @@
 
 <button onclick="mostrarSeccion('estadisticas')">
 
-<i data-lucide="bar-chart-3"></i>
+<img src="images/stats.svg">
 
 <span>Stats</span>
 
@@ -65,7 +73,7 @@
 
 <button onclick="mostrarSeccion('predicciones')">
 
-<i data-lucide="brain"></i>
+<img src="images/prediction.svg">
 
 <span>IA</span>
 
@@ -75,7 +83,7 @@
 
 <button onclick="mostrarSeccion('perfil')">
 
-<i data-lucide="user"></i>
+<img src="images/profile.svg">
 
 <span>Perfil</span>
 
@@ -87,14 +95,9 @@
 
 
 
+
+
 <script src="script.js"></script>
-
-
-<script>
-
-lucide.createIcons();
-
-</script>
 
 
 </body>
