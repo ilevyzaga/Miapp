@@ -1,195 +1,115 @@
-// =======================================
-// MATCHIQ MX
-// API FOOTBALL VERCEL
-// FOOTBALL.JS
-// =======================================
+// api/football.js
+// MATCHIQ MX API FOOTBALL VERCEL
 
-export default async function handler(req,res){
+export default async function handler(req, res) {
 
-try{
+  try {
 
-const API_KEY = process.env.API_KEY;
+    const API_KEY = process.env.API_KEY;
 
+    if (!API_KEY) {
+      return res.status(500).json({
+        error: "API KEY no encontrada"
+      });
+    }
 
-if(!API_KEY){
 
-return res.status(500).json({
-error:"API KEY no encontrada"
-});
+    const { type } = req.query;
 
-}
+    const season = req.query.season || 2024;
+    const league = 262;
 
+    let url = "";
 
 
-const {type} = req.query;
+    if (type === "teams") {
 
+      url = `https://v3.football.api-sports.io/teams?league=${league}&season=${season}`;
 
-const league = 262;
+    }
 
-const season = req.query.season || 2025;
 
+    else if (type === "fixtures") {
 
-let url="";
+      url = `https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}`;
 
+    }
 
 
-// ===============================
-// EQUIPOS
-// ===============================
+    else if (type === "standings") {
 
-if(type==="teams"){
+      url = `https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
 
-url =
-`https://v3.football.api-sports.io/teams?league=${league}&season=${season}`;
+    }
 
-}
 
+    else if (type === "players") {
 
+      const team = req.query.team;
 
-// ===============================
-// PARTIDOS
-// ===============================
+      if (!team) {
+        return res.status(400).json({
+          error:"Falta team"
+        });
+      }
 
-else if(type==="fixtures"){
+      url = `https://v3.football.api-sports.io/players?team=${team}&season=${season}`;
 
+    }
 
-url =
-`https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}`;
 
-}
+    else if (type === "topscorers") {
 
+      url = `https://v3.football.api-sports.io/players/topscorers?league=${league}&season=${season}`;
 
+    }
 
-// ===============================
-// TABLA
-// ===============================
 
-else if(type==="standings"){
+    else if (type === "teamstats") {
 
+      const team = req.query.team;
 
-url =
-`https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
+      url = `https://v3.football.api-sports.io/teams/statistics?league=${league}&season=${season}&team=${team}`;
 
-}
+    }
 
 
+    else {
 
-// ===============================
-// JUGADORES EQUIPO
-// ===============================
+      return res.status(400).json({
+        error:"Tipo inválido"
+      });
 
-else if(type==="players"){
+    }
 
 
-const team=req.query.team;
 
+    const response = await fetch(url, {
 
-if(!team){
+      headers:{
+        "x-apisports-key": API_KEY
+      }
 
-return res.status(400).json({
-error:"Falta team"
-});
+    });
 
-}
 
 
-url =
-`https://v3.football.api-sports.io/players?team=${team}&season=${season}`;
+    const data = await response.json();
 
 
-}
 
+    return res.status(200).json(data);
 
 
-// ===============================
-// GOLEADORES
-// ===============================
 
-else if(type==="topscorers"){
+  } catch(error) {
 
+    return res.status(500).json({
 
-url =
-`https://v3.football.api-sports.io/players/topscorers?league=${league}&season=${season}`;
+      error:error.message
 
+    });
 
-}
-
-
-
-// ===============================
-// STATS EQUIPO
-// ===============================
-
-else if(type==="teamstats"){
-
-
-const team=req.query.team;
-
-
-url =
-`https://v3.football.api-sports.io/teams/statistics?league=${league}&season=${season}&team=${team}`;
-
-
-}
-
-
-
-else{
-
-
-return res.status(400).json({
-
-error:"Tipo inválido",
-type:type
-
-});
-
-
-}
-
-
-
-
-const response = await fetch(url,{
-
-headers:{
-
-"x-apisports-key":API_KEY
-
-}
-
-});
-
-
-
-const data = await response.json();
-
-
-
-console.log("API FOOTBALL:",data);
-
-
-
-return res.status(200).json(data);
-
-
-
-}
-
-catch(error){
-
-
-console.log(error);
-
-
-return res.status(500).json({
-
-error:error.message
-
-});
-
-
-}
-
+  }
 
 }
