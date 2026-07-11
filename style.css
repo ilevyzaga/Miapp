@@ -8,7 +8,7 @@ body{
 
 margin:0;
 
-background:#070b14;
+background:#060b16;
 
 color:white;
 
@@ -17,68 +17,7 @@ padding-bottom:90px;
 }
 
 
-
-/* HEADER */
-
-.main-header{
-
-background:#0f172a;
-
-padding:18px 20px;
-
-border-bottom:1px solid #1e293b;
-
-}
-
-
-.brand{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-}
-
-
-.liga-logo{
-
-width:65px;
-
-height:65px;
-
-object-fit:contain;
-
-}
-
-
-.brand-info h1{
-
-margin:0;
-
-font-size:26px;
-
-font-weight:800;
-
-}
-
-
-.brand-info p{
-
-margin:5px 0;
-
-font-size:14px;
-
-color:#94a3b8;
-
-}
-
-
-
-
-
-/* CONTENIDO */
+/* CONTENEDOR */
 
 #contenido{
 
@@ -89,7 +28,7 @@ padding:20px;
 
 h2{
 
-font-size:26px;
+font-size:28px;
 
 margin-bottom:20px;
 
@@ -98,7 +37,7 @@ margin-bottom:20px;
 
 h3{
 
-margin-top:0;
+margin-bottom:15px;
 
 }
 
@@ -112,7 +51,7 @@ margin-top:0;
 
 background:#111827;
 
-border:1px solid #1e293b;
+border:1px solid #243044;
 
 border-radius:22px;
 
@@ -120,7 +59,20 @@ padding:20px;
 
 margin-bottom:18px;
 
-box-shadow:0 12px 30px rgba(0,0,0,.35);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+}
+
+
+
+
+.hero-card{
+
+background:linear-gradient(
+145deg,
+#111827,
+#172554
+);
 
 }
 
@@ -128,19 +80,19 @@ box-shadow:0 12px 30px rgba(0,0,0,.35);
 
 
 
-/* PARTIDOS */
+/* EQUIPOS */
 
 .teams{
 
 display:flex;
 
-align-items:center;
-
 justify-content:center;
+
+align-items:center;
 
 gap:35px;
 
-margin:20px 0;
+margin:25px 0;
 
 }
 
@@ -153,11 +105,14 @@ flex-direction:column;
 
 align-items:center;
 
-gap:8px;
+gap:10px;
 
-font-weight:bold;
+font-weight:700;
+
+text-align:center;
 
 }
+
 
 
 .team img{
@@ -171,11 +126,12 @@ object-fit:contain;
 }
 
 
+
 .vs{
 
-font-size:22px;
+font-size:25px;
 
-font-weight:bold;
+font-weight:800;
 
 color:#94a3b8;
 
@@ -196,21 +152,25 @@ cursor:pointer;
 }
 
 
+
 .card button{
 
 background:#2563eb;
 
 color:white;
 
-padding:12px 18px;
+padding:13px 18px;
 
 border-radius:14px;
 
 font-weight:bold;
 
-margin-top:12px;
+width:100%;
+
+margin-top:15px;
 
 }
+
 
 
 .card button:hover{
@@ -222,29 +182,83 @@ background:#1d4ed8;
 
 
 
+/* REGRESAR */
+
+.back-button{
+
+background:#1e293b;
+
+color:white;
+
+width:auto;
+
+padding:10px 18px;
+
+border-radius:14px;
+
+margin-bottom:18px;
+
+font-weight:bold;
+
+}
+
+
+
+.back-button:hover{
+
+background:#334155;
+
+}
+
+
+
+
+
+/* FILTROS */
+
+.filters{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+
+.filters button{
+
+background:#1e293b;
+
+color:white;
+
+padding:10px 15px;
+
+border-radius:12px;
+
+}
+
+
+
+
 
 /* ANALISIS */
 
-.analisis{
+.analysis-card{
 
-background:#0b1220;
-
-padding:18px;
-
-border-radius:18px;
-
-border:1px solid #263449;
+border:1px solid #2563eb;
 
 }
 
 
-.analisis h3{
+
+.analysis-card h3{
 
 color:#38bdf8;
 
-margin-top:20px;
-
 }
+
 
 
 .stars{
@@ -253,7 +267,7 @@ color:#facc15;
 
 font-size:24px;
 
-letter-spacing:3px;
+letter-spacing:4px;
 
 }
 
@@ -261,15 +275,7 @@ letter-spacing:3px;
 
 
 
-/* PERFIL EQUIPOS */
-
-.perfil-header{
-
-text-align:center;
-
-}
-
-
+/* PERFIL */
 
 .player-card{
 
@@ -277,7 +283,7 @@ display:flex;
 
 align-items:center;
 
-justify-content:space-between;
+gap:15px;
 
 background:#0b1220;
 
@@ -287,9 +293,10 @@ border-radius:18px;
 
 padding:15px;
 
-margin-bottom:12px;
+margin-bottom:14px;
 
 }
+
 
 
 .player-card img{
@@ -303,13 +310,13 @@ object-fit:contain;
 }
 
 
+
 .player-card div{
 
 flex:1;
 
-margin-left:15px;
-
 }
+
 
 
 .player-card small{
@@ -320,27 +327,15 @@ color:#94a3b8;
 
 
 
-
-
 .player-card button{
 
 width:auto;
 
 margin:0;
 
-padding:10px 16px;
+padding:10px 15px;
 
 background:#2563eb;
-
-font-size:13px;
-
-}
-
-
-
-.player-card button:hover{
-
-background:#1d4ed8;
 
 }
 
@@ -354,6 +349,8 @@ background:#1d4ed8;
 
 color:#dbeafe;
 
+font-size:15px;
+
 line-height:1.6;
 
 }
@@ -361,23 +358,26 @@ line-height:1.6;
 
 
 
+/* HEADER */
 
-/* TABLAS */
+.main-header{
 
-table{
+background:#0f172a;
 
-width:100%;
+padding:18px;
 
-border-collapse:collapse;
+border-bottom:1px solid #1e293b;
 
 }
 
 
-td,th{
+.liga-logo{
 
-padding:12px;
+width:70px;
 
-border-bottom:1px solid #1e293b;
+height:70px;
+
+object-fit:contain;
 
 }
 
@@ -419,19 +419,21 @@ background:none;
 
 color:#94a3b8;
 
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-gap:5px;
-
-font-size:12px;
+width:auto;
 
 margin:0;
 
 padding:0;
+
+font-size:12px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:5px;
+
+align-items:center;
 
 }
 
@@ -459,14 +461,9 @@ object-fit:contain;
 
 
 
+/* RESPONSIVE */
+
 @media(max-width:600px){
-
-
-.brand-info h1{
-
-font-size:22px;
-
-}
 
 
 .team img{
@@ -474,6 +471,20 @@ font-size:22px;
 width:65px;
 
 height:65px;
+
+}
+
+
+.teams{
+
+gap:20px;
+
+}
+
+
+h2{
+
+font-size:24px;
 
 }
 
