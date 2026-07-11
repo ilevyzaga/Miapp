@@ -1,84 +1,75 @@
 *{
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 
 body{
 
-    margin:0;
+margin:0;
 
-    background:#070b14;
+background:#060b16;
 
-    color:white;
+color:white;
 
-    padding-bottom:90px;
+padding-bottom:90px;
 
 }
-
 
 
 /* HEADER */
 
 .main-header{
 
-    background:#0f172a;
+background:#0f172a;
 
-    padding:18px 20px;
+padding:18px 20px;
 
-    border-bottom:1px solid #1e293b;
+border-bottom:1px solid #1e293b;
 
 }
-
 
 
 .brand{
 
-    display:flex;
+display:flex;
 
-    align-items:center;
+align-items:center;
 
-    gap:15px;
+gap:15px;
 
 }
-
 
 
 .liga-logo{
 
-    width:60px;
+width:65px;
 
-    height:60px;
+height:65px;
 
-    max-width:60px;
-
-    max-height:60px;
-
-    object-fit:contain;
+object-fit:contain;
 
 }
-
 
 
 .brand-info h1{
 
-    margin:0;
+margin:0;
 
-    font-size:26px;
+font-size:26px;
 
-    font-weight:800;
+font-weight:800;
 
 }
 
 
-
 .brand-info p{
 
-    margin:5px 0 0;
+margin:5px 0;
 
-    color:#94a3b8;
+color:#94a3b8;
 
-    font-size:14px;
+font-size:14px;
 
 }
 
@@ -90,28 +81,25 @@ body{
 
 #contenido{
 
-    padding:20px;
+padding:20px;
 
 }
-
 
 
 h2{
 
-    font-size:25px;
+font-size:26px;
 
-    margin-bottom:20px;
+margin-bottom:20px;
 
 }
-
 
 
 h3{
 
-    margin-top:0;
+margin-top:0;
 
 }
-
 
 
 
@@ -120,20 +108,17 @@ h3{
 
 .card{
 
-    background:#111827;
+background:#111827;
 
-    border-radius:22px;
+border:1px solid #1e293b;
 
-    border:1px solid #1e293b;
+border-radius:22px;
 
-    padding:20px;
+padding:20px;
 
-    margin-bottom:18px;
+margin-bottom:18px;
 
-
-    box-shadow:
-
-    0 10px 25px rgba(0,0,0,.35);
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 
 }
 
@@ -141,26 +126,19 @@ h3{
 
 
 
-/* PARTIDOS */
-
-
-.partido{
-
-    text-align:center;
-
-}
-
-
+/* EQUIPOS */
 
 .teams{
 
-    display:flex;
+display:flex;
 
-    justify-content:center;
+align-items:center;
 
-    align-items:center;
+justify-content:center;
 
-    gap:35px;
+gap:35px;
+
+margin:20px 0;
 
 }
 
@@ -168,15 +146,17 @@ h3{
 
 .team{
 
-    display:flex;
+display:flex;
 
-    flex-direction:column;
+flex-direction:column;
 
-    align-items:center;
+align-items:center;
 
-    gap:8px;
+gap:10px;
 
-    font-weight:700;
+font-weight:bold;
+
+font-size:16px;
 
 }
 
@@ -184,15 +164,11 @@ h3{
 
 .team img{
 
-    width:75px;
+width:85px;
 
-    height:75px;
+height:85px;
 
-    max-width:75px;
-
-    max-height:75px;
-
-    object-fit:contain;
+object-fit:contain;
 
 }
 
@@ -200,33 +176,11 @@ h3{
 
 .vs{
 
-    font-size:20px;
+font-size:22px;
 
-    color:#64748b;
+font-weight:bold;
 
-}
-
-
-
-
-
-/* ESTADO */
-
-.status{
-
-    display:inline-block;
-
-    background:#172554;
-
-    color:#60a5fa;
-
-    padding:7px 14px;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    margin:12px 0;
+color:#94a3b8;
 
 }
 
@@ -238,37 +192,55 @@ h3{
 
 button{
 
-    cursor:pointer;
+border:none;
+
+cursor:pointer;
+
+}
+
+
+.card button{
+
+width:100%;
+
+padding:13px;
+
+border-radius:14px;
+
+background:#2563eb;
+
+color:white;
+
+font-weight:bold;
+
+margin-top:12px;
+
+}
+
+
+.card button:hover{
+
+background:#1d4ed8;
 
 }
 
 
 
-.partido button{
-
-    width:100%;
-
-    padding:13px;
-
-    margin-top:12px;
-
-    border-radius:14px;
-
-    border:none;
-
-    background:#2563eb;
-
-    color:white;
-
-    font-weight:bold;
-
-}
 
 
+/* ESTADO */
 
-.partido button:hover{
+.status{
 
-    background:#1d4ed8;
+display:inline-block;
+
+background:#172554;
+
+color:#38bdf8;
+
+padding:7px 15px;
+
+border-radius:20px;
 
 }
 
@@ -280,25 +252,25 @@ button{
 
 .analisis{
 
-    margin-top:18px;
+background:#0b1220;
 
-    background:#0b1220;
+border-radius:18px;
 
-    border:1px solid #263449;
+padding:18px;
 
-    border-radius:18px;
-
-    padding:18px;
+border:1px solid #263449;
 
 }
-
 
 
 .analisis h3{
 
-    color:#38bdf8;
+color:#38bdf8;
+
+margin-top:20px;
 
 }
+
 
 
 
@@ -306,9 +278,56 @@ button{
 
 .stars{
 
-    color:#facc15;
+color:#facc15;
 
-    letter-spacing:3px;
+font-size:24px;
+
+letter-spacing:3px;
+
+}
+
+
+
+
+
+/* PERFIL */
+
+.player-card{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+background:#0b1220;
+
+border-radius:15px;
+
+padding:14px;
+
+margin-bottom:12px;
+
+}
+
+
+
+.player-card img{
+
+object-fit:contain;
+
+}
+
+
+.player-card button{
+
+width:auto;
+
+margin:0;
+
+padding:8px 16px;
+
+font-size:12px;
 
 }
 
@@ -316,38 +335,14 @@ button{
 
 
 
-/* BARRAS */
+/* PREDICCIONES */
 
-.bar{
 
-    height:12px;
+.prediction-card{
 
-    background:#263449;
-
-    border-radius:20px;
-
-    overflow:hidden;
+border-left:4px solid #38bdf8;
 
 }
-
-
-
-.america,
-.tigres,
-.cruzazul{
-
-    height:100%;
-
-    background:
-
-    linear-gradient(
-    90deg,
-    #2563eb,
-    #38bdf8
-    );
-
-}
-
 
 
 
@@ -356,57 +351,18 @@ button{
 
 table{
 
-    width:100%;
+width:100%;
 
-    border-collapse:collapse;
-
-}
-
-
-
-th{
-
-    padding:14px;
-
-    background:#1e293b;
-
-    color:#cbd5e1;
-
-    text-align:left;
+border-collapse:collapse;
 
 }
 
 
+td,th{
 
-td{
+padding:12px;
 
-    padding:14px;
-
-    border-bottom:1px solid #1e293b;
-
-}
-
-
-
-
-
-/* JUGADORES */
-
-.player-card{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    background:#0f172a;
-
-    padding:15px;
-
-    border-radius:15px;
-
-    margin-bottom:10px;
+border-bottom:1px solid #1e293b;
 
 }
 
@@ -418,30 +374,25 @@ td{
 
 .navigation{
 
-    position:fixed;
+position:fixed;
 
-    bottom:0;
+bottom:0;
 
-    left:0;
+left:0;
 
-    right:0;
+right:0;
 
+height:80px;
 
-    height:80px;
+background:#0f172a;
 
+border-top:1px solid #1e293b;
 
-    background:#0f172a;
+display:flex;
 
+justify-content:space-around;
 
-    border-top:1px solid #1e293b;
-
-
-    display:flex;
-
-    justify-content:space-around;
-
-    align-items:center;
-
+align-items:center;
 
 }
 
@@ -449,31 +400,26 @@ td{
 
 .navigation button{
 
-    background:none;
+background:none;
 
-    border:none;
+color:#94a3b8;
 
-    color:#94a3b8;
+display:flex;
 
+flex-direction:column;
 
-    display:flex;
+align-items:center;
 
-    flex-direction:column;
+gap:6px;
 
-    align-items:center;
-
-    gap:5px;
-
-
-    font-size:12px;
+font-size:12px;
 
 }
 
 
-
 .navigation button:hover{
 
-    color:white;
+color:white;
 
 }
 
@@ -481,31 +427,35 @@ td{
 
 .navigation img{
 
-    width:25px;
+width:28px;
 
-    height:25px;
+height:28px;
+
+object-fit:contain;
 
 }
 
 
 
 
+
+/* RESPONSIVE */
 
 @media(max-width:600px){
 
 
-.brand-info h1{
+.team img{
 
-    font-size:22px;
+width:65px;
+
+height:65px;
 
 }
 
 
-.team img{
+.brand-info h1{
 
-    width:60px;
-
-    height:60px;
+font-size:22px;
 
 }
 
