@@ -8,7 +8,6 @@ export default async function handler(req,res){
 
 try{
 
-
 const API_KEY = process.env.API_KEY;
 
 
@@ -21,14 +20,12 @@ error:"API KEY no encontrada"
 }
 
 
-const {type}=req.query;
+
+const {type} = req.query;
 
 
-// Liga MX
 const league = 262;
 
-
-// temporada dinámica
 const season = req.query.season || 2025;
 
 
@@ -55,6 +52,7 @@ url =
 
 else if(type==="fixtures"){
 
+
 url =
 `https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}`;
 
@@ -68,6 +66,7 @@ url =
 
 else if(type==="standings"){
 
+
 url =
 `https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
 
@@ -80,6 +79,7 @@ url =
 // ===============================
 
 else if(type==="players"){
+
 
 const team=req.query.team;
 
@@ -96,21 +96,6 @@ error:"Falta team"
 url =
 `https://v3.football.api-sports.io/players?team=${team}&season=${season}`;
 
-}
-
-
-
-// ===============================
-// JUGADOR INDIVIDUAL
-// ===============================
-
-else if(type==="player"){
-
-const id=req.query.id;
-
-
-url =
-`https://v3.football.api-sports.io/players?id=${id}&season=${season}`;
 
 }
 
@@ -122,22 +107,43 @@ url =
 
 else if(type==="topscorers"){
 
+
 url =
 `https://v3.football.api-sports.io/players/topscorers?league=${league}&season=${season}`;
+
 
 }
 
 
 
 // ===============================
-// ERROR
+// STATS EQUIPO
 // ===============================
+
+else if(type==="teamstats"){
+
+
+const team=req.query.team;
+
+
+url =
+`https://v3.football.api-sports.io/teams/statistics?league=${league}&season=${season}&team=${team}`;
+
+
+}
+
+
 
 else{
 
+
 return res.status(400).json({
-error:"Consulta no válida"
+
+error:"Tipo inválido",
+type:type
+
 });
+
 
 }
 
@@ -147,7 +153,9 @@ error:"Consulta no válida"
 const response = await fetch(url,{
 
 headers:{
+
 "x-apisports-key":API_KEY
+
 }
 
 });
@@ -158,16 +166,7 @@ const data = await response.json();
 
 
 
-// mostrar errores reales
-if(data.errors && Object.keys(data.errors).length){
-
-return res.status(500).json({
-
-error:data.errors
-
-});
-
-}
+console.log("API FOOTBALL:",data);
 
 
 
@@ -177,8 +176,10 @@ return res.status(200).json(data);
 
 }
 
-
 catch(error){
+
+
+console.log(error);
 
 
 return res.status(500).json({
