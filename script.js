@@ -1,7 +1,7 @@
 // ==================================
 // MATCHIQ MX
-// SCRIPT NUEVO 1/3
-// BASE DE DATOS
+// SCRIPT COMPLETO NUEVO
+// PARTE 1/3
 // ==================================
 
 
@@ -9,15 +9,10 @@ let notificaciones =
 JSON.parse(localStorage.getItem("notificaciones")) || [];
 
 
-let paginaAnterior = "inicio";
-
-
-
 
 // ==================================
-// EQUIPOS LIGA MX
+// EQUIPOS
 // ==================================
-
 
 const equipos = [
 
@@ -29,6 +24,11 @@ logo:"images/america.png"
 {
 nombre:"Atlas",
 logo:"images/atlas.png"
+},
+
+{
+nombre:"Atlante",
+logo:"images/atlante.png"
 },
 
 {
@@ -111,23 +111,6 @@ logo:"images/toluca.png"
 
 
 
-// ==================================
-// EQUIPOS EXTRA
-// ==================================
-
-
-const equiposExtra=[
-
-{
-nombre:"Atlante",
-logo:"images/atlante.png"
-}
-
-];
-
-
-
-
 
 // ==================================
 // JUGADORES
@@ -137,10 +120,7 @@ logo:"images/atlante.png"
 const jugadores=[
 
 
-// PORTERO
-
 {
-
 id:"malagon",
 
 nombre:"Luis Malagón",
@@ -153,7 +133,6 @@ numero:1,
 
 foto:"images/malagon.png",
 
-
 valoracion:8.7,
 
 
@@ -161,9 +140,7 @@ stats:{
 
 partidos:10,
 
-minutos:900,
-
-atajadas:32,
+atajas:32,
 
 porcentajeAtajadas:78,
 
@@ -171,22 +148,16 @@ golesRecibidos:8,
 
 porteriasCero:4,
 
-penalesAtajados:1,
-
-pases:82
+penalesAtajados:1
 
 }
-
 
 },
 
 
 
 
-// DELANTERO
-
 {
-
 id:"henry",
 
 nombre:"Henry Martín",
@@ -199,7 +170,6 @@ numero:21,
 
 foto:"images/henry.png",
 
-
 valoracion:9.1,
 
 
@@ -207,24 +177,17 @@ stats:{
 
 partidos:11,
 
-minutos:850,
-
 goles:7,
 
 asistencias:3,
 
 tiros:72,
 
-tirosPuerta:45,
-
 conversion:22,
 
-regates:63,
-
-pases:86
+regates:63
 
 }
-
 
 },
 
@@ -232,10 +195,7 @@ pases:86
 
 
 
-// MEDIOCAMPISTA
-
 {
-
 id:"fidalgo",
 
 nombre:"Álvaro Fidalgo",
@@ -248,15 +208,12 @@ numero:8,
 
 foto:"images/fidalgo.png",
 
-
 valoracion:8.8,
 
 
 stats:{
 
 partidos:12,
-
-minutos:920,
 
 goles:2,
 
@@ -266,12 +223,9 @@ pases:91,
 
 pasesClave:34,
 
-ocasionesCreadas:29,
-
 regates:78
 
 }
-
 
 },
 
@@ -280,10 +234,7 @@ regates:78
 
 
 
-// DEFENSA
-
 {
-
 id:"orozco",
 
 nombre:"Jesús Orozco",
@@ -296,7 +247,6 @@ numero:4,
 
 foto:"images/orozco.png",
 
-
 valoracion:8.3,
 
 
@@ -304,29 +254,20 @@ stats:{
 
 partidos:11,
 
-minutos:990,
-
 entradas:36,
 
 intercepciones:42,
 
 despejes:55,
 
-duelosGanados:74,
-
-pases:88
+duelosGanados:74
 
 }
 
-
 }
-
 
 
 ];
-
-
-
 
 
 
@@ -358,9 +299,7 @@ hora:"20:00",
 estadio:"Ciudad de los Deportes",
 
 
-
 probabilidades:{
-
 
 local:55,
 
@@ -368,17 +307,12 @@ empate:25,
 
 visitante:20
 
-
 },
-
 
 
 prediccion:"América gana o empate",
 
-
 confianza:80,
-
-
 
 
 marcadores:[
@@ -392,173 +326,47 @@ marcadores:[
 ],
 
 
-
 ataque:{
 
-
-local:"Alto",
+local:"Muy alto",
 
 visitante:"Bueno"
-
 
 },
 
 
-
-
 defensa:{
-
 
 local:"Media",
 
 visitante:"Buena"
 
-
 },
 
 
-
-
 golesRecibidos:{
-
 
 local:8,
 
 visitante:10
 
-
-},
-
-
-
-
-forma:{
-
-
-local:"G-G-G-E-G",
-
-visitante:"G-E-G-G-P"
-
-
-},
-
-
-
-
-factorClave:
-
-"América genera más ocasiones y Toluca suele recibir goles fuera de casa."
-
-
-},
-
-
-
-
-
-
-
-{
-
-id:"tigres-chivas",
-
-
-local:"Tigres",
-
-logoLocal:"images/tigres.png",
-
-
-visitante:"Chivas",
-
-logoVisitante:"images/chivas.png",
-
-
-hora:"21:00",
-
-estadio:"Universitario",
-
-
-
-probabilidades:{
-
-
-local:50,
-
-empate:30,
-
-visitante:20
-
-
-},
-
-
-
-prediccion:"Tigres gana",
-
-
-confianza:75,
-
-
-
-marcadores:[
-
-"2-0",
-
-"2-1"
-
-],
-
-
-ataque:{
-
-local:"Muy alto",
-
-visitante:"Medio"
-
-},
-
-
-defensa:{
-
-local:"Buena",
-
-visitante:"Media"
-
-},
-
-
-golesRecibidos:{
-
-local:7,
-
-visitante:12
-
-},
-
-
-forma:{
-
-local:"G-G-E-G-G",
-
-visitante:"E-P-G-E-P"
-
 },
 
 
 factorClave:
 
-"Tigres aumenta mucho su rendimiento como local."
+"América genera más ocasiones de gol."
 
 }
+
 
 
 ];
 // ==================================
 // MATCHIQ MX
-// SCRIPT NUEVO 2/3
-// FUNCIONES
+// SCRIPT COMPLETO NUEVO
+// PARTE 2/3
 // ==================================
-
 
 
 
@@ -589,19 +397,16 @@ p=>p.id===id
 
 
 
-
-
 // ==================================
 // LOGOS
 // ==================================
 
 
-function logoEquipo(src,tamaño){
-
+function logoEquipo(url,tamaño="small"){
 
 return `
 
-<img src="${src}" class="logo-${tamaño}">
+<img src="${url}" class="logo-${tamaño}">
 
 `;
 
@@ -611,15 +416,12 @@ return `
 
 
 
-
-
-
 // ==================================
-// BARRA DE PROBABILIDAD
+// BARRAS DE PROBABILIDAD
 // ==================================
 
 
-function barraProbabilidad(nombre,valor,clase){
+function barraProbabilidad(nombre,valor,tipo){
 
 
 return `
@@ -628,20 +430,22 @@ return `
 <div class="prob-row">
 
 
-<div class="prob-title">
+<div class="prob-text">
 
-${nombre}
+<span>${nombre}</span>
 
-<span>${valor}%</span>
+<b>${valor}%</b>
 
 </div>
 
 
 
-<div class="prob-bar">
+<div class="prob-background">
 
 
-<div class="prob-fill ${clase}"
+<div 
+
+class="prob-fill ${tipo}"
 
 style="width:${valor}%">
 
@@ -651,7 +455,6 @@ style="width:${valor}%">
 </div>
 
 
-
 </div>
 
 
@@ -660,667 +463,6 @@ style="width:${valor}%">
 }
 
 
-
-
-
-
-
-
-
-// ==================================
-// ANALISIS COMPLETO
-// ==================================
-
-
-function mostrarAnalisis(id){
-
-
-paginaAnterior="partidos";
-
-
-let p=buscarPartido(id);
-
-
-
-let contenido=document.getElementById("contenido");
-
-
-
-contenido.innerHTML=`
-
-
-
-<button onclick="mostrarSeccion('partidos')">
-
-← Regresar
-
-</button>
-
-
-
-
-<div class="card">
-
-
-
-<div class="match-header">
-
-
-
-<div>
-
-
-${logoEquipo(p.logoLocal,"medium")}
-
-<h3>${p.local}</h3>
-
-
-</div>
-
-
-
-
-<h2>VS</h2>
-
-
-
-
-<div>
-
-
-${logoEquipo(p.logoVisitante,"medium")}
-
-<h3>${p.visitante}</h3>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-<h3>Predicción MatchIQ</h3>
-
-
-<p>${p.prediccion}</p>
-
-
-<p>
-
-Confianza:
-
-${p.confianza}%
-
-</p>
-
-
-
-
-
-
-<h3>Probabilidades</h3>
-
-
-
-${barraProbabilidad(
-
-p.local,
-
-p.probabilidades.local,
-
-"local"
-
-)}
-
-
-
-${barraProbabilidad(
-
-"Empate",
-
-p.probabilidades.empate,
-
-"draw"
-
-)}
-
-
-
-${barraProbabilidad(
-
-p.visitante,
-
-p.probabilidades.visitante,
-
-"away"
-
-)}
-
-
-
-
-
-<h3>Marcadores favoritos</h3>
-
-
-${p.marcadores.map(m=>`
-
-<p>⚽ ${m}</p>
-
-`).join("")}
-
-
-
-
-
-<h3>Forma reciente</h3>
-
-
-
-<div class="form-box">
-
-
-<p>
-
-${p.local}
-
-${p.forma.local}
-
-</p>
-
-
-
-<p>
-
-${p.visitante}
-
-${p.forma.visitante}
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<h3>Ataque</h3>
-
-
-<p>
-
-${p.local}: ${p.ataque.local}
-
-</p>
-
-
-<p>
-
-${p.visitante}: ${p.ataque.visitante}
-
-</p>
-
-
-
-
-
-
-
-<h3>Defensa</h3>
-
-
-<p>
-
-${p.local}: ${p.defensa.local}
-
-</p>
-
-
-<p>
-
-${p.visitante}: ${p.defensa.visitante}
-
-</p>
-
-
-
-
-
-
-<h3>Goles recibidos</h3>
-
-
-<p>
-
-${p.local}: ${p.golesRecibidos.local}
-
-goles recibidos
-
-</p>
-
-
-
-<p>
-
-${p.visitante}: ${p.golesRecibidos.visitante}
-
-goles recibidos
-
-</p>
-
-
-
-
-
-
-
-<h3>Factor clave</h3>
-
-
-<p>${p.factorClave}</p>
-
-
-
-
-
-</div>
-
-
-
-`;
-
-}
-
-
-
-
-
-
-
-
-
-
-// ==================================
-// ALINEACIONES
-// ==================================
-
-
-const alineaciones={
-
-
-america:{
-
-
-formacion:"4-2-3-1",
-
-
-titulares:[
-
-"malagon",
-
-"fidalgo",
-
-"henry"
-
-],
-
-
-suplentes:[
-
-]
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-function mostrarAlineacion(){
-
-
-let contenido=document.getElementById("contenido");
-
-
-let equipo=alineaciones.america;
-
-
-
-contenido.innerHTML=`
-
-
-
-<button onclick="mostrarSeccion('inicio')">
-
-← Regresar
-
-</button>
-
-
-
-
-
-<div class="card">
-
-
-<h2>Alineación ${equipo.formacion}</h2>
-
-
-
-<h3>Titulares</h3>
-
-
-
-${equipo.titulares.map(id=>{
-
-
-let j=buscarJugador(id);
-
-
-
-return `
-
-
-<div class="player-card"
-
-onclick="mostrarJugador('${j.id}')">
-
-
-<img src="${j.foto}">
-
-
-<div>
-
-
-<strong>${j.nombre}</strong>
-
-
-<br>
-
-
-${j.posicion}
-
-
-</div>
-
-
-
-</div>
-
-
-`;
-
-
-
-}).join("")}
-
-
-
-</div>
-
-
-
-`;
-
-}
-
-
-
-
-
-
-
-
-
-// ==================================
-// POPUP JUGADOR
-// ==================================
-
-
-function mostrarJugador(id){
-
-
-let j=buscarJugador(id);
-
-
-
-let popup=document.getElementById("player-popup");
-
-
-
-if(!popup){
-
-
-popup=document.createElement("div");
-
-popup.id="player-popup";
-
-document.body.appendChild(popup);
-
-
-}
-
-
-
-
-
-popup.innerHTML=`
-
-
-<div class="popup-background"
-
-onclick="cerrarJugador()">
-
-</div>
-
-
-
-
-<div class="player-modal">
-
-
-<button onclick="cerrarJugador()">
-
-✕
-
-</button>
-
-
-
-<img src="${j.foto}" class="player-photo">
-
-
-
-<h2>${j.nombre}</h2>
-
-
-<p>${j.equipo}</p>
-
-
-<p>${j.posicion} #${j.numero}</p>
-
-
-
-<h2>${j.valoracion}/10</h2>
-
-
-
-${generarStats(j)}
-
-
-
-</div>
-
-
-
-`;
-
-
-
-popup.style.display="block";
-
-
-}
-
-
-
-
-
-
-
-
-function cerrarJugador(){
-
-
-let p=document.getElementById("player-popup");
-
-
-if(p)
-
-p.style.display="none";
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==================================
-// STATS POR POSICION
-// ==================================
-
-
-function generarStats(j){
-
-
-
-let s=j.stats;
-
-
-
-if(j.posicion==="Portero"){
-
-
-return `
-
-
-<h3>Estadísticas de portero 🧤</h3>
-
-
-<p>Partidos: ${s.partidos}</p>
-
-<p>Atajadas: ${s.atajadas}</p>
-
-<p>% Atajadas: ${s.porcentajeAtajadas}%</p>
-
-<p>Goles recibidos: ${s.golesRecibidos}</p>
-
-<p>Porterías a cero: ${s.porteriasCero}</p>
-
-<p>Penales atajados: ${s.penalesAtajados}</p>
-
-
-
-`;
-
-}
-
-
-
-
-
-if(j.posicion==="Defensa"){
-
-
-return `
-
-
-<h3>Estadísticas defensa 🛡️</h3>
-
-
-<p>Entradas: ${s.entradas}</p>
-
-<p>Intercepciones: ${s.intercepciones}</p>
-
-<p>Despejes: ${s.despejes}</p>
-
-<p>Duelos ganados: ${s.duelosGanados}%</p>
-
-
-`;
-
-}
-
-
-
-
-
-if(j.posicion==="Mediocampista"){
-
-
-return `
-
-
-<h3>Estadísticas mediocampo ⚽</h3>
-
-
-<p>Pases: ${s.pases}%</p>
-
-<p>Asistencias: ${s.asistencias}</p>
-
-<p>Pases clave: ${s.pasesClave}</p>
-
-<p>Regates: ${s.regates}%</p>
-
-
-`;
-
-}
-
-
-
-
-
-return `
-
-
-<h3>Estadísticas delantero 🔥</h3>
-
-
-<p>Goles: ${s.goles}</p>
-
-<p>Asistencias: ${s.asistencias}</p>
-
-<p>Tiros: ${s.tiros}</p>
-
-<p>Conversión: ${s.conversion}%</p>
-
-
-`;
-
-}
-// ==================================
-// MATCHIQ MX
-// SCRIPT NUEVO 3/3
-// NAVEGACION Y PANTALLAS
-// ==================================
 
 
 
@@ -1333,8 +475,6 @@ return `
 
 function cargarInicio(){
 
-
-paginaAnterior="inicio";
 
 
 let contenido=document.getElementById("contenido");
@@ -1366,10 +506,9 @@ contenido.innerHTML=`
 
 <div>
 
-
 ${logoEquipo(p.logoLocal,"medium")}
 
-<h3>${p.local}</h3>
+<strong>${p.local}</strong>
 
 
 </div>
@@ -1380,12 +519,12 @@ ${logoEquipo(p.logoLocal,"medium")}
 
 
 
-<div>
 
+<div>
 
 ${logoEquipo(p.logoVisitante,"medium")}
 
-<h3>${p.visitante}</h3>
+<strong>${p.visitante}</strong>
 
 
 </div>
@@ -1393,6 +532,7 @@ ${logoEquipo(p.logoVisitante,"medium")}
 
 
 </div>
+
 
 
 
@@ -1432,10 +572,7 @@ Alineaciones
 
 
 
-
 </div>
-
-
 
 
 
@@ -1444,7 +581,7 @@ Alineaciones
 <div class="card">
 
 
-<h3>Predicción</h3>
+<h3>Predicción MatchIQ</h3>
 
 
 <p>${p.prediccion}</p>
@@ -1456,13 +593,6 @@ Confianza ${p.confianza}%
 
 </p>
 
-
-
-<button onclick="cargarPredicciones()">
-
-Ver predicciones
-
-</button>
 
 
 </div>
@@ -1489,8 +619,6 @@ Ver predicciones
 function cargarPartidos(){
 
 
-paginaAnterior="inicio";
-
 
 let contenido=document.getElementById("contenido");
 
@@ -1506,25 +634,22 @@ contenido.innerHTML=`
 ${partidos.map(p=>`
 
 
-<div class="card match-card">
+
+<div class="card">
 
 
 
 <div class="match-header">
 
 
-
 <div>
 
-
 ${logoEquipo(p.logoLocal,"small")}
-
 
 <p>${p.local}</p>
 
 
 </div>
-
 
 
 
@@ -1535,15 +660,12 @@ ${logoEquipo(p.logoLocal,"small")}
 
 <div>
 
-
 ${logoEquipo(p.logoVisitante,"small")}
-
 
 <p>${p.visitante}</p>
 
 
 </div>
-
 
 
 
@@ -1571,14 +693,6 @@ Ver análisis
 
 
 
-<button onclick="mostrarAlineacion()">
-
-Alineaciones
-
-</button>
-
-
-
 </div>
 
 
@@ -1592,6 +706,557 @@ Alineaciones
 }
 
 
+
+
+
+
+
+
+// ==================================
+// ANALISIS
+// ==================================
+
+
+function mostrarAnalisis(id){
+
+
+let p=buscarPartido(id);
+
+
+
+let contenido=document.getElementById("contenido");
+
+
+
+contenido.innerHTML=`
+
+
+
+<button onclick="cargarPartidos()">
+
+← Regresar
+
+</button>
+
+
+
+
+<div class="card">
+
+
+
+<div class="match-header">
+
+
+
+<div>
+
+${logoEquipo(p.logoLocal,"medium")}
+
+<h3>${p.local}</h3>
+
+</div>
+
+
+
+<h2>VS</h2>
+
+
+
+<div>
+
+${logoEquipo(p.logoVisitante,"medium")}
+
+<h3>${p.visitante}</h3>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<h3>Predicción</h3>
+
+
+<p>${p.prediccion}</p>
+
+
+<p>
+
+Confianza: ${p.confianza}%
+
+</p>
+
+
+
+
+
+
+
+<h3>Probabilidades</h3>
+
+
+
+${barraProbabilidad(
+
+p.local,
+
+p.probabilidades.local,
+
+"local"
+
+)}
+
+
+
+${barraProbabilidad(
+
+"Empate",
+
+p.probabilidades.empate,
+
+"empate"
+
+)}
+
+
+
+${barraProbabilidad(
+
+p.visitante,
+
+p.probabilidades.visitante,
+
+"visitante"
+
+)}
+
+
+
+
+
+<h3>Marcadores favoritos</h3>
+
+
+${p.marcadores.map(m=>`
+
+<p>⚽ ${m}</p>
+
+`).join("")}
+
+
+
+
+
+
+<h3>Ataque</h3>
+
+
+<p>
+
+${p.local}: ${p.ataque.local}
+
+</p>
+
+
+<p>
+
+${p.visitante}: ${p.ataque.visitante}
+
+</p>
+
+
+
+
+
+
+<h3>Defensa</h3>
+
+
+<p>
+
+${p.local}: ${p.defensa.local}
+
+</p>
+
+
+<p>
+
+${p.visitante}: ${p.defensa.visitante}
+
+</p>
+
+
+
+
+
+
+
+<h3>Goles recibidos</h3>
+
+
+<p>
+
+${p.local}: ${p.golesRecibidos.local}
+
+</p>
+
+
+
+<p>
+
+${p.visitante}: ${p.golesRecibidos.visitante}
+
+</p>
+
+
+
+
+
+
+<h3>Factor clave</h3>
+
+
+<p>
+
+${p.factorClave}
+
+</p>
+
+
+
+
+</div>
+
+
+
+`;
+
+}
+
+
+
+
+
+
+
+
+
+// ==================================
+// ALINEACIONES
+// ==================================
+
+
+const alineaciones={
+
+
+america:[
+
+"malagon",
+
+"fidalgo",
+
+"henry"
+
+]
+
+
+};
+
+
+
+
+
+function mostrarAlineacion(){
+
+
+let contenido=document.getElementById("contenido");
+
+
+contenido.innerHTML=`
+
+
+<button onclick="cargarInicio()">
+
+← Regresar
+
+</button>
+
+
+
+<div class="card">
+
+
+<h2>Alineación América</h2>
+
+
+
+${alineaciones.america.map(id=>{
+
+
+let j=buscarJugador(id);
+
+
+
+return `
+
+
+<div class="player-card"
+
+onclick="mostrarJugador('${j.id}')">
+
+
+<img src="${j.foto}">
+
+
+<div>
+
+
+<strong>${j.nombre}</strong>
+
+
+<p>${j.posicion}</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+`;
+
+
+}).join("")}
+
+
+
+
+</div>
+
+
+
+`;
+
+}
+
+
+
+
+
+
+// ==================================
+// POPUP JUGADOR
+// ==================================
+
+
+function mostrarJugador(id){
+
+
+let j=buscarJugador(id);
+
+
+
+let popup=document.getElementById("player-popup");
+
+
+
+popup.innerHTML=`
+
+
+
+<div class="popup-background"
+
+onclick="cerrarJugador()">
+
+</div>
+
+
+
+
+<div class="player-modal">
+
+
+
+<button onclick="cerrarJugador()">
+
+X
+
+</button>
+
+
+
+
+<img src="${j.foto}" class="player-photo">
+
+
+
+<h2>${j.nombre}</h2>
+
+
+<p>${j.equipo}</p>
+
+
+<p>${j.posicion} #${j.numero}</p>
+
+
+
+<h2>${j.valoracion}/10</h2>
+
+
+
+${generarStats(j)}
+
+
+
+</div>
+
+
+
+`;
+
+
+
+popup.style.display="block";
+
+
+
+}
+
+
+
+
+
+
+
+function cerrarJugador(){
+
+
+document.getElementById("player-popup")
+
+.style.display="none";
+
+
+}
+
+
+
+
+
+// ==================================
+// STATS INDIVIDUALES
+// ==================================
+
+
+function generarStats(j){
+
+
+let s=j.stats;
+
+
+
+if(j.posicion==="Portero"){
+
+
+return `
+
+
+<h3>Portero 🧤</h3>
+
+
+<p>Atajadas: ${s.atajas}</p>
+
+<p>% Atajadas: ${s.porcentajeAtajadas}%</p>
+
+<p>Goles recibidos: ${s.golesRecibidos}</p>
+
+<p>Porterías a cero: ${s.porteriasCero}</p>
+
+
+`;
+
+}
+
+
+
+if(j.posicion==="Defensa"){
+
+
+return `
+
+
+<h3>Defensa 🛡️</h3>
+
+
+<p>Entradas: ${s.entradas}</p>
+
+<p>Intercepciones: ${s.intercepciones}</p>
+
+<p>Despejes: ${s.despejes}</p>
+
+<p>Duelos ganados: ${s.duelosGanados}%</p>
+
+
+`;
+
+}
+
+
+
+if(j.posicion==="Mediocampista"){
+
+
+return `
+
+
+<h3>Mediocampista ⚽</h3>
+
+
+<p>Goles: ${s.goles}</p>
+
+<p>Asistencias: ${s.asistencias}</p>
+
+<p>Pases: ${s.pases}%</p>
+
+<p>Regates: ${s.regates}%</p>
+
+
+`;
+
+}
+
+
+
+return `
+
+
+<h3>Delantero 🔥</h3>
+
+
+<p>Goles: ${s.goles}</p>
+
+<p>Asistencias: ${s.asistencias}</p>
+
+<p>Tiros: ${s.tiros}</p>
+
+<p>Conversión: ${s.conversion}%</p>
+
+
+`;
+
+}
+// ==================================
+// MATCHIQ MX
+// SCRIPT COMPLETO NUEVO
+// PARTE 3/3
+// ==================================
 
 
 
@@ -1621,7 +1286,9 @@ contenido.innerHTML=`
 ${partidos.map(p=>`
 
 
+
 <div class="card">
+
 
 
 <div class="match-header">
@@ -1631,13 +1298,15 @@ ${partidos.map(p=>`
 
 ${logoEquipo(p.logoLocal,"small")}
 
-${p.local}
+<p>${p.local}</p>
 
 </div>
 
 
 
-VS
+
+<h3>VS</h3>
+
 
 
 
@@ -1645,7 +1314,7 @@ VS
 
 ${logoEquipo(p.logoVisitante,"small")}
 
-${p.visitante}
+<p>${p.visitante}</p>
 
 </div>
 
@@ -1657,16 +1326,22 @@ ${p.visitante}
 
 
 
-<h3>${p.prediccion}</h3>
+<h3>
+
+${p.prediccion}
+
+</h3>
+
 
 
 <p>
 
-Confianza:
-
-${p.confianza}%
+Confianza: ${p.confianza}%
 
 </p>
+
+
+
 
 
 
@@ -1682,15 +1357,18 @@ p.probabilidades.local,
 
 
 
+
 ${barraProbabilidad(
 
 "Empate",
 
 p.probabilidades.empate,
 
-"draw"
+"empate"
 
 )}
+
+
 
 
 
@@ -1700,9 +1378,10 @@ p.visitante,
 
 p.probabilidades.visitante,
 
-"away"
+"visitante"
 
 )}
+
 
 
 
@@ -1725,8 +1404,9 @@ p.probabilidades.visitante,
 
 
 
+
 // ==================================
-// ESTADISTICAS GENERALES
+// STATS GENERALES
 // ==================================
 
 
@@ -1742,7 +1422,7 @@ contenido.innerHTML=`
 
 
 
-<h2>Estadísticas Liga MX</h2>
+<h2>Stats Liga MX</h2>
 
 
 
@@ -1754,9 +1434,10 @@ contenido.innerHTML=`
 <h3>⚽ Goleadores</h3>
 
 
+
 <p>
 
-Henry Martín - América
+1. Henry Martín
 
 <br>
 
@@ -1765,9 +1446,10 @@ Henry Martín - América
 </p>
 
 
+
 <p>
 
-André-Pierre Gignac - Tigres
+2. André-Pierre Gignac
 
 <br>
 
@@ -1783,6 +1465,8 @@ André-Pierre Gignac - Tigres
 
 
 
+
+
 <div class="card">
 
 
@@ -1791,7 +1475,7 @@ André-Pierre Gignac - Tigres
 
 <p>
 
-Álvaro Fidalgo - América
+1. Álvaro Fidalgo
 
 <br>
 
@@ -1807,6 +1491,7 @@ André-Pierre Gignac - Tigres
 
 
 
+
 <div class="card">
 
 
@@ -1815,7 +1500,7 @@ André-Pierre Gignac - Tigres
 
 <p>
 
-Jesús Orozco - Chivas
+Jesús Orozco
 
 <br>
 
@@ -1833,6 +1518,7 @@ Jugador Tigres
 4 tarjetas
 
 </p>
+
 
 
 </div>
@@ -1867,6 +1553,7 @@ Jugador León
 
 
 
+
 <div class="card">
 
 
@@ -1875,7 +1562,7 @@ Jugador León
 
 <p>
 
-Luis Malagón - América
+Luis Malagón
 
 <br>
 
@@ -1908,7 +1595,6 @@ Luis Malagón - América
 function cargarPerfil(){
 
 
-
 let contenido=document.getElementById("contenido");
 
 
@@ -1916,7 +1602,9 @@ let contenido=document.getElementById("contenido");
 contenido.innerHTML=`
 
 
+
 <h2>Perfil</h2>
+
 
 
 
@@ -1929,12 +1617,14 @@ contenido.innerHTML=`
 
 <p>
 
-Selecciona equipos para recibir notificaciones
+Equipos para recibir notificaciones
 
 </p>
 
 
 </div>
+
+
 
 
 
@@ -1965,6 +1655,7 @@ ${e.nombre}
 <button onclick="cambiarNotificacion('${e.nombre}')">
 
 
+
 ${
 
 notificaciones.includes(e.nombre)
@@ -1980,6 +1671,7 @@ notificaciones.includes(e.nombre)
 }
 
 
+
 </button>
 
 
@@ -1988,14 +1680,16 @@ notificaciones.includes(e.nombre)
 
 
 
-
 `).join("")}
+
+
 
 
 
 `;
 
 }
+
 
 
 
@@ -2011,11 +1705,11 @@ function cambiarNotificacion(nombre){
 if(notificaciones.includes(nombre)){
 
 
-notificaciones=
+notificaciones =
 
 notificaciones.filter(
 
-x=>x!==nombre
+equipo=>equipo!==nombre
 
 );
 
@@ -2029,6 +1723,7 @@ notificaciones.push(nombre);
 
 
 }
+
 
 
 
@@ -2068,11 +1763,13 @@ function mostrarSeccion(seccion){
 switch(seccion){
 
 
+
 case "inicio":
 
 cargarInicio();
 
 break;
+
 
 
 
@@ -2084,6 +1781,7 @@ break;
 
 
 
+
 case "predicciones":
 
 cargarPredicciones();
@@ -2092,11 +1790,13 @@ break;
 
 
 
+
 case "stats":
 
 cargarEstadisticas();
 
 break;
+
 
 
 
@@ -2121,38 +1821,49 @@ break;
 
 
 
+
 // ==================================
 // LOGO LIGA MX
 // ==================================
 
 
-document.addEventListener(
-
-"click",
-
-function(e){
-
-
-if(e.target.classList.contains("liga-logo")){
+function volverInicio(){
 
 
 cargarInicio();
 
 
 }
+
+
+
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+let logo=document.querySelector(".liga-logo");
+
+
+
+if(logo){
+
+
+logo.onclick=volverInicio;
+
+
+}
+
+
+
+cargarInicio();
+
 
 
 }
 
 );
-
-
-
-
-
-
-
-// INICIO APP
-
-
-cargarInicio();
