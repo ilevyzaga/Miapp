@@ -1,27 +1,24 @@
-/* =========================
+/* ==================================
 MATCHIQ MX
-STYLE CSS NUEVO
-========================= */
-
+STYLE NUEVO
+================================== */
 
 
 *{
-
 box-sizing:border-box;
-
 font-family:Arial, Helvetica, sans-serif;
-
 }
-
 
 
 body{
 
 margin:0;
 
-background:#f4f6f8;
+background:#f1f4f8;
 
 color:#111;
+
+padding-bottom:80px;
 
 }
 
@@ -29,18 +26,16 @@ color:#111;
 
 
 
-/* =========================
+/* ==================================
 HEADER
-========================= */
+================================== */
 
 
 header{
 
-background:#0b3d91;
+background:#061b3a;
 
-color:white;
-
-padding:15px;
+height:75px;
 
 display:flex;
 
@@ -49,7 +44,6 @@ align-items:center;
 justify-content:center;
 
 }
-
 
 
 .liga-logo{
@@ -62,15 +56,6 @@ object-fit:contain;
 
 cursor:pointer;
 
-transition:.2s;
-
-}
-
-
-.liga-logo:hover{
-
-transform:scale(1.08);
-
 }
 
 
@@ -79,9 +64,9 @@ transform:scale(1.08);
 
 
 
-/* =========================
+/* ==================================
 CONTENIDO
-========================= */
+================================== */
 
 
 #contenido{
@@ -91,10 +76,16 @@ padding:15px;
 }
 
 
-
-
-
 h2{
+
+font-size:26px;
+
+margin-bottom:15px;
+
+}
+
+
+h3{
 
 margin-top:10px;
 
@@ -105,23 +96,22 @@ margin-top:10px;
 
 
 
-
-/* =========================
+/* ==================================
 CARDS
-========================= */
+================================== */
 
 
 .card{
 
 background:white;
 
-border-radius:18px;
+border-radius:20px;
 
 padding:18px;
 
-margin-bottom:15px;
+margin-bottom:16px;
 
-box-shadow:0 3px 12px rgba(0,0,0,.08);
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 
 }
 
@@ -129,23 +119,30 @@ box-shadow:0 3px 12px rgba(0,0,0,.08);
 
 
 
+
+
+/* ==================================
+BOTONES
+================================== */
+
+
 button{
 
 background:#0b3d91;
 
-color:white;
-
 border:none;
 
-padding:10px 16px;
+color:white;
 
-border-radius:12px;
+padding:11px 18px;
+
+border-radius:14px;
+
+font-weight:bold;
 
 cursor:pointer;
 
 margin:5px;
-
-font-size:14px;
 
 }
 
@@ -162,18 +159,16 @@ opacity:.85;
 
 
 
-
-/* =========================
-LOGOS
-========================= */
-
+/* ==================================
+LOGOS EQUIPOS
+================================== */
 
 
-.team-logo-small{
+.logo-small{
 
-width:30px;
+width:35px;
 
-height:30px;
+height:35px;
 
 object-fit:contain;
 
@@ -181,23 +176,11 @@ object-fit:contain;
 
 
 
-.team-logo-medium{
+.logo-medium{
 
-width:65px;
+width:70px;
 
-height:65px;
-
-object-fit:contain;
-
-}
-
-
-
-.team-logo-large{
-
-width:100px;
-
-height:100px;
+height:70px;
 
 object-fit:contain;
 
@@ -205,32 +188,29 @@ object-fit:contain;
 
 
 
+.logo-large{
+
+width:110px;
+
+height:110px;
+
+object-fit:contain;
+
+}
 
 
 
 
-/* =========================
+
+
+
+
+/* ==================================
 PARTIDOS
-========================= */
+================================== */
 
 
-.match-teams{
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:35px;
-
-text-align:center;
-
-}
-
-
-
-.match-teams-small{
+.match-header{
 
 display:flex;
 
@@ -238,7 +218,7 @@ align-items:center;
 
 justify-content:center;
 
-gap:15px;
+gap:30px;
 
 text-align:center;
 
@@ -246,8 +226,7 @@ text-align:center;
 
 
 
-
-.team-box{
+.match-header div{
 
 display:flex;
 
@@ -256,8 +235,6 @@ flex-direction:column;
 align-items:center;
 
 }
-
-
 
 
 
@@ -273,10 +250,107 @@ text-align:center;
 
 
 
+/* ==================================
+PROBABILIDADES
+================================== */
 
-/* =========================
+
+.prob-row{
+
+margin:15px 0;
+
+}
+
+
+
+.prob-title{
+
+display:flex;
+
+justify-content:space-between;
+
+font-weight:bold;
+
+margin-bottom:6px;
+
+}
+
+
+
+.prob-bar{
+
+height:14px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+
+
+.prob-fill{
+
+height:100%;
+
+border-radius:20px;
+
+}
+
+
+
+.local{
+
+background:#0b3d91;
+
+}
+
+
+
+.draw{
+
+background:#777;
+
+}
+
+
+
+.away{
+
+background:#c8102e;
+
+}
+
+
+
+
+
+
+
+/* ==================================
+FORMA
+================================== */
+
+
+.form-box{
+
+background:#f5f6fa;
+
+border-radius:15px;
+
+padding:12px;
+
+}
+
+
+
+
+
+/* ==================================
 JUGADORES
-========================= */
+================================== */
 
 
 .player-card{
@@ -287,13 +361,13 @@ align-items:center;
 
 gap:15px;
 
-background:#fff;
+background:#f7f8fa;
 
 padding:12px;
 
-border-radius:15px;
+border-radius:16px;
 
-margin-bottom:10px;
+margin:10px 0;
 
 cursor:pointer;
 
@@ -303,9 +377,25 @@ cursor:pointer;
 
 .player-card img{
 
-width:55px;
+width:60px;
 
-height:55px;
+height:60px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+
+
+
+
+.player-photo{
+
+width:140px;
+
+height:140px;
 
 border-radius:50%;
 
@@ -318,28 +408,9 @@ object-fit:cover;
 
 
 
-
-.player-image{
-
-width:130px;
-
-height:130px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-}
-
-
-
-
-
-
-
-/* =========================
-POPUP JUGADOR
-========================= */
+/* ==================================
+POPUP
+================================== */
 
 
 #player-popup{
@@ -356,7 +427,7 @@ width:100%;
 
 height:100%;
 
-z-index:999;
+z-index:1000;
 
 }
 
@@ -370,7 +441,7 @@ width:100%;
 
 height:100%;
 
-background:rgba(0,0,0,.5);
+background:rgba(0,0,0,.55);
 
 }
 
@@ -384,7 +455,7 @@ background:white;
 
 width:90%;
 
-max-width:400px;
+max-width:420px;
 
 left:50%;
 
@@ -392,9 +463,9 @@ top:50%;
 
 transform:translate(-50%,-50%);
 
-border-radius:25px;
-
 padding:25px;
+
+border-radius:25px;
 
 text-align:center;
 
@@ -406,23 +477,19 @@ z-index:2;
 
 
 
-.close-popup{
+.player-modal button{
 
 position:absolute;
 
-right:15px;
+right:10px;
 
-top:15px;
+top:10px;
 
 background:#ddd;
 
 color:#111;
 
 border-radius:50%;
-
-width:35px;
-
-height:35px;
 
 }
 
@@ -431,10 +498,9 @@ height:35px;
 
 
 
-
-/* =========================
-ESTADISTICAS
-========================= */
+/* ==================================
+STATS
+================================== */
 
 
 .player-stats{
@@ -451,7 +517,7 @@ gap:10px;
 
 .player-stats p{
 
-background:#f1f3f5;
+background:#eef2f7;
 
 padding:10px;
 
@@ -466,11 +532,9 @@ margin:0;
 
 
 
-
-
-/* =========================
+/* ==================================
 PERFIL
-========================= */
+================================== */
 
 
 .team-follow{
@@ -479,31 +543,17 @@ display:flex;
 
 align-items:center;
 
-gap:15px;
-
 justify-content:space-between;
 
 }
 
 
 
+.team-follow strong{
 
+flex:1;
 
-
-/* =========================
-ANALISIS
-========================= */
-
-
-.analysis-box{
-
-background:white;
-
-padding:15px;
-
-border-radius:18px;
-
-margin-bottom:15px;
+margin-left:10px;
 
 }
 
@@ -513,9 +563,9 @@ margin-bottom:15px;
 
 
 
-/* =========================
-MENU INFERIOR
-========================= */
+/* ==================================
+MENU
+================================== */
 
 
 nav{
@@ -536,7 +586,7 @@ justify-content:space-around;
 
 padding:10px;
 
-box-shadow:0 -3px 10px rgba(0,0,0,.1);
+box-shadow:0 -4px 12px rgba(0,0,0,.12);
 
 }
 
@@ -546,9 +596,11 @@ nav button{
 
 background:none;
 
-color:#0b3d91;
+color:#061b3a;
 
-font-weight:bold;
+margin:0;
+
+padding:8px;
 
 }
 
@@ -558,28 +610,30 @@ font-weight:bold;
 
 
 
-/* =========================
+/* ==================================
 RESPONSIVE
-========================= */
+================================== */
 
 
-@media(max-width:500px){
+@media(max-width:600px){
 
 
-.match-teams{
+.match-header{
 
-gap:20px;
+gap:18px;
+
+}
+
+
+
+.logo-medium{
+
+width:55px;
+
+height:55px;
 
 }
 
-
-.team-logo-medium{
-
-width:50px;
-
-height:50px;
-
-}
 
 
 .player-stats{
@@ -587,6 +641,7 @@ height:50px;
 grid-template-columns:1fr;
 
 }
+
 
 
 }
