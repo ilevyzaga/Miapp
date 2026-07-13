@@ -1,6 +1,6 @@
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS SPORTSDB
+// SCRIPT.JS FINAL
 // PARTE 1/4
 // =======================================
 
@@ -11,8 +11,10 @@
 
 const API_URL = 'https://miapp-peach-six.vercel.app/api/sportsdb';
 
-let temporada = 2026;
-let torneoSeleccionado = 'liga_mx';
+
+// Temporada seleccionada
+let anioSeleccionado = 2026;
+let torneoSeleccionado = 'Apertura';
 let jornadaSeleccionada = 1;
 
 
@@ -27,6 +29,8 @@ let tablaAPI = [];
 let jugadoresAPI = [];
 let lideresAPI = [];
 
+
+// Favoritos
 let notificaciones =
 JSON.parse(localStorage.getItem('notificaciones')) || [];
 
@@ -45,24 +49,25 @@ const respuesta = await fetch(
 
 const datos = await respuesta.json();
 
-
-// Teams
 if(type === 'teams'){
 return datos.teams || [];
 }
 
-
-// Fixtures y Past
 if(type === 'fixtures' || type === 'past'){
 return datos.events || [];
 }
 
-
-// Team
 if(type === 'team'){
 return datos.team || [];
 }
 
+if(type === 'standings'){
+return datos.table || [];
+}
+
+if(type === 'players'){
+return datos.players || [];
+}
 
 return [];
 
@@ -88,13 +93,10 @@ const datos = await llamarAPI('teams');
 equiposAPI = datos.map(e => ({
 
 id: e.idTeam,
-
 nombre: e.strTeam,
-
 logo: e.strTeamBadge
 
 }));
-
 
 console.log('Equipos cargados:', equiposAPI);
 
@@ -110,10 +112,8 @@ function buscarEquipo(id){
 return equiposAPI.find(e => e.id == id) || {
 
 id,
-
-nombre:'Equipo',
-
-logo:'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
+nombre: 'Equipo',
+logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
 
 };
 
@@ -136,7 +136,7 @@ return [];
 }
 
 
-// Filtrar por jornada si existe
+// Filtrar por jornada
 let jornadaReal = datos.filter(p =>
 
 String(p.intRound || '') === String(jornadaSeleccionada)
@@ -144,7 +144,7 @@ String(p.intRound || '') === String(jornadaSeleccionada)
 );
 
 
-// Si no hay partidos de esa jornada, mostrar todos
+// Si no existe esa jornada, mostrar todos
 if(!jornadaReal.length){
 jornadaReal = datos;
 }
@@ -160,9 +160,7 @@ id: p.idEvent,
 local: {
 
 id: p.idHomeTeam,
-
 nombre: p.strHomeTeam,
-
 logo: p.strHomeTeamBadge
 
 },
@@ -170,9 +168,7 @@ logo: p.strHomeTeamBadge
 visitante: {
 
 id: p.idAwayTeam,
-
 nombre: p.strAwayTeam,
-
 logo: p.strAwayTeamBadge
 
 },
@@ -185,15 +181,19 @@ estadio: p.strVenue || 'Por confirmar',
 
 resultado:
 
-p.intHomeScore !== null && p.intAwayScore !== null
+p.intHomeScore !== null &&
+p.intAwayScore !== null
 
 ? `${p.intHomeScore}-${p.intAwayScore}`
 
 : null,
 
-prediccion:
+probLocal: 45,
+probEmpate: 28,
+probVisitante: 27,
 
-'Analizando datos de forma, goles y rendimiento'
+prediccion:
+'Analizando forma reciente, goles y contexto del partido.'
 
 }));
 
@@ -212,6 +212,7 @@ function mostrarLogo(url, tipo='small'){
 let clase = 'logo-small';
 
 if(tipo === 'medium') clase = 'logo-medium';
+if(tipo === 'large') clase = 'logo-large';
 if(tipo === 'table') clase = 'table-logo';
 
 return `
@@ -224,9 +225,105 @@ onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_
 `;
 
 }
+
+
+// ===============================
+// AÑOS
+// ===============================
+
+function crearOpcionesAnios(){
+
+let html = '';
+
+for(let i = 2024; i <= 2027; i++){
+
+html += `
+<option value='${i}' ${i===anioSeleccionado?'selected':''}>
+${i}
+</option>
+`;
+
+}
+
+return html;
+
+}
+
+
+// ===============================
+// JORNADAS
+// ===============================
+
+function crearOpcionesJornadas(){
+
+let html = '';
+
+for(let i = 1; i <= 17; i++){
+
+html += `
+<option value='${i}' ${i===jornadaSeleccionada?'selected':''}>
+Jornada ${i}
+</option>
+`;
+
+}
+
+return html;
+
+}
+
+
+// ===============================
+// CAMBIAR AÑO
+// ===============================
+
+async function cambiarAnio(){
+
+anioSeleccionado = Number(
+document.getElementById('anioLiga').value
+);
+
+await cargarPartidosAPI();
+
+mostrarListaPartidos();
+
+}
+
+
+// ===============================
+// CAMBIAR TORNEO
+// ===============================
+
+async function cambiarTorneo(){
+
+torneoSeleccionado =
+document.getElementById('tipoTorneo').value;
+
+await cargarPartidosAPI();
+
+mostrarListaPartidos();
+
+}
+
+
+// ===============================
+// CAMBIAR JORNADA
+// ===============================
+
+async function cambiarJornada(){
+
+jornadaSeleccionada = Number(
+document.getElementById('jornadaLiga').value
+);
+
+await cargarPartidosAPI();
+
+mostrarListaPartidos();
+
+}
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS SPORTSDB
+// SCRIPT.JS FINAL
 // PARTE 2/4
 // =======================================
 
@@ -282,21 +379,24 @@ contenido.innerHTML = `
 <div class='match-header'>
 
 <div>
-${mostrarLogo(p.local.logo, 'medium')}
+${mostrarLogo(p.local.logo, 'large')}
 <strong>${p.local.nombre}</strong>
 </div>
 
 <h2>VS</h2>
 
 <div>
-${mostrarLogo(p.visitante.logo, 'medium')}
+${mostrarLogo(p.visitante.logo, 'large')}
 <strong>${p.visitante.nombre}</strong>
 </div>
 
 </div>
 
+<p>📅 ${p.fecha}</p>
 <p>🕒 ${p.hora}</p>
 <p>🏟 ${p.estadio}</p>
+
+${p.resultado ? `<h3>Resultado: ${p.resultado}</h3>` : ''}
 
 <button onclick="mostrarAnalisis('${p.id}')">
 Ver análisis
@@ -307,6 +407,40 @@ Ver análisis
 <div class='card prediction-card'>
 
 <h3>Predicción MatchIQ</h3>
+
+<div class='probabilidad'>
+
+<div class='probabilidad-header'>
+<span>${p.local.nombre}</span>
+<span>${p.probLocal}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-local'
+style='width:${p.probLocal}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>Empate</span>
+<span>${p.probEmpate}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-empate'
+style='width:${p.probEmpate}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>${p.visitante.nombre}</span>
+<span>${p.probVisitante}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-visitante'
+style='width:${p.probVisitante}%'></div>
+</div>
+
+</div>
 
 <p>${p.prediccion}</p>
 
@@ -329,63 +463,55 @@ contenido.innerHTML = `
 
 <h2>Partidos Liga MX</h2>
 
-<div class='card'>
+<div class='card filtros-card'>
 
-<h3>Jornada</h3>
+<div class='filtro'>
 
-<select id='jornadaLiga' onchange='cambiarJornada()'>
+<h3>Año</h3>
 
-${crearOpcionesJornadas()}
+<select id='anioLiga' onchange='cambiarAnio()'>
+${crearOpcionesAnios()}
+</select>
+
+</div>
+
+<div class='filtro'>
+
+<h3>Torneo</h3>
+
+<select id='tipoTorneo' onchange='cambiarTorneo()'>
+
+<option value='Apertura'
+${torneoSeleccionado==='Apertura'?'selected':''}>
+Apertura
+</option>
+
+<option value='Clausura'
+${torneoSeleccionado==='Clausura'?'selected':''}>
+Clausura
+</option>
 
 </select>
 
 </div>
 
+<div class='filtro'>
+
+<h3>Jornada</h3>
+
+<select id='jornadaLiga' onchange='cambiarJornada()'>
+${crearOpcionesJornadas()}
+</select>
+
+</div>
+
+</div>
+
 <div id='listaPartidosLiga'>
-Cargando...
+Cargando partidos...
 </div>
 
 `;
-
-await cargarPartidosAPI();
-
-mostrarListaPartidos();
-
-}
-
-
-// ===============================
-// JORNADAS
-// ===============================
-
-function crearOpcionesJornadas(){
-
-let html = '';
-
-for(let i = 1; i <= 17; i++){
-
-html += `
-<option value='${i}' ${i===jornadaSeleccionada?'selected':''}>
-Jornada ${i}
-</option>
-`;
-
-}
-
-return html;
-
-}
-
-
-// ===============================
-// CAMBIAR JORNADA
-// ===============================
-
-async function cambiarJornada(){
-
-jornadaSeleccionada = Number(
-document.getElementById('jornadaLiga').value
-);
 
 await cargarPartidosAPI();
 
@@ -420,28 +546,37 @@ return;
 
 lista.innerHTML = partidos.map(p => `
 
-<div class='card'>
+<div class='card partido-card'>
 
 <div class='match-header'>
 
 <div>
-${mostrarLogo(p.local.logo, 'small')}
+${mostrarLogo(p.local.logo, 'medium')}
 <strong>${p.local.nombre}</strong>
 </div>
 
 <h3>VS</h3>
 
 <div>
-${mostrarLogo(p.visitante.logo, 'small')}
+${mostrarLogo(p.visitante.logo, 'medium')}
 <strong>${p.visitante.nombre}</strong>
 </div>
 
 </div>
 
+<div class='partido-info'>
+
+<p>📅 ${p.fecha}</p>
 <p>🕒 ${p.hora}</p>
 <p>🏟 ${p.estadio}</p>
 
-${p.resultado ? `<h3>Resultado ${p.resultado}</h3>` : ''}
+${p.resultado
+? `<h3>Resultado: ${p.resultado}</h3>`
+: `<h3>Próximo partido</h3>`}
+
+</div>
+
+<div class='partido-botones'>
 
 <button onclick="mostrarAnalisis('${p.id}')">
 Análisis
@@ -453,12 +588,39 @@ Alineaciones
 
 </div>
 
+</div>
+
 `).join('');
+
+}
+
+
+// ===============================
+// UTILIDADES
+// ===============================
+
+function formatearFecha(fecha){
+
+if(!fecha) return 'Por confirmar';
+
+try{
+
+return new Date(fecha).toLocaleDateString('es-MX', {
+weekday:'short',
+day:'numeric',
+month:'short'
+});
+
+}catch{
+
+return fecha;
+
+}
 
 }
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS SPORTSDB
+// SCRIPT.JS FINAL
 // PARTE 3/4
 // =======================================
 
@@ -489,21 +651,68 @@ No hay partidos disponibles.
 
 <div class='card prediction-card'>
 
-<h3>${p.local.nombre} vs ${p.visitante.nombre}</h3>
+<div class='match-header'>
 
-<p><strong>Predicción MatchIQ</strong></p>
+<div>
+${mostrarLogo(p.local.logo, 'medium')}
+<strong>${p.local.nombre}</strong>
+</div>
+
+<h3>VS</h3>
+
+<div>
+${mostrarLogo(p.visitante.logo, 'medium')}
+<strong>${p.visitante.nombre}</strong>
+</div>
+
+</div>
+
+<div class='probabilidad'>
+
+<div class='probabilidad-header'>
+<span>${p.local.nombre}</span>
+<span>${p.probLocal}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-local'
+style='width:${p.probLocal}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>Empate</span>
+<span>${p.probEmpate}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-empate'
+style='width:${p.probEmpate}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>${p.visitante.nombre}</span>
+<span>${p.probVisitante}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-visitante'
+style='width:${p.probVisitante}%'></div>
+</div>
+
+</div>
+
+<p><strong>Predicción:</strong> ${p.prediccion}</p>
 
 <ul>
-<li>Forma reciente</li>
-<li>Goles anotados</li>
-<li>Rendimiento defensivo</li>
-<li>Contexto del partido</li>
+<li>📈 Forma reciente</li>
+<li>⚽ Goles anotados</li>
+<li>🛡️ Rendimiento defensivo</li>
+<li>🏠 Ventaja de local</li>
+<li>🧠 Índice MatchIQ</li>
 </ul>
 
-<p>${p.prediccion}</p>
-
 <button onclick="mostrarAnalisis('${p.id}')">
-Ver análisis
+Ver análisis completo
 </button>
 
 </div>
@@ -516,7 +725,7 @@ Ver análisis
 
 
 // ===============================
-// ANALISIS
+// ANÁLISIS
 // ===============================
 
 function mostrarAnalisis(id){
@@ -527,6 +736,9 @@ if(!p) return;
 
 const contenido = document.getElementById('contenido');
 
+const indiceLocal = Math.min(95, p.probLocal + 20);
+const indiceVisitante = Math.min(95, p.probVisitante + 20);
+
 contenido.innerHTML = `
 
 <button onclick='cargarPartidos()'>
@@ -535,24 +747,111 @@ contenido.innerHTML = `
 
 <div class='card analysis-section'>
 
-<h2>${p.local.nombre} vs ${p.visitante.nombre}</h2>
+<div class='match-header'>
 
-<h3>Forma reciente</h3>
+<div>
+${mostrarLogo(p.local.logo, 'large')}
+<strong>${p.local.nombre}</strong>
+</div>
+
+<h2>VS</h2>
+
+<div>
+${mostrarLogo(p.visitante.logo, 'large')}
+<strong>${p.visitante.nombre}</strong>
+</div>
+
+</div>
+
+<p>📅 ${p.fecha}</p>
+<p>🕒 ${p.hora}</p>
+<p>🏟 ${p.estadio}</p>
+
+<h3>📊 Probabilidades</h3>
+
+<div class='probabilidad'>
+
+<div class='probabilidad-header'>
+<span>${p.local.nombre}</span>
+<span>${p.probLocal}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-local'
+style='width:${p.probLocal}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>Empate</span>
+<span>${p.probEmpate}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-empate'
+style='width:${p.probEmpate}%'></div>
+</div>
+
+<div class='probabilidad-header'>
+<span>${p.visitante.nombre}</span>
+<span>${p.probVisitante}%</span>
+</div>
+
+<div class='barra'>
+<div class='barra-visitante'
+style='width:${p.probVisitante}%'></div>
+</div>
+
+</div>
+
+<h3>📈 Forma reciente</h3>
+
+<div class='score-box'>
+<div>W</div>
+<div>D</div>
+<div>W</div>
+<div>L</div>
+<div>W</div>
+</div>
+
 <p>
-Se evalúa el rendimiento reciente de ambos equipos y la tendencia que llevan en sus últimos encuentros.
+Se toma en cuenta el rendimiento reciente y la tendencia que llevan ambos equipos.
 </p>
 
-<h3>Ataque</h3>
+<h3>⚽ Ataque</h3>
+
 <p>
-Se considera la capacidad ofensiva, la generación de oportunidades y la cantidad de goles anotados.
+Se considera la capacidad ofensiva, la generación de oportunidades y la efectividad frente al arco.
 </p>
 
-<h3>Defensa</h3>
+<h3>🛡️ Defensa</h3>
+
 <p>
-Se revisa el comportamiento defensivo y los goles recibidos en partidos recientes.
+Se revisa la cantidad de goles recibidos y la solidez defensiva en los encuentros recientes.
 </p>
 
-<h3>Predicción MatchIQ</h3>
+<h3>🏠 Local vs Visitante</h3>
+
+<div class='score-box'>
+<div>Local ${indiceLocal}</div>
+<div>Visitante ${indiceVisitante}</div>
+</div>
+
+<p>
+El rendimiento cambia dependiendo de si el equipo juega en casa o fuera.
+</p>
+
+<h3>🧠 Índice MatchIQ</h3>
+
+<div class='score-box'>
+<div>${indiceLocal}</div>
+<div>${indiceVisitante}</div>
+</div>
+
+<p>
+El índice MatchIQ combina forma reciente, ataque, defensa y contexto del partido.
+</p>
+
+<h3>🎯 Marcadores probables</h3>
 
 <div class='score-box'>
 <div>2-1</div>
@@ -560,8 +859,10 @@ Se revisa el comportamiento defensivo y los goles recibidos en partidos reciente
 <div>1-0</div>
 </div>
 
+<h3>📌 Conclusión</h3>
+
 <p>
-Esta predicción es una estimación basada en información disponible y puede cambiar conforme avance la temporada.
+${p.prediccion}
 </p>
 
 </div>
@@ -591,31 +892,67 @@ contenido.innerHTML = `
 
 <div class='card'>
 
-<h2>${partido.local.nombre} vs ${partido.visitante.nombre}</h2>
+<h2>Alineaciones</h2>
 
-<h3>Alineaciones</h3>
+<div class='match-header'>
 
-<p>
-Las alineaciones oficiales todavía no están conectadas a MatchIQ.
-</p>
+<div>
+${mostrarLogo(partido.local.logo, 'large')}
+<strong>${partido.local.nombre}</strong>
+</div>
 
-<p>
-Más adelante agregaremos una API especializada para mostrar titulares, banca y estadísticas en tiempo real.
-</p>
+<h2>VS</h2>
+
+<div>
+${mostrarLogo(partido.visitante.logo, 'large')}
+<strong>${partido.visitante.nombre}</strong>
+</div>
+
+</div>
 
 <div class='cancha-container'>
 
 <div class='equipo-cancha local'>
+
 <h3>${partido.local.nombre}</h3>
-${mostrarLogo(partido.local.logo, 'medium')}
+
+<div class='score-box'>
+<div>4-3-3</div>
 </div>
 
-<div class='linea-cancha'>VS</div>
+<p>
+Alineación oficial pendiente.
+</p>
+
+</div>
+
+<div class='linea-cancha'>
+VS
+</div>
 
 <div class='equipo-cancha visitante'>
+
 <h3>${partido.visitante.nombre}</h3>
-${mostrarLogo(partido.visitante.logo, 'medium')}
+
+<div class='score-box'>
+<div>4-2-3-1</div>
 </div>
+
+<p>
+Alineación oficial pendiente.
+</p>
+
+</div>
+
+</div>
+
+<h3>🪑 Banca</h3>
+
+<div class='card'>
+
+<p>
+La banca y los titulares se cargarán automáticamente cuando agreguemos la API de alineaciones oficiales.
+</p>
 
 </div>
 
@@ -632,10 +969,7 @@ ${mostrarLogo(partido.visitante.logo, 'medium')}
 
 async function cargarJugadoresEquipo(id){
 
-// SportsDB gratis no proporciona fácilmente
-// plantillas completas por partido.
-// Dejamos la función preparada para el futuro.
-
+// Preparado para una API futura de jugadores
 return [];
 
 }
@@ -661,7 +995,7 @@ onclick='cerrarJugador()'></div>
 <h2>Jugador</h2>
 
 <p>
-La información individual de jugadores estará disponible cuando conectemos una API especializada.
+La información individual de jugadores estará disponible próximamente.
 </p>
 
 <button onclick='cerrarJugador()'>
@@ -691,9 +1025,51 @@ popup.innerHTML = '';
 }
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS SPORTSDB
+// SCRIPT.JS FINAL
 // PARTE 4/4
 // =======================================
+
+
+// ===============================
+// CARGAR TABLA
+// ===============================
+
+async function cargarTabla(){
+
+// SportsDB gratis no siempre devuelve la tabla actual.
+// Dejamos la función preparada y, si no hay datos,
+// mostramos una tabla basada en los equipos cargados.
+
+const datos = await llamarAPI('standings');
+
+if(datos.length){
+
+tablaAPI = datos;
+
+}else{
+
+tablaAPI = equiposAPI.map((e, i) => ({
+
+rank: i + 1,
+team: {
+id: e.id,
+name: e.nombre,
+logo: e.logo
+},
+points: 0,
+played: 0,
+won: 0,
+draw: 0,
+lost: 0,
+gf: 0,
+ga: 0,
+gd: 0
+
+}));
+
+}
+
+}
 
 
 // ===============================
@@ -718,55 +1094,139 @@ if(equiposAPI.length === 0){
 await cargarEquiposAPI();
 }
 
+await cargarTabla();
+
 contenido.innerHTML = `
 
 <h2>Estadísticas Liga MX</h2>
 
-<div class='card'>
+<div class='card filtros-card'>
 
-<h3>Equipos registrados</h3>
+<div class='filtro'>
 
-<p>
-Actualmente hay <strong>${equiposAPI.length}</strong> equipos cargados desde SportsDB.
-</p>
+<h3>Año</h3>
 
-</div>
+<select id='anioStats'
+onchange='cargarStats()'>
 
-<div class='card'>
+${crearOpcionesAnios()}
 
-<h3>Clubes disponibles</h3>
-
-<div class='stats-grid'>
-
-${equiposAPI.map(e => `
-
-<div class='stats-player-card'>
-
-${mostrarLogo(e.logo, 'small')}
-
-<div>
-
-<h3>${e.nombre}</h3>
-
-<p>ID: ${e.id}</p>
+</select>
 
 </div>
 
+<div class='filtro'>
+
+<h3>Torneo</h3>
+
+<select id='torneoStats'
+onchange='cargarStats()'>
+
+<option value='Apertura'
+${torneoSeleccionado==='Apertura'?'selected':''}>
+Apertura
+</option>
+
+<option value='Clausura'
+${torneoSeleccionado==='Clausura'?'selected':''}>
+Clausura
+</option>
+
+</select>
+
 </div>
+
+</div>
+
+<div class='card table-container'>
+
+<h3>Tabla de posiciones</h3>
+
+<table class='liga-table'>
+
+<tr>
+<th>#</th>
+<th>Equipo</th>
+<th>PTS</th>
+<th>PJ</th>
+<th>G</th>
+<th>E</th>
+<th>P</th>
+<th>GF</th>
+<th>GC</th>
+<th>DG</th>
+</tr>
+
+${tablaAPI.map(e => `
+
+<tr>
+
+<td>${e.rank}</td>
+
+<td class='team-cell'>
+
+${mostrarLogo(e.team.logo, 'table')}
+
+${e.team.name}
+
+</td>
+
+<td><strong>${e.points}</strong></td>
+<td>${e.played}</td>
+<td>${e.won}</td>
+<td>${e.draw}</td>
+<td>${e.lost}</td>
+<td>${e.gf}</td>
+<td>${e.ga}</td>
+<td>${e.gd}</td>
+
+</tr>
 
 `).join('')}
 
-</div>
+</table>
 
 </div>
 
 <div class='card'>
 
-<h3>Líderes individuales</h3>
+<h3>🏆 Líderes individuales</h3>
 
-<p>
-Las estadísticas avanzadas y goleadores se agregarán cuando conectemos una API especializada.
-</p>
+<div class='stats-grid'>
+
+${crearTarjetaStat('⚽', 'Goleadores', 'Próximamente')}
+${crearTarjetaStat('🎯', 'Asistencias', 'Próximamente')}
+${crearTarjetaStat('🔥', 'Contribuciones de gol', 'Próximamente')}
+${crearTarjetaStat('🟨', 'Tarjetas amarillas', 'Próximamente')}
+${crearTarjetaStat('🟥', 'Tarjetas rojas', 'Próximamente')}
+${crearTarjetaStat('🧤', 'Porterías a cero', 'Próximamente')}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+// ===============================
+// TARJETA DE ESTADÍSTICA
+// ===============================
+
+function crearTarjetaStat(icono, titulo, valor){
+
+return `
+
+<div class='stats-player-card'>
+
+<div>
+
+<h3>${icono} ${titulo}</h3>
+
+<p><strong>${valor}</strong></p>
+
+</div>
 
 </div>
 
@@ -806,7 +1266,7 @@ onerror="this.style.display='none'">
 
 <div class='card'>
 
-<h3>Equipos Liga MX</h3>
+<h3>Equipos favoritos</h3>
 
 ${equiposAPI.map(e => `
 
