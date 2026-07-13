@@ -1,10 +1,11 @@
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS SPORTSDB
-// PARTE 1/4
+// SCRIPT.JS COMPLETO - SPORTSDB
 // =======================================
 
 const API_URL = 'https://miapp-peach-six.vercel.app/api/sportsdb';
+
+let temporada = 2026;
 
 let partidos = [];
 let equiposAPI = [];
@@ -12,6 +13,7 @@ let jugadoresAPI = [];
 
 let notificaciones =
 JSON.parse(localStorage.getItem('notificaciones')) || [];
+
 
 // ===============================
 // API
@@ -43,6 +45,7 @@ async function llamarAPI(type){
 
 }
 
+
 // ===============================
 // EQUIPOS
 // ===============================
@@ -50,6 +53,17 @@ async function llamarAPI(type){
 async function cargarEquiposAPI(){
 
   let datos = await llamarAPI('teams');
+
+  if(!datos.length){
+    return;
+  }
+
+  // Filtrar Liga MX
+  datos = datos.filter(e =>
+    e.strCountry === 'Mexico' &&
+    (e.strLeague === 'Mexican Primera League' ||
+     e.strLeague === 'Mexico Liga MX')
+  );
 
   equiposAPI = datos.map(e=>({
 
@@ -62,6 +76,7 @@ async function cargarEquiposAPI(){
   }));
 
 }
+
 
 // ===============================
 // PARTIDOS
@@ -128,6 +143,11 @@ async function cargarPartidosAPI(){
 
 }
 
+
+// ===============================
+// UTILIDADES
+// ===============================
+
 function mostrarLogo(url,t='small'){
 
   let c='logo-small';
@@ -139,16 +159,18 @@ function mostrarLogo(url,t='small'){
   return `<img class="${c}" src="${url}" onerror="this.src='images/default.png'">`;
 
 }
-// =======================================
-// MATCHIQ MX
-// PARTE 2/4
-// =======================================
+
+
+// ===============================
+// INICIO
+// ===============================
 
 async function cargarInicio(){
 
   const contenido = document.getElementById('contenido');
 
-  contenido.innerHTML = '<h2>Inicio</h2><div class="card">Cargando...</div>';
+  contenido.innerHTML =
+  '<h2>Inicio</h2><div class="card">Cargando...</div>';
 
   if(!partidos.length){
     await cargarPartidosAPI();
@@ -190,7 +212,6 @@ async function cargarInicio(){
       </div>
 
       <p>🕒 ${p.hora}</p>
-
       <p>🏟 ${p.estadio}</p>
 
       <button onclick="mostrarAnalisis('${p.id}')">
@@ -203,6 +224,11 @@ async function cargarInicio(){
 
 }
 
+
+// ===============================
+// PARTIDOS
+// ===============================
+
 async function cargarPartidos(){
 
   const contenido = document.getElementById('contenido');
@@ -211,9 +237,37 @@ async function cargarPartidos(){
 
     <h2>Partidos Liga MX</h2>
 
+    <div class="card">
+
+      <label>Temporada</label>
+
+      <select id="temporada" onchange="cambiarTemporada()">
+
+        <option value="2026">2026-2027</option>
+        <option value="2025">2025-2026</option>
+        <option value="2024">2024-2025</option>
+
+      </select>
+
+    </div>
+
     <div id="listaPartidosLiga">Cargando...</div>
 
   `;
+
+  document.getElementById('temporada').value = String(temporada);
+
+  await cargarPartidosAPI();
+
+  mostrarListaPartidos();
+
+}
+
+async function cambiarTemporada(){
+
+  temporada = Number(
+    document.getElementById('temporada').value
+  );
 
   await cargarPartidosAPI();
 
@@ -257,9 +311,7 @@ function mostrarListaPartidos(){
       </div>
 
       <p>🕒 ${p.hora}</p>
-
       <p>🏟 ${p.estadio}</p>
-
       <p>Resultado: ${p.resultado}</p>
 
       <button onclick="mostrarAnalisis('${p.id}')">
@@ -275,10 +327,11 @@ function mostrarListaPartidos(){
   `).join('');
 
 }
-// =======================================
-// MATCHIQ MX
-// PARTE 3/4
-// =======================================
+
+
+// ===============================
+// ANALISIS
+// ===============================
 
 function mostrarAnalisis(id){
 
@@ -303,9 +356,7 @@ function mostrarAnalisis(id){
       <h3>Probabilidades</h3>
 
       <p>${p.local.nombre}: 40%</p>
-
       <p>Empate: 30%</p>
-
       <p>${p.visitante.nombre}: 30%</p>
 
       <h3>Marcadores probables</h3>
@@ -317,6 +368,11 @@ function mostrarAnalisis(id){
   `;
 
 }
+
+
+// ===============================
+// ALINEACIONES
+// ===============================
 
 async function mostrarAlineaciones(id){
 
@@ -344,41 +400,92 @@ async function mostrarAlineaciones(id){
 
 }
 
+
+// ===============================
+// PREDICCIONES
+// ===============================
+
 async function cargarPredicciones(){
 
-  document.getElementById('contenido').innerHTML = `
+  const contenido = document.getElementById('contenido');
+
+  if(!partidos.length){
+    await cargarPartidosAPI();
+  }
+
+  contenido.innerHTML = `
 
     <h2>Predicciones MatchIQ</h2>
 
-    <div class="card">
+    ${partidos.slice(0,5).map(p=>`
 
-      Selecciona un partido para ver la predicción.
+      <div class="card">
 
-    </div>
+        <div class="match-header">
+
+          <div>
+            ${mostrarLogo(p.local.logo)}
+            <strong>${p.local.nombre}</strong>
+          </div>
+
+          <h3>VS</h3>
+
+          <div>
+            ${mostrarLogo(p.visitante.logo)}
+            <strong>${p.visitante.nombre}</strong>
+          </div>
+
+        </div>
+
+        <p>🏟 ${p.estadio}</p>
+        <p>🕒 ${p.hora}</p>
+
+        <button onclick="mostrarAnalisis('${p.id}')">
+          Ver predicción
+        </button>
+
+      </div>
+
+    `).join('')}
 
   `;
 
 }
-// =======================================
-// MATCHIQ MX
-// PARTE 4/4
-// =======================================
+
+
+// ===============================
+// STATS
+// ===============================
 
 async function cargarStats(){
 
-  document.getElementById('contenido').innerHTML = `
+  const contenido = document.getElementById('contenido');
+
+  if(!partidos.length){
+    await cargarPartidosAPI();
+  }
+
+  let jugados = partidos.filter(p => p.resultado !== 'Pendiente');
+
+  contenido.innerHTML = `
 
     <h2>Estadísticas Liga MX</h2>
 
     <div class="card">
-
-      Las estadísticas avanzadas estarán disponibles próximamente.
-
+      <h3>Resumen</h3>
+      <p>Partidos cargados: ${partidos.length}</p>
+      <p>Partidos jugados: ${jugados.length}</p>
+      <p>Temporada: ${temporada}</p>
     </div>
 
   `;
 
 }
+
+
+// ===============================
+// PERFIL
+// ===============================
 
 async function cargarPerfil(){
 
@@ -447,6 +554,11 @@ function cambiarNotificacion(id){
 
 }
 
+
+// ===============================
+// NAVEGACIÓN
+// ===============================
+
 function mostrarSeccion(seccion){
 
   switch(seccion){
@@ -474,6 +586,11 @@ function mostrarSeccion(seccion){
   }
 
 }
+
+
+// ===============================
+// INICIO APP
+// ===============================
 
 document.addEventListener('DOMContentLoaded', async()=>{
 
