@@ -1,49 +1,57 @@
 export default async function handler(req, res) {
+  const API_KEY = '3';
+  const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
+  const LEAGUE = '4350';
 
-  const API_KEY = "3";
-  const league = "4350";
-
-  const type = req.query.type || "fixtures";
-
-  let url = "";
-
-  if(type === "teams") {
-
-    url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/lookup_all_teams.php?id=${league}`;
-
-  } else if(type === "fixtures") {
-
-    url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/eventsnextleague.php?id=${league}`;
-
-  } else if(type === "past") {
-
-    url = `https://www.thesportsdb.com/api/v1/json/${API_KEY}/eventspastleague.php?id=${league}`;
-
-  } else {
-
-    return res.status(400).json({
-      error: "Tipo no válido"
-    });
-
-  }
-
+  const type = req.query.type || 'fixtures';
 
   try {
 
-    const respuesta = await fetch(url);
+    // Próximos partidos
+    if(type === 'fixtures'){
 
-    const datos = await respuesta.json();
+      const r = await fetch(`${BASE}/eventsnextleague.php?id=${LEAGUE}`);
+      const d = await r.json();
 
-    res.status(200).json(datos);
+      return res.status(200).json({
+        events: d.events || []
+      });
 
+    }
 
-  } catch(error) {
+    // Partidos recientes
+    if(type === 'past'){
 
-    res.status(500).json({
-      error: error.message
+      const r = await fetch(`${BASE}/eventspastleague.php?id=${LEAGUE}`);
+      const d = await r.json();
+
+      return res.status(200).json({
+        events: d.events || []
+      });
+
+    }
+
+    // Equipos
+    if(type === 'teams'){
+
+      const r = await fetch(`${BASE}/lookup_all_teams.php?id=${LEAGUE}`);
+      const d = await r.json();
+
+      return res.status(200).json({
+        teams: d.teams || []
+      });
+
+    }
+
+    return res.status(400).json({
+      error:'Tipo no válido'
+    });
+
+  } catch(error){
+
+    return res.status(500).json({
+      error:error.message
     });
 
   }
-
 }
-
