@@ -1,251 +1,209 @@
 // =======================================
 // MATCHIQ MX
-// API SPORTSDB
-// PARTE 1/2
+// API SPORTSDB FINAL
+// api/sportsdb.js
 // =======================================
 
 export default async function handler(req, res) {
 
-const API_KEY = '3';
+  const API_KEY = '3';
+  const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
+  const type = req.query.type || 'fixtures';
 
-const BASE =
-`https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
+  try {
 
-const type = req.query.type || 'fixtures';
+    // =======================================
+    // EQUIPOS LIGA MX
+    // =======================================
 
-try {
+    if(type === 'teams') {
 
+      // Equipos que devuelve la liga
+      const respuesta = await fetch(
+        `${BASE}/search_all_teams.php?l=Mexican%20Primera%20League`
+      );
 
-// =======================================
-// EQUIPOS LIGA MX
-// =======================================
+      const datos = await respuesta.json();
+      let equipos = datos.teams || [];
 
-if(type === 'teams'){
+      // Equipos que normalmente faltan
+      const faltantes = [
+        'Club América',
+        'Chivas',
+        'Tigres UANL',
+        'Pumas UNAM',
+        'Toluca',
+        'Pachuca',
+        'Santos Laguna',
+        'Querétaro',
+        'Puebla',
+        'Mazatlán'
+      ];
 
-// Equipos que devuelve la liga
-const respuesta = await fetch(
+      // Buscar automáticamente los faltantes
+      for(const nombre of faltantes) {
 
-`${BASE}/search_all_teams.php?l=Mexican%20Primera%20League`
+        try {
 
-);
+          const r = await fetch(
+            `${BASE}/searchteams.php?t=${encodeURIComponent(nombre)}`
+          );
 
-const datos = await respuesta.json();
+          const d = await r.json();
 
-let equipos = datos.teams || [];
+          if(d.teams && d.teams.length) {
+            equipos.push(d.teams[0]);
+          }
 
+        } catch(e) {
 
-// Equipos que normalmente faltan
-const faltantes = [
+          console.log('No encontrado:', nombre);
 
-'Club América',
-'Chivas',
-'Tigres UANL',
-'Pumas UNAM',
-'Toluca',
-'Pachuca',
-'Santos Laguna',
-'Querétaro',
-'Puebla',
-'Mazatlán'
+        }
 
-];
+      }
 
+      // Alias para eliminar duplicados
+      const alias = {
 
-// Buscar automáticamente los faltantes
-for(const nombre of faltantes){
+        'club américa':'américa',
+        'américa':'américa',
 
-try{
+        'chivas':'cd guadalajara',
+        'cd guadalajara':'cd guadalajara',
 
-const r = await fetch(
+        'fc juárez':'juárez',
+        'juárez':'juárez',
 
-`${BASE}/searchteams.php?t=${encodeURIComponent(nombre)}`
+        'atlético san luis':'atlético de san luis',
+        'atlético de san luis':'atlético de san luis'
 
-);
+      };
 
-const d = await r.json();
+      const usados = new Set();
 
-if(d.teams && d.teams.length){
+      equipos = equipos.filter(e => {
 
-equipos.push(d.teams[0]);
+        const original = (e.strTeam || '').toLowerCase();
+
+        // Eliminar Chivas USA
+        if(original.includes('chivas usa')) {
+          return false;
+        }
+
+        const nombre = alias[original] || original;
+
+        if(usados.has(nombre)) {
+          return false;
+        }
+
+        usados.add(nombre);
+
+        return true;
+
+      });
+
+      // Normalizar respuesta
+      equipos = equipos.map(e => ({
+
+        idTeam: e.idTeam,
+
+        strTeam: e.strTeam,
+
+        strTeamBadge:
+          e.strTeamBadge ||
+          e.strBadge ||
+          e.strLogo ||
+          'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
+
+      }));
+
+      return res.status(200).json({
+        teams: equipos
+      });
+
+    }
+
+    // =======================================
+    // PRÓXIMOS PARTIDOS
+    // =======================================
+
+    if(type === 'fixtures') {
+
+      const respuesta = await fetch(
+        `${BASE}/eventsnextleague.php?id=4350`
+      );
+
+      const datos = await respuesta.json();
+
+      return res.status(200).json({
+        events: datos.events || []
+      });
+
+    }
+
+    // =======================================
+    // PARTIDOS PASADOS
+    // =======================================
+
+    if(type === 'past') {
+
+      const respuesta = await fetch(
+        `${BASE}/eventspastleague.php?id=4350`
+      );
+
+      const datos = await respuesta.json();
+
+      return res.status(200).json({
+        events: datos.events || []
+      });
+
+    }
+
+    // =======================================
+    // BUSCAR EQUIPO POR ID
+    // =======================================
+
+    if(type === 'team') {
+
+      const id = req.query.id;
+
+      if(!id) {
+
+        return res.status(400).json({
+          error:'Falta el id del equipo'
+        });
+
+      }
+
+      const respuesta = await fetch(
+        `${BASE}/lookupteam.php?id=${id}`
+      );
+
+      const datos = await respuesta.json();
+
+      return res.status(200).json({
+        team: datos.teams || []
+      });
+
+    }
+
+    // =======================================
+    // ERROR
+    // =======================================
+
+    return res.status(400).json({
+      error:'Tipo no válido'
+    });
+
+  } catch(error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      error:error.message
+    });
+
+  }
 
 }
-
-}
-catch(e){
-
-console.log('No encontrado:', nombre);
-
-}
-
-}
-
-
-// =======================================
-// ELIMINAR DUPLICADOS
-// =======================================
-
-const alias = {
-
-'club américa':'américa',
-'américa':'américa',
-
-'chivas':'cd guadalajara',
-'cd guadalajara':'cd guadalajara',
-
-'fc juárez':'juárez',
-'juárez':'juárez',
-
-'atlético san luis':'atlético de san luis',
-'atlético de san luis':'atlético de san luis'
-
-};
-
-const usados = new Set();
-
-equipos = equipos.filter(e=>{
-
-const original = (e.strTeam || '').toLowerCase();
-
-const nombre = alias[original] || original;
-
-if(usados.has(nombre)) return false;
-
-usados.add(nombre);
-
-return true;
-
-});
-
-
-// =======================================
-// NORMALIZAR RESPUESTA
-// =======================================
-
-equipos = equipos.map(e=>({
-
-idTeam:e.idTeam,
-
-strTeam:e.strTeam,
-
-strTeamBadge:
-e.strTeamBadge ||
-e.strBadge ||
-e.strLogo ||
-'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
-
-}));
-
-
-return res.status(200).json({
-
-teams:equipos
-
-});
-
-}
-
-
-// =======================================
-// PRÓXIMOS PARTIDOS
-// =======================================
-
-if(type === 'fixtures'){
-
-const respuesta = await fetch(
-
-`${BASE}/eventsnextleague.php?id=4350`
-
-);
-
-const datos = await respuesta.json();
-
-return res.status(200).json({
-
-events: datos.events || []
-
-});
-
-}
- // =======================================
-// PARTIDOS PASADOS
-// =======================================
-
-if(type === 'past'){
-
-const respuesta = await fetch(
-
-`${BASE}/eventspastleague.php?id=4350`
-
-);
-
-const datos = await respuesta.json();
-
-return res.status(200).json({
-
-events: datos.events || []
-
-});
-
-}
-
-
-// =======================================
-// BUSCAR UN EQUIPO ESPECÍFICO
-// =======================================
-
-if(type === 'team'){
-
-const id = req.query.id;
-
-if(!id){
-
-return res.status(400).json({
-
-error:'Falta el id del equipo'
-
-});
-
-}
-
-const respuesta = await fetch(
-
-`${BASE}/lookupteam.php?id=${id}`
-
-);
-
-const datos = await respuesta.json();
-
-return res.status(200).json({
-
-team: datos.teams || []
-
-});
-
-}
-
-
-// =======================================
-// TIPO NO VÁLIDO
-// =======================================
-
-return res.status(400).json({
-
-error:'Tipo no válido'
-
-});
-
-
-}
-catch(error){
-
-console.error(error);
-
-return res.status(500).json({
-
-error:error.message
-
-});
-
-}
-
-} 
