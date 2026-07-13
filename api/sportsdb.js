@@ -1,6 +1,6 @@
 // =======================================
 // MATCHIQ MX
-// API SPORTSDB CORREGIDA
+// API SPORTSDb CORREGIDA
 // api/sportsdb.js
 // =======================================
 
@@ -14,11 +14,13 @@ const BASE =
 `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
 
 
+
 const type = req.query.type || "fixtures";
 
 
 
 try {
+
 
 
 // =======================================
@@ -27,6 +29,33 @@ try {
 
 
 if(type === "teams"){
+
+
+
+const equiposLigaMX = [
+
+"América",
+"Atlas",
+"Atlético de San Luis",
+"Cruz Azul",
+"CD Guadalajara",
+"Juárez",
+"León",
+"Monterrey",
+"Necaxa",
+"Pachuca",
+"Puebla",
+"Pumas UNAM",
+"Querétaro",
+"Santos Laguna",
+"Tigres UANL",
+"Toluca",
+"Mazatlán",
+"FC Juárez"
+
+];
+
+
 
 
 const respuesta = await fetch(
@@ -41,60 +70,69 @@ const datos = await respuesta.json();
 
 
 
-let equipos = datos.teams || [];
+let equiposAPI = datos.teams || [];
 
 
 
-let lista = [];
+
+
+let equiposFinal = [];
 
 
 
-// eliminar duplicados
-
-equipos.forEach(e=>{
 
 
-let existe = lista.find(
+equiposLigaMX.forEach(nombre=>{
 
-x =>
 
-x.strTeam.toLowerCase() ===
 
+let encontrado = equiposAPI.find(e=>
+
+
+e.strTeam
+.toLowerCase()
+.includes(
+nombre.toLowerCase()
+)
+
+||
+nombre
+.toLowerCase()
+.includes(
 e.strTeam.toLowerCase()
+)
+
+
 
 );
 
 
 
-if(!existe){
 
 
-lista.push({
+
+if(encontrado){
 
 
-idTeam:e.idTeam,
+equiposFinal.push({
 
 
-strTeam:e.strTeam,
+idTeam:
+encontrado.idTeam,
+
+
+strTeam:
+nombre,
 
 
 strTeamBadge:
-
-
-e.strTeamBadge ||
-
-
-e.strBadge ||
-
-
-e.strLogo ||
-
-
-""
+encontrado.strTeamBadge || 
+"images/default.png"
 
 
 
 });
+
 
 
 }
@@ -102,6 +140,7 @@ e.strLogo ||
 
 
 });
+
 
 
 
@@ -109,13 +148,15 @@ e.strLogo ||
 
 return res.status(200).json({
 
-teams:lista
+teams:equiposFinal
+
 
 });
 
 
 
 }
+
 
 
 
@@ -125,6 +166,7 @@ teams:lista
 // =======================================
 // PRÓXIMOS PARTIDOS
 // =======================================
+
 
 
 if(type === "fixtures"){
@@ -143,9 +185,12 @@ const datos = await respuesta.json();
 
 
 
+
+
 return res.status(200).json({
 
-events: datos.events || []
+events:
+datos.events || []
 
 });
 
@@ -158,9 +203,13 @@ events: datos.events || []
 
 
 
+
+
+
 // =======================================
-// PARTIDOS PASADOS
+// PARTIDOS ANTERIORES
 // =======================================
+
 
 
 if(type === "past"){
@@ -179,9 +228,12 @@ const datos = await respuesta.json();
 
 
 
+
+
 return res.status(200).json({
 
-events: datos.events || []
+events:
+datos.events || []
 
 });
 
@@ -194,8 +246,11 @@ events: datos.events || []
 
 
 
+
+
+
 // =======================================
-// ERROR TIPO
+// ERROR
 // =======================================
 
 
@@ -204,6 +259,8 @@ return res.status(400).json({
 error:"Tipo no válido"
 
 });
+
+
 
 
 
