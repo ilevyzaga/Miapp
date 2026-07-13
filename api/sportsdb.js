@@ -1,7 +1,8 @@
 // =======================================
 // MATCHIQ MX
-// API SPORTSDb CORREGIDA
+// API SPORTSDB
 // api/sportsdb.js
+// VERSION CORREGIDA
 // =======================================
 
 
@@ -12,7 +13,6 @@ const API_KEY = "3";
 
 const BASE =
 `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
-
 
 
 const type = req.query.type || "fixtures";
@@ -32,32 +32,6 @@ if(type === "teams"){
 
 
 
-const equiposLigaMX = [
-
-"América",
-"Atlas",
-"Atlético de San Luis",
-"Cruz Azul",
-"CD Guadalajara",
-"Juárez",
-"León",
-"Monterrey",
-"Necaxa",
-"Pachuca",
-"Puebla",
-"Pumas UNAM",
-"Querétaro",
-"Santos Laguna",
-"Tigres UANL",
-"Toluca",
-"Mazatlán",
-"FC Juárez"
-
-];
-
-
-
-
 const respuesta = await fetch(
 
 `${BASE}/search_all_teams.php?l=Mexican%20Primera%20League`
@@ -70,76 +44,30 @@ const datos = await respuesta.json();
 
 
 
-let equiposAPI = datos.teams || [];
+let equipos = datos.teams || [];
 
 
 
 
 
-let equiposFinal = [];
+equipos = equipos.map(e=>({
 
 
+idTeam:e.idTeam,
 
 
-
-equiposLigaMX.forEach(nombre=>{
-
-
-
-let encontrado = equiposAPI.find(e=>
-
-
-e.strTeam
-.toLowerCase()
-.includes(
-nombre.toLowerCase()
-)
-
-||
-nombre
-.toLowerCase()
-.includes(
-e.strTeam.toLowerCase()
-)
-
-
-
-);
-
-
-
-
-
-
-if(encontrado){
-
-
-equiposFinal.push({
-
-
-idTeam:
-encontrado.idTeam,
-
-
-strTeam:
-nombre,
+strTeam:e.strTeam,
 
 
 strTeamBadge:
-encontrado.strTeamBadge || 
+
+e.strTeamBadge ||
+
 "images/default.png"
 
 
 
-});
-
-
-
-}
-
-
-
-});
+}));
 
 
 
@@ -148,7 +76,8 @@ encontrado.strTeamBadge ||
 
 return res.status(200).json({
 
-teams:equiposFinal
+
+teams:equipos
 
 
 });
@@ -168,7 +97,6 @@ teams:equiposFinal
 // =======================================
 
 
-
 if(type === "fixtures"){
 
 
@@ -185,11 +113,11 @@ const datos = await respuesta.json();
 
 
 
-
-
 return res.status(200).json({
 
+
 events:
+
 datos.events || []
 
 });
@@ -207,9 +135,8 @@ datos.events || []
 
 
 // =======================================
-// PARTIDOS ANTERIORES
+// PARTIDOS PASADOS
 // =======================================
-
 
 
 if(type === "past"){
@@ -228,12 +155,58 @@ const datos = await respuesta.json();
 
 
 
+return res.status(200).json({
+
+
+events:
+
+datos.events || []
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =======================================
+// EQUIPO ESPECÍFICO
+// =======================================
+
+
+if(type === "team"){
+
+
+
+const id = req.query.id;
+
+
+
+const respuesta = await fetch(
+
+`${BASE}/lookupteam.php?id=${id}`
+
+);
+
+
+
+const datos = await respuesta.json();
+
 
 
 return res.status(200).json({
 
-events:
-datos.events || []
+
+team:
+
+datos.teams || []
 
 });
 
@@ -256,7 +229,9 @@ datos.events || []
 
 return res.status(400).json({
 
+
 error:"Tipo no válido"
+
 
 });
 
@@ -274,7 +249,9 @@ catch(error){
 
 return res.status(500).json({
 
+
 error:error.message
+
 
 });
 
