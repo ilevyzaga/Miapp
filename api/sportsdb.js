@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
     }
 
-    // Próximos partidos
+    // Próximos partidos Liga MX
     if(type === 'fixtures') {
 
       const r = await fetch(
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 
     }
 
-    // Partidos recientes
+    // Partidos recientes Liga MX
     if(type === 'past') {
 
       const r = await fetch(
