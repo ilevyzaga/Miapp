@@ -1,164 +1,234 @@
 // =======================================
 // MATCHIQ MX
-// SCRIPT.JS COMPLETO - SPORTSDB
+// SCRIPT.JS SPORTSDB
+// PARTE 1/4
 // =======================================
+
+
+// ===============================
+// CONFIGURACIÓN
+// ===============================
 
 const API_URL = 'https://miapp-peach-six.vercel.app/api/sportsdb';
 
 let temporada = 2026;
+let torneoSeleccionado = 'liga_mx';
+let jornadaSeleccionada = 1;
+
+
+// ===============================
+// VARIABLES GLOBALES
+// ===============================
 
 let partidos = [];
+let partidosAPI = [];
 let equiposAPI = [];
+let tablaAPI = [];
 let jugadoresAPI = [];
+let lideresAPI = [];
 
 let notificaciones =
 JSON.parse(localStorage.getItem('notificaciones')) || [];
 
 
 // ===============================
-// API
+// LLAMAR API
 // ===============================
 
-async function llamarAPI(type){
+async function llamarAPI(type, extra=''){
 
-  try{
+try{
 
-    const respuesta = await fetch(`${API_URL}?type=${type}`);
+const respuesta = await fetch(
+`${API_URL}?type=${type}${extra}`
+);
 
-    const data = await respuesta.json();
+const datos = await respuesta.json();
 
-    if(type === 'teams'){
-      return data.teams || [];
-    }
 
-    return data.events || [];
+// Teams
+if(type === 'teams'){
+return datos.teams || [];
+}
 
-  }
 
-  catch(error){
+// Fixtures y Past
+if(type === 'fixtures' || type === 'past'){
+return datos.events || [];
+}
 
-    console.log(error);
 
-    return [];
+// Team
+if(type === 'team'){
+return datos.team || [];
+}
 
-  }
+
+return [];
+
+}
+catch(error){
+
+console.log('Error API:', error);
+return [];
+
+}
 
 }
 
 
 // ===============================
-// EQUIPOS
+// CARGAR EQUIPOS
 // ===============================
 
 async function cargarEquiposAPI(){
 
-  let datos = await llamarAPI('teams');
+const datos = await llamarAPI('teams');
 
-  if(!datos.length){
-    return;
-  }
+equiposAPI = datos.map(e => ({
 
-  // Filtrar Liga MX
-  datos = datos.filter(e =>
-    e.strCountry === 'Mexico' &&
-    (e.strLeague === 'Mexican Primera League' ||
-     e.strLeague === 'Mexico Liga MX')
-  );
+id: e.idTeam,
 
-  equiposAPI = datos.map(e=>({
+nombre: e.strTeam,
 
-    id:e.idTeam,
+logo: e.strTeamBadge
 
-    nombre:e.strTeam,
+}));
 
-    logo:e.strTeamBadge || 'images/default.png'
 
-  }));
+console.log('Equipos cargados:', equiposAPI);
 
 }
 
 
 // ===============================
-// PARTIDOS
+// BUSCAR EQUIPO
+// ===============================
+
+function buscarEquipo(id){
+
+return equiposAPI.find(e => e.id == id) || {
+
+id,
+
+nombre:'Equipo',
+
+logo:'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
+
+};
+
+}
+
+
+// ===============================
+// CARGAR PARTIDOS
 // ===============================
 
 async function cargarPartidosAPI(){
 
-  let proximos = await llamarAPI('fixtures');
+const datos = await llamarAPI('fixtures');
 
-  let recientes = await llamarAPI('past');
+if(!datos.length){
 
-  let todos = [...proximos, ...recientes];
+partidos = [];
+return [];
 
-  if(!todos.length){
+}
 
-    partidos = [];
 
-    return [];
+// Filtrar por jornada si existe
+let jornadaReal = datos.filter(p =>
 
-  }
+String(p.intRound || '') === String(jornadaSeleccionada)
 
-  const mapa = new Map();
+);
 
-  todos.forEach(p=>mapa.set(p.idEvent,p));
 
-  todos = Array.from(mapa.values());
+// Si no hay partidos de esa jornada, mostrar todos
+if(!jornadaReal.length){
+jornadaReal = datos;
+}
 
-  todos.sort((a,b)=>
-    new Date(a.strTimestamp) - new Date(b.strTimestamp)
-  );
 
-  partidos = todos.map(p=>({
+partidosAPI = jornadaReal;
 
-    id:p.idEvent,
 
-    local:{
-      id:p.idHomeTeam,
-      nombre:p.strHomeTeam,
-      logo:p.strHomeTeamBadge || 'images/default.png'
-    },
+partidos = jornadaReal.map(p => ({
 
-    visitante:{
-      id:p.idAwayTeam,
-      nombre:p.strAwayTeam,
-      logo:p.strAwayTeamBadge || 'images/default.png'
-    },
+id: p.idEvent,
 
-    fecha:p.dateEvent,
+local: {
 
-    hora:p.strTime
-      ? p.strTime.substring(0,5)
-      : 'Por confirmar',
+id: p.idHomeTeam,
 
-    estadio:p.strVenue || 'Por confirmar',
+nombre: p.strHomeTeam,
 
-    resultado:
-      p.intHomeScore !== null && p.intAwayScore !== null
-      ? `${p.intHomeScore}-${p.intAwayScore}`
-      : 'Pendiente'
+logo: p.strHomeTeamBadge
 
-  }));
+},
 
-  return partidos;
+visitante: {
+
+id: p.idAwayTeam,
+
+nombre: p.strAwayTeam,
+
+logo: p.strAwayTeamBadge
+
+},
+
+fecha: p.dateEvent,
+
+hora: p.strTimeLocal || p.strTime || 'Por confirmar',
+
+estadio: p.strVenue || 'Por confirmar',
+
+resultado:
+
+p.intHomeScore !== null && p.intAwayScore !== null
+
+? `${p.intHomeScore}-${p.intAwayScore}`
+
+: null,
+
+prediccion:
+
+'Analizando datos de forma, goles y rendimiento'
+
+}));
+
+
+return partidos;
 
 }
 
 
 // ===============================
-// UTILIDADES
+// LOGOS
 // ===============================
 
-function mostrarLogo(url,t='small'){
+function mostrarLogo(url, tipo='small'){
 
-  let c='logo-small';
+let clase = 'logo-small';
 
-  if(t==='medium') c='logo-medium';
+if(tipo === 'medium') clase = 'logo-medium';
+if(tipo === 'table') clase = 'table-logo';
 
-  if(t==='large') c='logo-large';
+return `
 
-  return `<img class="${c}" src="${url}" onerror="this.src='images/default.png'">`;
+<img
+class='${clase}'
+src='${url}'
+onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+
+`;
 
 }
+// =======================================
+// MATCHIQ MX
+// SCRIPT.JS SPORTSDB
+// PARTE 2/4
+// =======================================
 
 
 // ===============================
@@ -167,60 +237,82 @@ function mostrarLogo(url,t='small'){
 
 async function cargarInicio(){
 
-  const contenido = document.getElementById('contenido');
+const contenido = document.getElementById('contenido');
 
-  contenido.innerHTML =
-  '<h2>Inicio</h2><div class="card">Cargando...</div>';
+contenido.innerHTML = `
 
-  if(!partidos.length){
-    await cargarPartidosAPI();
-  }
+<h2>Inicio</h2>
 
-  if(!partidos.length){
+<div class='card'>
+Cargando partidos...
+</div>
 
-    contenido.innerHTML =
-    '<h2>Inicio</h2><div class="card">No hay partidos disponibles.</div>';
+`;
 
-    return;
+if(partidos.length === 0){
+await cargarPartidosAPI();
+}
 
-  }
+if(!partidos.length){
 
-  let p = partidos[0];
+contenido.innerHTML = `
 
-  contenido.innerHTML = `
+<h2>Inicio</h2>
 
-    <h2>Inicio</h2>
+<div class='card'>
+No hay partidos disponibles.
+</div>
 
-    <div class="card">
+`;
 
-      <h3>Partido destacado</h3>
+return;
 
-      <div class="match-header">
+}
 
-        <div>
-          ${mostrarLogo(p.local.logo,'medium')}
-          <strong>${p.local.nombre}</strong>
-        </div>
+const p = partidos[0];
 
-        <h2>VS</h2>
+contenido.innerHTML = `
 
-        <div>
-          ${mostrarLogo(p.visitante.logo,'medium')}
-          <strong>${p.visitante.nombre}</strong>
-        </div>
+<h2>Inicio</h2>
 
-      </div>
+<div class='card home-match'>
 
-      <p>🕒 ${p.hora}</p>
-      <p>🏟 ${p.estadio}</p>
+<h3>Partido destacado</h3>
 
-      <button onclick="mostrarAnalisis('${p.id}')">
-        Ver análisis
-      </button>
+<div class='match-header'>
 
-    </div>
+<div>
+${mostrarLogo(p.local.logo, 'medium')}
+<strong>${p.local.nombre}</strong>
+</div>
 
-  `;
+<h2>VS</h2>
+
+<div>
+${mostrarLogo(p.visitante.logo, 'medium')}
+<strong>${p.visitante.nombre}</strong>
+</div>
+
+</div>
+
+<p>🕒 ${p.hora}</p>
+<p>🏟 ${p.estadio}</p>
+
+<button onclick="mostrarAnalisis('${p.id}')">
+Ver análisis
+</button>
+
+</div>
+
+<div class='card prediction-card'>
+
+<h3>Predicción MatchIQ</h3>
+
+<p>${p.prediccion}</p>
+
+</div>
+
+`;
 
 }
 
@@ -231,100 +323,194 @@ async function cargarInicio(){
 
 async function cargarPartidos(){
 
-  const contenido = document.getElementById('contenido');
+const contenido = document.getElementById('contenido');
 
-  contenido.innerHTML = `
+contenido.innerHTML = `
 
-    <h2>Partidos Liga MX</h2>
+<h2>Partidos Liga MX</h2>
 
-    <div class="card">
+<div class='card'>
 
-      <label>Temporada</label>
+<h3>Jornada</h3>
 
-      <select id="temporada" onchange="cambiarTemporada()">
+<select id='jornadaLiga' onchange='cambiarJornada()'>
 
-        <option value="2026">2026-2027</option>
-        <option value="2025">2025-2026</option>
-        <option value="2024">2024-2025</option>
+${crearOpcionesJornadas()}
 
-      </select>
+</select>
 
-    </div>
+</div>
 
-    <div id="listaPartidosLiga">Cargando...</div>
+<div id='listaPartidosLiga'>
+Cargando...
+</div>
 
-  `;
+`;
 
-  document.getElementById('temporada').value = String(temporada);
+await cargarPartidosAPI();
 
-  await cargarPartidosAPI();
-
-  mostrarListaPartidos();
+mostrarListaPartidos();
 
 }
 
-async function cambiarTemporada(){
 
-  temporada = Number(
-    document.getElementById('temporada').value
-  );
+// ===============================
+// JORNADAS
+// ===============================
 
-  await cargarPartidosAPI();
+function crearOpcionesJornadas(){
 
-  mostrarListaPartidos();
+let html = '';
+
+for(let i = 1; i <= 17; i++){
+
+html += `
+<option value='${i}' ${i===jornadaSeleccionada?'selected':''}>
+Jornada ${i}
+</option>
+`;
 
 }
+
+return html;
+
+}
+
+
+// ===============================
+// CAMBIAR JORNADA
+// ===============================
+
+async function cambiarJornada(){
+
+jornadaSeleccionada = Number(
+document.getElementById('jornadaLiga').value
+);
+
+await cargarPartidosAPI();
+
+mostrarListaPartidos();
+
+}
+
+
+// ===============================
+// MOSTRAR PARTIDOS
+// ===============================
 
 function mostrarListaPartidos(){
 
-  const lista = document.getElementById('listaPartidosLiga');
+const lista = document.getElementById('listaPartidosLiga');
 
-  if(!lista) return;
+if(!lista) return;
 
-  if(!partidos.length){
+if(!partidos.length){
 
-    lista.innerHTML =
-    '<div class="card">No hay partidos disponibles.</div>';
+lista.innerHTML = `
 
-    return;
+<div class='card'>
+No hay partidos registrados.
+</div>
 
-  }
+`;
 
-  lista.innerHTML = partidos.map(p=>`
+return;
 
-    <div class="card">
+}
 
-      <div class="match-header">
+lista.innerHTML = partidos.map(p => `
 
-        <div>
-          ${mostrarLogo(p.local.logo)}
-          <strong>${p.local.nombre}</strong>
-        </div>
+<div class='card'>
 
-        <h3>VS</h3>
+<div class='match-header'>
 
-        <div>
-          ${mostrarLogo(p.visitante.logo)}
-          <strong>${p.visitante.nombre}</strong>
-        </div>
+<div>
+${mostrarLogo(p.local.logo, 'small')}
+<strong>${p.local.nombre}</strong>
+</div>
 
-      </div>
+<h3>VS</h3>
 
-      <p>🕒 ${p.hora}</p>
-      <p>🏟 ${p.estadio}</p>
-      <p>Resultado: ${p.resultado}</p>
+<div>
+${mostrarLogo(p.visitante.logo, 'small')}
+<strong>${p.visitante.nombre}</strong>
+</div>
 
-      <button onclick="mostrarAnalisis('${p.id}')">
-        Análisis
-      </button>
+</div>
 
-      <button onclick="mostrarAlineaciones('${p.id}')">
-        Alineaciones
-      </button>
+<p>🕒 ${p.hora}</p>
+<p>🏟 ${p.estadio}</p>
 
-    </div>
+${p.resultado ? `<h3>Resultado ${p.resultado}</h3>` : ''}
 
-  `).join('');
+<button onclick="mostrarAnalisis('${p.id}')">
+Análisis
+</button>
+
+<button onclick="mostrarAlineaciones('${p.id}')">
+Alineaciones
+</button>
+
+</div>
+
+`).join('');
+
+}
+// =======================================
+// MATCHIQ MX
+// SCRIPT.JS SPORTSDB
+// PARTE 3/4
+// =======================================
+
+
+// ===============================
+// PREDICCIONES
+// ===============================
+
+async function cargarPredicciones(){
+
+const contenido = document.getElementById('contenido');
+
+if(partidos.length === 0){
+await cargarPartidosAPI();
+}
+
+contenido.innerHTML = `
+
+<h2>Predicciones MatchIQ</h2>
+
+${!partidos.length ? `
+
+<div class='card'>
+No hay partidos disponibles.
+</div>
+
+` : partidos.map(p => `
+
+<div class='card prediction-card'>
+
+<h3>${p.local.nombre} vs ${p.visitante.nombre}</h3>
+
+<p><strong>Predicción MatchIQ</strong></p>
+
+<ul>
+<li>Forma reciente</li>
+<li>Goles anotados</li>
+<li>Rendimiento defensivo</li>
+<li>Contexto del partido</li>
+</ul>
+
+<p>${p.prediccion}</p>
+
+<button onclick="mostrarAnalisis('${p.id}')">
+Ver análisis
+</button>
+
+</div>
+
+`).join('')}
+
+`;
 
 }
 
@@ -335,37 +521,52 @@ function mostrarListaPartidos(){
 
 function mostrarAnalisis(id){
 
-  let p = partidos.find(x=>x.id==id);
+const p = partidos.find(x => x.id == id);
 
-  if(!p) return;
+if(!p) return;
 
-  document.getElementById('contenido').innerHTML = `
+const contenido = document.getElementById('contenido');
 
-    <button onclick="cargarPartidos()">← Regresar</button>
+contenido.innerHTML = `
 
-    <div class="card analysis-section">
+<button onclick='cargarPartidos()'>
+← Regresar
+</button>
 
-      <h2>${p.local.nombre} VS ${p.visitante.nombre}</h2>
+<div class='card analysis-section'>
 
-      <h3>Predicción MatchIQ</h3>
+<h2>${p.local.nombre} vs ${p.visitante.nombre}</h2>
 
-      <p>
-        Análisis basado en resultados y rendimiento reciente.
-      </p>
+<h3>Forma reciente</h3>
+<p>
+Se evalúa el rendimiento reciente de ambos equipos y la tendencia que llevan en sus últimos encuentros.
+</p>
 
-      <h3>Probabilidades</h3>
+<h3>Ataque</h3>
+<p>
+Se considera la capacidad ofensiva, la generación de oportunidades y la cantidad de goles anotados.
+</p>
 
-      <p>${p.local.nombre}: 40%</p>
-      <p>Empate: 30%</p>
-      <p>${p.visitante.nombre}: 30%</p>
+<h3>Defensa</h3>
+<p>
+Se revisa el comportamiento defensivo y los goles recibidos en partidos recientes.
+</p>
 
-      <h3>Marcadores probables</h3>
+<h3>Predicción MatchIQ</h3>
 
-      <p>1-0 / 1-1 / 2-1</p>
+<div class='score-box'>
+<div>2-1</div>
+<div>1-1</div>
+<div>1-0</div>
+</div>
 
-    </div>
+<p>
+Esta predicción es una estimación basada en información disponible y puede cambiar conforme avance la temporada.
+</p>
 
-  `;
+</div>
+
+`;
 
 }
 
@@ -376,109 +577,200 @@ function mostrarAnalisis(id){
 
 async function mostrarAlineaciones(id){
 
-  let p = partidos.find(x=>x.id==id);
+const partido = partidos.find(p => p.id == id);
 
-  if(!p) return;
+if(!partido) return;
 
-  document.getElementById('contenido').innerHTML = `
+const contenido = document.getElementById('contenido');
 
-    <button onclick="cargarPartidos()">← Regresar</button>
+contenido.innerHTML = `
 
-    <div class="card">
+<button onclick='cargarPartidos()'>
+← Regresar
+</button>
 
-      <h2>${p.local.nombre} VS ${p.visitante.nombre}</h2>
+<div class='card'>
 
-      <h3>Alineaciones</h3>
+<h2>${partido.local.nombre} vs ${partido.visitante.nombre}</h2>
 
-      <p>
-        Las alineaciones oficiales estarán disponibles próximamente.
-      </p>
+<h3>Alineaciones</h3>
 
-    </div>
+<p>
+Las alineaciones oficiales todavía no están conectadas a MatchIQ.
+</p>
 
-  `;
+<p>
+Más adelante agregaremos una API especializada para mostrar titulares, banca y estadísticas en tiempo real.
+</p>
 
-}
+<div class='cancha-container'>
 
+<div class='equipo-cancha local'>
+<h3>${partido.local.nombre}</h3>
+${mostrarLogo(partido.local.logo, 'medium')}
+</div>
 
-// ===============================
-// PREDICCIONES
-// ===============================
+<div class='linea-cancha'>VS</div>
 
-async function cargarPredicciones(){
+<div class='equipo-cancha visitante'>
+<h3>${partido.visitante.nombre}</h3>
+${mostrarLogo(partido.visitante.logo, 'medium')}
+</div>
 
-  const contenido = document.getElementById('contenido');
+</div>
 
-  if(!partidos.length){
-    await cargarPartidosAPI();
-  }
+</div>
 
-  contenido.innerHTML = `
-
-    <h2>Predicciones MatchIQ</h2>
-
-    ${partidos.slice(0,5).map(p=>`
-
-      <div class="card">
-
-        <div class="match-header">
-
-          <div>
-            ${mostrarLogo(p.local.logo)}
-            <strong>${p.local.nombre}</strong>
-          </div>
-
-          <h3>VS</h3>
-
-          <div>
-            ${mostrarLogo(p.visitante.logo)}
-            <strong>${p.visitante.nombre}</strong>
-          </div>
-
-        </div>
-
-        <p>🏟 ${p.estadio}</p>
-        <p>🕒 ${p.hora}</p>
-
-        <button onclick="mostrarAnalisis('${p.id}')">
-          Ver predicción
-        </button>
-
-      </div>
-
-    `).join('')}
-
-  `;
+`;
 
 }
 
 
 // ===============================
-// STATS
+// JUGADORES
+// ===============================
+
+async function cargarJugadoresEquipo(id){
+
+// SportsDB gratis no proporciona fácilmente
+// plantillas completas por partido.
+// Dejamos la función preparada para el futuro.
+
+return [];
+
+}
+
+
+// ===============================
+// POPUP JUGADOR
+// ===============================
+
+function mostrarJugador(id){
+
+const popup = document.getElementById('player-popup');
+
+if(!popup) return;
+
+popup.innerHTML = `
+
+<div class='popup-background'
+onclick='cerrarJugador()'></div>
+
+<div class='player-modal'>
+
+<h2>Jugador</h2>
+
+<p>
+La información individual de jugadores estará disponible cuando conectemos una API especializada.
+</p>
+
+<button onclick='cerrarJugador()'>
+Cerrar
+</button>
+
+</div>
+
+`;
+
+popup.style.display = 'block';
+
+}
+
+
+function cerrarJugador(){
+
+const popup = document.getElementById('player-popup');
+
+if(popup){
+
+popup.style.display = 'none';
+popup.innerHTML = '';
+
+}
+
+}
+// =======================================
+// MATCHIQ MX
+// SCRIPT.JS SPORTSDB
+// PARTE 4/4
+// =======================================
+
+
+// ===============================
+// ESTADÍSTICAS
 // ===============================
 
 async function cargarStats(){
 
-  const contenido = document.getElementById('contenido');
+const contenido = document.getElementById('contenido');
 
-  if(!partidos.length){
-    await cargarPartidosAPI();
-  }
+contenido.innerHTML = `
 
-  let jugados = partidos.filter(p => p.resultado !== 'Pendiente');
+<h2>Estadísticas Liga MX</h2>
 
-  contenido.innerHTML = `
+<div class='card'>
+Cargando datos...
+</div>
 
-    <h2>Estadísticas Liga MX</h2>
+`;
 
-    <div class="card">
-      <h3>Resumen</h3>
-      <p>Partidos cargados: ${partidos.length}</p>
-      <p>Partidos jugados: ${jugados.length}</p>
-      <p>Temporada: ${temporada}</p>
-    </div>
+if(equiposAPI.length === 0){
+await cargarEquiposAPI();
+}
 
-  `;
+contenido.innerHTML = `
+
+<h2>Estadísticas Liga MX</h2>
+
+<div class='card'>
+
+<h3>Equipos registrados</h3>
+
+<p>
+Actualmente hay <strong>${equiposAPI.length}</strong> equipos cargados desde SportsDB.
+</p>
+
+</div>
+
+<div class='card'>
+
+<h3>Clubes disponibles</h3>
+
+<div class='stats-grid'>
+
+${equiposAPI.map(e => `
+
+<div class='stats-player-card'>
+
+${mostrarLogo(e.logo, 'small')}
+
+<div>
+
+<h3>${e.nombre}</h3>
+
+<p>ID: ${e.id}</p>
+
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+<div class='card'>
+
+<h3>Líderes individuales</h3>
+
+<p>
+Las estadísticas avanzadas y goleadores se agregarán cuando conectemos una API especializada.
+</p>
+
+</div>
+
+`;
 
 }
 
@@ -489,68 +781,84 @@ async function cargarStats(){
 
 async function cargarPerfil(){
 
-  if(!equiposAPI.length){
-    await cargarEquiposAPI();
-  }
+const contenido = document.getElementById('contenido');
 
-  document.getElementById('contenido').innerHTML = `
+if(equiposAPI.length === 0){
+await cargarEquiposAPI();
+}
 
-    <h2>Perfil</h2>
+contenido.innerHTML = `
 
-    <div class="card">
+<h2>Perfil</h2>
 
-      <h3>Equipos Liga MX</h3>
+<div class='card perfil-card'>
 
-      ${equiposAPI.map(e=>`
+<img
+src='images/profile.svg'
+class='section-icon'
+onerror="this.style.display='none'">
 
-        <div class="team-follow">
+<h3>Isaac</h3>
 
-          <img src="${e.logo}" class="logo-small"
-               onerror="this.src='images/default.png'">
+<p>Usuario de MatchIQ MX</p>
 
-          <strong>${e.nombre}</strong>
+</div>
 
-          <button onclick="cambiarNotificacion('${e.id}')">
+<div class='card'>
 
-            ${notificaciones.includes(String(e.id))
-              ? 'Siguiendo'
-              : 'Seguir'}
+<h3>Equipos Liga MX</h3>
 
-          </button>
+${equiposAPI.map(e => `
 
-        </div>
+<div class='team-follow'>
 
-      `).join('')}
+${mostrarLogo(e.logo, 'small')}
 
-    </div>
+<strong>${e.nombre}</strong>
 
-  `;
+<button onclick="cambiarNotificacion('${e.id}')">
+
+${notificaciones.includes(String(e.id))
+? 'Siguiendo'
+: 'Seguir'}
+
+</button>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
 
 }
 
+
+// ===============================
+// FAVORITOS
+// ===============================
+
 function cambiarNotificacion(id){
 
-  id = String(id);
+id = String(id);
 
-  if(notificaciones.includes(id)){
+if(notificaciones.includes(id)){
 
-    notificaciones =
-    notificaciones.filter(x=>x!==id);
+notificaciones = notificaciones.filter(x => x !== id);
 
-  }
+}else{
 
-  else{
+notificaciones.push(id);
 
-    notificaciones.push(id);
+}
 
-  }
+localStorage.setItem(
+'notificaciones',
+JSON.stringify(notificaciones)
+);
 
-  localStorage.setItem(
-    'notificaciones',
-    JSON.stringify(notificaciones)
-  );
-
-  cargarPerfil();
+cargarPerfil();
 
 }
 
@@ -561,29 +869,32 @@ function cambiarNotificacion(id){
 
 function mostrarSeccion(seccion){
 
-  switch(seccion){
+switch(seccion){
 
-    case 'inicio':
-      cargarInicio();
-      break;
+case 'inicio':
+cargarInicio();
+break;
 
-    case 'partidos':
-      cargarPartidos();
-      break;
+case 'partidos':
+cargarPartidos();
+break;
 
-    case 'predicciones':
-      cargarPredicciones();
-      break;
+case 'predicciones':
+cargarPredicciones();
+break;
 
-    case 'stats':
-      cargarStats();
-      break;
+case 'stats':
+cargarStats();
+break;
 
-    case 'perfil':
-      cargarPerfil();
-      break;
+case 'perfil':
+cargarPerfil();
+break;
 
-  }
+default:
+cargarInicio();
+
+}
 
 }
 
@@ -592,12 +903,14 @@ function mostrarSeccion(seccion){
 // INICIO APP
 // ===============================
 
-document.addEventListener('DOMContentLoaded', async()=>{
+document.addEventListener('DOMContentLoaded', async () => {
 
-  console.log('MatchIQ iniciado');
+console.log('MatchIQ MX iniciado');
 
-  await cargarEquiposAPI();
+await cargarEquiposAPI();
 
-  await cargarInicio();
+await cargarPartidosAPI();
+
+await cargarInicio();
 
 });
