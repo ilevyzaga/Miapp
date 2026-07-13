@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         'Santos Laguna',
         'Querétaro',
         'Puebla',
-        'Mazatlán'
+        'Club Tijuana'
       ];
 
       // Buscar automáticamente los faltantes
@@ -75,6 +75,9 @@ export default async function handler(req, res) {
         'fc juárez':'juárez',
         'juárez':'juárez',
 
+        'club tijuana':'club tijuana',
+        'tijuana':'club tijuana',
+
         'atlético san luis':'atlético de san luis',
         'atlético de san luis':'atlético de san luis'
 
@@ -86,16 +89,13 @@ export default async function handler(req, res) {
 
         const original = (e.strTeam || '').toLowerCase();
 
-        // Eliminar Chivas USA
-        if(original.includes('chivas usa')) {
-          return false;
-        }
+        // Eliminar equipos que no queremos
+        if(original.includes('chivas usa')) return false;
+        if(original.includes('mazatl')) return false;
 
         const nombre = alias[original] || original;
 
-        if(usados.has(nombre)) {
-          return false;
-        }
+        if(usados.has(nombre)) return false;
 
         usados.add(nombre);
 
