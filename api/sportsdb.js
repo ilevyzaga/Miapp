@@ -1,6 +1,6 @@
 // =======================================
 // MATCHIQ MX
-// API SPORTDB CORREGIDA
+// API SPORTSDB CORREGIDA
 // api/sportsdb.js
 // =======================================
 
@@ -14,7 +14,6 @@ const BASE =
 `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
 
 
-
 const type = req.query.type || "fixtures";
 
 
@@ -22,16 +21,12 @@ const type = req.query.type || "fixtures";
 try {
 
 
-
-//
-// ===============================
+// =======================================
 // EQUIPOS LIGA MX
-// ===============================
-//
+// =======================================
 
 
 if(type === "teams"){
-
 
 
 const respuesta = await fetch(
@@ -50,170 +45,60 @@ let equipos = datos.teams || [];
 
 
 
-
-// Equipos base por si SportsDB no trae todos
-
-
-const equiposBase = [
-
-
-{
-idTeam:"2287",
-strTeam:"Club América",
-strTeamBadge:"images/america.png"
-},
-
-
-{
-idTeam:"2278",
-strTeam:"Chivas",
-strTeamBadge:"images/chivas.png"
-},
-
-
-{
-idTeam:"2279",
-strTeam:"Tigres UANL",
-strTeamBadge:"images/tigres.png"
-},
-
-
-{
-idTeam:"2282",
-strTeam:"Monterrey",
-strTeamBadge:"images/monterrey.png"
-},
-
-
-{
-idTeam:"2295",
-strTeam:"Cruz Azul",
-strTeamBadge:"images/cruzazul.png"
-},
-
-
-{
-idTeam:"2286",
-strTeam:"Pumas UNAM",
-strTeamBadge:"images/pumas.png"
-},
-
-
-{
-idTeam:"2281",
-strTeam:"Toluca",
-strTeamBadge:"images/toluca.png"
-},
-
-
-{
-idTeam:"2292",
-strTeam:"Pachuca",
-strTeamBadge:"images/pachuca.png"
-},
-
-
-{
-idTeam:"2283",
-strTeam:"Atlas",
-strTeamBadge:"images/atlas.png"
-},
-
-
-{
-idTeam:"2285",
-strTeam:"Santos Laguna",
-strTeamBadge:"images/santos.png"
-},
-
-
-{
-idTeam:"2289",
-strTeam:"León",
-strTeamBadge:"images/leon.png"
-},
-
-
-{
-idTeam:"2290",
-strTeam:"Querétaro",
-strTeamBadge:"images/queretaro.png"
-},
-
-
-{
-idTeam:"2291",
-strTeam:"Puebla",
-strTeamBadge:"images/puebla.png"
-},
-
-
-{
-idTeam:"2298",
-strTeam:"FC Juárez",
-strTeamBadge:"images/juarez.png"
-},
-
-
-{
-idTeam:"14002",
-strTeam:"Mazatlán",
-strTeamBadge:"images/mazatlan.png"
-},
-
-
-{
-idTeam:"2314",
-strTeam:"Atlético San Luis",
-strTeamBadge:"images/atleticosanluis.png"
-}
+let lista = [];
 
 
 
-];
+// eliminar duplicados
+
+equipos.forEach(e=>{
+
+
+let existe = lista.find(
+
+x =>
+
+x.strTeam.toLowerCase() ===
+
+e.strTeam.toLowerCase()
+
+);
 
 
 
+if(!existe){
 
 
-// Combinar sin repetir
+lista.push({
 
-
-const todos = [
-
-...equipos,
-
-...equiposBase
-
-];
-
-
-
-const final = [];
-
-
-
-todos.forEach(e=>{
-
-
-if(!final.find(x=>x.strTeam === e.strTeam)){
-
-
-final.push({
 
 idTeam:e.idTeam,
 
+
 strTeam:e.strTeam,
 
+
 strTeamBadge:
+
+
 e.strTeamBadge ||
-"images/default.png"
+
+
+e.strBadge ||
+
+
+e.strLogo ||
+
+
+""
+
 
 
 });
 
 
 }
+
 
 
 });
@@ -224,7 +109,7 @@ e.strTeamBadge ||
 
 return res.status(200).json({
 
-teams: final
+teams:lista
 
 });
 
@@ -237,11 +122,9 @@ teams: final
 
 
 
-//
-// ===============================
+// =======================================
 // PRÓXIMOS PARTIDOS
-// ===============================
-//
+// =======================================
 
 
 if(type === "fixtures"){
@@ -275,12 +158,9 @@ events: datos.events || []
 
 
 
-
-//
-// ===============================
+// =======================================
 // PARTIDOS PASADOS
-// ===============================
-//
+// =======================================
 
 
 if(type === "past"){
@@ -314,13 +194,16 @@ events: datos.events || []
 
 
 
+// =======================================
+// ERROR TIPO
+// =======================================
+
 
 return res.status(400).json({
 
 error:"Tipo no válido"
 
 });
-
 
 
 
@@ -341,6 +224,7 @@ error:error.message
 
 
 }
+
 
 
 }
