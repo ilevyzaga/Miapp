@@ -18,7 +18,6 @@ export default async function handler(req, res) {
 
     if(type === 'teams') {
 
-      // Equipos que devuelve la liga
       const respuesta = await fetch(
         `${BASE}/search_all_teams.php?l=Mexican%20Primera%20League`
       );
@@ -26,7 +25,6 @@ export default async function handler(req, res) {
       const datos = await respuesta.json();
       let equipos = datos.teams || [];
 
-      // Equipos que normalmente faltan
       const faltantes = [
         'Club América',
         'Chivas',
@@ -40,8 +38,7 @@ export default async function handler(req, res) {
         'Club Tijuana'
       ];
 
-      // Buscar automáticamente los faltantes
-      for(const nombre of faltantes) {
+      for (const nombre of faltantes) {
 
         try {
 
@@ -51,19 +48,14 @@ export default async function handler(req, res) {
 
           const d = await r.json();
 
-          if(d.teams && d.teams.length) {
+          if (d.teams && d.teams.length) {
             equipos.push(d.teams[0]);
           }
 
-        } catch(e) {
-
-          console.log('No encontrado:', nombre);
-
-        }
+        } catch (e) {}
 
       }
 
-      // Alias para eliminar duplicados
       const alias = {
 
         'club américa':'américa',
@@ -85,15 +77,15 @@ export default async function handler(req, res) {
 
       const usados = new Set();
 
-      equipos = equipos.filter(e => {
+      equipos = equipos.filter(e=>{
 
-        const original = (e.strTeam || '').toLowerCase();
+        const original=(e.strTeam||'').toLowerCase();
 
-        // Eliminar equipos que no queremos
         if(original.includes('chivas usa')) return false;
         if(original.includes('mazatl')) return false;
+        if(original.includes('atlante')) return false;
 
-        const nombre = alias[original] || original;
+        const nombre=alias[original]||original;
 
         if(usados.has(nombre)) return false;
 
@@ -103,12 +95,11 @@ export default async function handler(req, res) {
 
       });
 
-      // Normalizar respuesta
-      equipos = equipos.map(e => ({
+      equipos=equipos.map(e=>({
 
-        idTeam: e.idTeam,
+        idTeam:e.idTeam,
 
-        strTeam: e.strTeam,
+        strTeam:e.strTeam,
 
         strTeamBadge:
           e.strTeamBadge ||
@@ -119,25 +110,31 @@ export default async function handler(req, res) {
       }));
 
       return res.status(200).json({
-        teams: equipos
+
+        teams:equipos
+
       });
 
     }
 
     // =======================================
-    // PRÓXIMOS PARTIDOS
+    // TODA LA TEMPORADA
     // =======================================
 
     if(type === 'fixtures') {
 
+      const season = req.query.season || '2026-2027';
+
       const respuesta = await fetch(
-        `${BASE}/eventsnextleague.php?id=4350`
+        `${BASE}/eventsseason.php?id=4350&s=${season}`
       );
 
       const datos = await respuesta.json();
 
       return res.status(200).json({
+
         events: datos.events || []
+
       });
 
     }
@@ -148,60 +145,66 @@ export default async function handler(req, res) {
 
     if(type === 'past') {
 
+      const season = req.query.season || '2026-2027';
+
       const respuesta = await fetch(
-        `${BASE}/eventspastleague.php?id=4350`
+        `${BASE}/eventsseason.php?id=4350&s=${season}`
       );
 
       const datos = await respuesta.json();
 
       return res.status(200).json({
+
         events: datos.events || []
+
       });
 
     }
 
     // =======================================
-    // BUSCAR EQUIPO POR ID
+    // EQUIPO POR ID
     // =======================================
 
     if(type === 'team') {
 
-      const id = req.query.id;
+      const id=req.query.id;
 
-      if(!id) {
+      if(!id){
 
         return res.status(400).json({
-          error:'Falta el id del equipo'
+          error:'Falta el id'
         });
 
       }
 
-      const respuesta = await fetch(
+      const respuesta=await fetch(
         `${BASE}/lookupteam.php?id=${id}`
       );
 
-      const datos = await respuesta.json();
+      const datos=await respuesta.json();
 
       return res.status(200).json({
-        team: datos.teams || []
+
+        team:datos.teams||[]
+
       });
 
     }
 
-    // =======================================
-    // ERROR
-    // =======================================
-
     return res.status(400).json({
+
       error:'Tipo no válido'
+
     });
 
-  } catch(error) {
+  }
 
-    console.error(error);
+  catch(error){
 
     return res.status(500).json({
+
       error:error.message
+
     });
 
   }
