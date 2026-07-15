@@ -14,7 +14,7 @@ const API_URL = 'https://miapp-peach-six.vercel.app/api/sportsdb';
 
 // Temporada seleccionada
 let anioSeleccionado = 2026;
-let torneoSeleccionado = 'Apertura';
+let torneoSeleccionado = 'PENE';
 let jornadaSeleccionada = 1;
 
 
