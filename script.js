@@ -24,10 +24,15 @@ let jornadaSeleccionada = 1;
 
 let partidos = [];
 let partidosAPI = [];
+let partidosEnVivo = [];
 let equiposAPI = [];
 let tablaAPI = [];
 let jugadoresAPI = [];
 let lideresAPI = [];
+
+
+// Sección visible actualmente (para resaltar el menú inferior)
+let seccionActual = 'inicio';
 
 
 // Favoritos
@@ -53,7 +58,7 @@ if(type === 'teams'){
 return datos.teams || [];
 }
 
-if(type === 'fixtures' || type === 'past'){
+if(type === 'fixtures' || type === 'past' || type === 'season' || type === 'live'){
 return datos.events || [];
 }
 
@@ -126,14 +131,27 @@ logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.sv
 
 async function cargarPartidosAPI(){
 
-const datos = await llamarAPI('fixtures');
+// Traemos la temporada completa (todas las jornadas reales
+// del Apertura o Clausura elegido), no solo los próximos 15
+// partidos que da la API por default.
+const datos = await llamarAPI(
+'season',
+`&torneo=${torneoSeleccionado}&anio=${anioSeleccionado}`
+);
 
 if(!datos.length){
 
 partidos = [];
+partidosAPI = [];
 return [];
 
 }
+
+
+// Guardamos la temporada completa aparte (la usa Inicio
+// para encontrar el próximo partido real, sin importar
+// qué jornada esté seleccionada en el filtro)
+partidosAPI = datos;
 
 
 // Filtrar por jornada
@@ -144,13 +162,22 @@ String(p.intRound || '') === String(jornadaSeleccionada)
 );
 
 
-// Si no existe esa jornada, mostrar todos
+// Si la jornada seleccionada todavía no tiene partidos
+// confirmados por la fuente de datos, lo dejamos claro
+// en vez de mostrar partidos de otra jornada.
 if(!jornadaReal.length){
-jornadaReal = datos;
+
+partidos = [{
+
+id: `pendiente-${torneoSeleccionado}-${anioSeleccionado}-${jornadaSeleccionada}`,
+pendiente: true,
+jornada: jornadaSeleccionada
+
+}];
+
+return partidos;
+
 }
-
-
-partidosAPI = jornadaReal;
 
 
 partidos = jornadaReal.map(p => ({
@@ -199,6 +226,153 @@ prediccion:
 
 
 return partidos;
+
+}
+
+
+// ===============================
+// PRÓXIMO PARTIDO (PARA INICIO)
+// ===============================
+
+// Busca en toda la temporada cargada (no solo en la jornada
+// filtrada) el próximo partido real que todavía no se juega.
+// Si ya no queda ninguno pendiente, regresa el último jugado.
+function obtenerProximoPartido(){
+
+const hoy = new Date().toISOString().slice(0, 10);
+
+const sinJugar = partidosAPI.filter(p =>
+
+p.dateEvent &&
+p.dateEvent >= hoy &&
+(p.intHomeScore === null || p.intHomeScore === undefined)
+
+);
+
+let elegido = null;
+
+if(sinJugar.length){
+
+elegido = sinJugar[0];
+
+}else if(partidosAPI.length){
+
+elegido = partidosAPI[partidosAPI.length - 1];
+
+}
+
+if(!elegido) return null;
+
+return {
+
+id: elegido.idEvent,
+
+local: {
+id: elegido.idHomeTeam,
+nombre: elegido.strHomeTeam,
+logo: elegido.strHomeTeamBadge
+},
+
+visitante: {
+id: elegido.idAwayTeam,
+nombre: elegido.strAwayTeam,
+logo: elegido.strAwayTeamBadge
+},
+
+fecha: elegido.dateEvent,
+hora: elegido.strTimeLocal || elegido.strTime || 'Por confirmar',
+estadio: elegido.strVenue || 'Por confirmar',
+
+resultado:
+elegido.intHomeScore !== null &&
+elegido.intHomeScore !== undefined &&
+elegido.intAwayScore !== null &&
+elegido.intAwayScore !== undefined
+? `${elegido.intHomeScore}-${elegido.intAwayScore}`
+: null,
+
+probLocal: 45,
+probEmpate: 28,
+probVisitante: 27,
+
+prediccion:
+'Analizando forma reciente, goles y contexto del partido.'
+
+};
+
+}
+
+
+// ===============================
+// PARTIDOS EN VIVO (HOY)
+// ===============================
+
+async function cargarPartidosEnVivo(){
+
+const datos = await llamarAPI('live');
+
+if(!datos.length){
+
+partidosEnVivo = [];
+return [];
+
+}
+
+const ahora = new Date();
+
+partidosEnVivo = datos.map(p => {
+
+const inicio = p.strTimestamp
+? new Date(p.strTimestamp)
+: new Date(`${p.dateEvent}T${p.strTime || '00:00:00'}Z`);
+
+const fin = new Date(inicio.getTime() + 130 * 60000);
+
+const tieneResultado =
+p.intHomeScore !== null &&
+p.intHomeScore !== undefined &&
+p.intAwayScore !== null &&
+p.intAwayScore !== undefined;
+
+let estado = 'por_comenzar';
+
+if(ahora >= inicio && ahora <= fin){
+estado = 'en_vivo';
+}else if(ahora > fin){
+estado = 'finalizado';
+}
+
+return {
+
+id: p.idEvent,
+
+local: {
+id: p.idHomeTeam,
+nombre: p.strHomeTeam,
+logo: p.strHomeTeamBadge
+},
+
+visitante: {
+id: p.idAwayTeam,
+nombre: p.strAwayTeam,
+logo: p.strAwayTeamBadge
+},
+
+fecha: p.dateEvent,
+hora: p.strTimeLocal || p.strTime || 'Por confirmar',
+estadio: p.strVenue || 'Por confirmar',
+
+resultado: tieneResultado
+? `${p.intHomeScore}-${p.intAwayScore}`
+: null,
+
+estado
+
+};
+
+});
+
+return partidosEnVivo;
 
 }
 
@@ -340,23 +514,27 @@ contenido.innerHTML = `
 
 <h2>Inicio</h2>
 
-<div class='card'>
+<div class='card skeleton-loading'>
 Cargando partidos...
 </div>
 
 `;
 
-if(partidos.length === 0){
+if(partidosAPI.length === 0){
 await cargarPartidosAPI();
 }
 
-if(!partidos.length){
+await cargarPartidosEnVivo();
+
+const p = obtenerProximoPartido();
+
+if(!p){
 
 contenido.innerHTML = `
 
 <h2>Inicio</h2>
 
-<div class='card'>
+<div class='card empty-state'>
 No hay partidos disponibles.
 </div>
 
@@ -366,11 +544,49 @@ return;
 
 }
 
-const p = partidos[0];
+const bloqueEnVivo = partidosEnVivo.length ? `
+
+<div class='card card-vivo'>
+
+<h3><span class='badge badge-vivo'>● En vivo hoy</span></h3>
+
+${partidosEnVivo.map(pv => `
+
+<div class='partido-vivo-item'>
+
+<div class='match-header'>
+
+<div>
+${mostrarLogo(pv.local.logo, 'small')}
+<strong>${pv.local.nombre}</strong>
+</div>
+
+<h3>${pv.resultado || 'VS'}</h3>
+
+<div>
+${mostrarLogo(pv.visitante.logo, 'small')}
+<strong>${pv.visitante.nombre}</strong>
+</div>
+
+</div>
+
+${pv.estado === 'en_vivo' ? `<span class='badge badge-vivo'>● Jugándose ahora</span>` : ''}
+${pv.estado === 'por_comenzar' ? `<span class='badge badge-proximo'>Hoy · ${pv.hora}</span>` : ''}
+${pv.estado === 'finalizado' ? `<span class='badge badge-finalizado'>Finalizado</span>` : ''}
+
+</div>
+
+`).join('')}
+
+</div>
+
+` : '';
 
 contenido.innerHTML = `
 
 <h2>Inicio</h2>
+
+${bloqueEnVivo}
 
 <div class='card home-match'>
 
@@ -505,9 +721,19 @@ ${crearOpcionesJornadas()}
 
 </div>
 
+<div class='filtro'>
+
+<h3>Hoy</h3>
+
+<button onclick='verPartidosEnVivo()'>
+🔴 En vivo hoy
+</button>
+
 </div>
 
-<div id='listaPartidosLiga'>
+</div>
+
+<div id='listaPartidosLiga' class='skeleton-loading'>
 Cargando partidos...
 </div>
 
@@ -516,6 +742,101 @@ Cargando partidos...
 await cargarPartidosAPI();
 
 mostrarListaPartidos();
+
+}
+
+
+// ===============================
+// VER PARTIDOS EN VIVO (BOTÓN)
+// ===============================
+
+async function verPartidosEnVivo(){
+
+const lista = document.getElementById('listaPartidosLiga');
+
+if(lista){
+lista.className = 'skeleton-loading';
+lista.innerHTML = 'Cargando partidos de hoy...';
+}
+
+await cargarPartidosEnVivo();
+
+mostrarPartidosEnVivo();
+
+}
+
+
+// ===============================
+// MOSTRAR PARTIDOS EN VIVO
+// ===============================
+
+function mostrarPartidosEnVivo(){
+
+const lista = document.getElementById('listaPartidosLiga');
+
+if(!lista) return;
+
+lista.className = '';
+
+if(!partidosEnVivo.length){
+
+lista.innerHTML = `
+
+<div class='card empty-state'>
+No hay partidos programados para hoy.
+</div>
+
+<button onclick='mostrarListaPartidos()'>
+← Ver jornada seleccionada
+</button>
+
+`;
+
+return;
+
+}
+
+lista.innerHTML = `
+
+<button onclick='mostrarListaPartidos()'>
+← Ver jornada seleccionada
+</button>
+
+` + partidosEnVivo.map(p => `
+
+<div class='card partido-card ${p.estado === "en_vivo" ? "card-vivo" : ""}'>
+
+<div class='match-header'>
+
+<div>
+${mostrarLogo(p.local.logo, 'medium')}
+<strong>${p.local.nombre}</strong>
+</div>
+
+<h3>VS</h3>
+
+<div>
+${mostrarLogo(p.visitante.logo, 'medium')}
+<strong>${p.visitante.nombre}</strong>
+</div>
+
+</div>
+
+<div class='partido-info'>
+
+<p>📅 ${formatearFecha(p.fecha)}</p>
+<p>🕒 ${p.hora}</p>
+<p>🏟 ${p.estadio}</p>
+
+${p.estado === 'en_vivo' ? `<span class='badge badge-vivo'>● En vivo ${p.resultado ? '· ' + p.resultado : ''}</span>` : ''}
+${p.estado === 'por_comenzar' ? `<span class='badge badge-proximo'>Por comenzar</span>` : ''}
+${p.estado === 'finalizado' ? `<span class='badge badge-finalizado'>Finalizado ${p.resultado ? '· ' + p.resultado : ''}</span>` : ''}
+
+</div>
+
+</div>
+
+`).join('');
 
 }
 
@@ -530,12 +851,30 @@ const lista = document.getElementById('listaPartidosLiga');
 
 if(!lista) return;
 
+lista.className = '';
+
 if(!partidos.length){
 
 lista.innerHTML = `
 
-<div class='card'>
+<div class='card empty-state'>
 No hay partidos registrados.
+</div>
+
+`;
+
+return;
+
+}
+
+// Jornada todavía sin partidos confirmados por la fuente de datos
+if(partidos.length === 1 && partidos[0].pendiente){
+
+lista.innerHTML = `
+
+<div class='card empty-state'>
+<h3>Jornada ${partidos[0].jornada}</h3>
+<p>Por confirmar. Todavía no hay partidos publicados para esta jornada.</p>
 </div>
 
 `;
@@ -566,7 +905,7 @@ ${mostrarLogo(p.visitante.logo, 'medium')}
 
 <div class='partido-info'>
 
-<p>📅 ${p.fecha}</p>
+<p>📅 ${formatearFecha(p.fecha)}</p>
 <p>🕒 ${p.hora}</p>
 <p>🏟 ${p.estadio}</p>
 
@@ -637,14 +976,18 @@ if(partidos.length === 0){
 await cargarPartidosAPI();
 }
 
+const sinDatos =
+!partidos.length ||
+(partidos.length === 1 && partidos[0].pendiente);
+
 contenido.innerHTML = `
 
 <h2>Predicciones MatchIQ</h2>
 
-${!partidos.length ? `
+${sinDatos ? `
 
-<div class='card'>
-No hay partidos disponibles.
+<div class='card empty-state'>
+No hay partidos disponibles todavía para esta jornada.
 </div>
 
 ` : partidos.map(p => `
@@ -1329,6 +1672,10 @@ cargarPerfil();
 
 function mostrarSeccion(seccion){
 
+seccionActual = seccion;
+
+marcarMenuActivo(seccion);
+
 switch(seccion){
 
 case 'inicio':
@@ -1360,6 +1707,29 @@ cargarInicio();
 
 
 // ===============================
+// MENÚ ACTIVO
+// ===============================
+
+function marcarMenuActivo(seccion){
+
+const botones = document.querySelectorAll(
+'.bottom-menu button[data-seccion]'
+);
+
+botones.forEach(btn => {
+
+if(btn.dataset.seccion === seccion){
+btn.classList.add('active');
+}else{
+btn.classList.remove('active');
+}
+
+});
+
+}
+
+
+// ===============================
 // INICIO APP
 // ===============================
 
@@ -1372,5 +1742,7 @@ await cargarEquiposAPI();
 await cargarPartidosAPI();
 
 await cargarInicio();
+
+marcarMenuActivo('inicio');
 
 });
