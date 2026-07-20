@@ -4,6 +4,52 @@
 // api/sportsdb.js
 // =======================================
 
+// =======================================
+// HELPERS DE TEMPORADA
+// =======================================
+
+// Liga MX no tiene "temporada" en TheSportsDB dividida en
+// Apertura/Clausura como campos separados: usa un string tipo
+// "2026-2027" que agrupa ambos torneos. Por eso calculamos
+// el string de temporada a partir del torneo + año que eligió
+// el usuario, y luego separamos Apertura de Clausura por fecha.
+
+function calcularSeason(torneo, anio) {
+
+  if(torneo === 'Clausura') {
+    return `${anio - 1}-${anio}`;
+  }
+
+  // Apertura (default)
+  return `${anio}-${anio + 1}`;
+
+}
+
+
+// Apertura: julio-diciembre / Clausura: enero-junio
+function torneoDeFecha(fechaEvento) {
+
+  if(!fechaEvento) return null;
+
+  const mes = Number(fechaEvento.split('-')[1]);
+
+  if(mes >= 7 && mes <= 12) return 'Apertura';
+
+  return 'Clausura';
+
+}
+
+
+// Fecha de hoy en zona horaria de México (YYYY-MM-DD)
+function fechaHoyMX() {
+
+  return new Date().toLocaleDateString('en-CA', {
+    timeZone: 'America/Mexico_City'
+  });
+
+}
+
+
 export default async function handler(req, res) {
 
   const API_KEY = '3';
@@ -156,6 +202,99 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         events: datos.events || []
+      });
+
+    }
+
+    // =======================================
+    // TEMPORADA COMPLETA (TODAS LAS JORNADAS)
+    // =======================================
+
+    if(type === 'season') {
+
+      const torneo = req.query.torneo || 'Apertura';
+      const anio = Number(req.query.anio) || new Date().getFullYear();
+
+      const temporada = calcularSeason(torneo, anio);
+
+      const respuesta = await fetch(
+        `${BASE}/eventsseason.php?id=4350&s=${temporada}`
+      );
+
+      const datos = await respuesta.json();
+      let eventos = datos.events || [];
+
+      // TheSportsDB agrupa Apertura + Clausura bajo la misma
+      // temporada, así que nos quedamos solo con los partidos
+      // que caen dentro del rango de fechas del torneo pedido.
+      eventos = eventos.filter(e =>
+        torneoDeFecha(e.dateEvent) === torneo
+      );
+
+      // Normalizamos el número de jornada para que la Jornada 1
+      // siempre sea la primera del torneo elegido (por si la API
+      // trae los números de ronda corridos 1-34 en vez de 1-17).
+      const rondas = eventos
+        .map(e => Number(e.intRound))
+        .filter(r => !isNaN(r));
+
+      const rondaMinima = rondas.length ? Math.min(...rondas) : 1;
+
+      eventos = eventos.map(e => ({
+
+        ...e,
+
+        intRound:
+          isNaN(Number(e.intRound))
+            ? e.intRound
+            : (Number(e.intRound) - rondaMinima + 1)
+
+      }));
+
+      // Orden cronológico, útil para "próximo partido"
+      eventos.sort((a, b) =>
+        (a.dateEvent || '').localeCompare(b.dateEvent || '')
+      );
+
+      return res.status(200).json({
+        events: eventos,
+        season: temporada,
+        torneo,
+        anio
+      });
+
+    }
+
+    // =======================================
+    // PARTIDOS EN VIVO / DE HOY
+    // =======================================
+
+    if(type === 'live') {
+
+      // El plan gratuito de TheSportsDB no incluye livescore
+      // real (eso es exclusivo de la API v2 premium), así que
+      // aproximamos "en vivo" mostrando los partidos programados
+      // para el día de hoy en México y calculando el estado por
+      // hora de inicio en el front.
+
+      const hoy = fechaHoyMX();
+      const torneoHoy = torneoDeFecha(hoy);
+      const anioHoy = Number(hoy.split('-')[0]);
+
+      const temporada = calcularSeason(torneoHoy, anioHoy);
+
+      const respuesta = await fetch(
+        `${BASE}/eventsseason.php?id=4350&s=${temporada}`
+      );
+
+      const datos = await respuesta.json();
+      const eventos = (datos.events || []).filter(e =>
+        e.dateEvent === hoy
+      );
+
+      return res.status(200).json({
+        events: eventos,
+        fecha: hoy
       });
 
     }
