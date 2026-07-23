@@ -1379,38 +1379,145 @@ popup.innerHTML = '';
 
 async function cargarTabla(){
 
-// SportsDB gratis no siempre devuelve la tabla actual.
-// Dejamos la función preparada y, si no hay datos,
-// mostramos una tabla basada en los equipos cargados.
+// Ya no dependemos de un endpoint "standings" (nunca existió
+// en el backend). Calculamos la tabla nosotros mismos a partir
+// de los resultados reales que ya trae la temporada cargada.
 
-const datos = await llamarAPI('standings');
+if(partidosAPI.length === 0){
+await cargarPartidosAPI();
+}
 
-if(datos.length){
+const stats = {};
 
-tablaAPI = datos;
+// Arrancamos con todos los equipos conocidos en 0,
+// así aparecen aunque todavía no hayan jugado
+equiposAPI.forEach(e => {
+
+stats[e.id] = {
+id: e.id,
+nombre: e.nombre,
+logo: e.logo,
+pj: 0, g: 0, e: 0, p: 0, gf: 0, gc: 0
+};
+
+});
+
+partidosAPI.forEach(ev => {
+
+const tieneResultado =
+ev.intHomeScore !== null &&
+ev.intHomeScore !== undefined &&
+ev.intAwayScore !== null &&
+ev.intAwayScore !== undefined &&
+ev.intHomeScore !== '' &&
+ev.intAwayScore !== '';
+
+if(!tieneResultado) return;
+
+const gLocal = Number(ev.intHomeScore);
+const gVisita = Number(ev.intAwayScore);
+
+const idLocal = ev.idHomeTeam;
+const idVisita = ev.idAwayTeam;
+
+if(!stats[idLocal]){
+stats[idLocal] = {
+id: idLocal, nombre: ev.strHomeTeam, logo: ev.strHomeTeamBadge,
+pj:0, g:0, e:0, p:0, gf:0, gc:0
+};
+}
+
+if(!stats[idVisita]){
+stats[idVisita] = {
+id: idVisita, nombre: ev.strAwayTeam, logo: ev.strAwayTeamBadge,
+pj:0, g:0, e:0, p:0, gf:0, gc:0
+};
+}
+
+stats[idLocal].pj++;
+stats[idVisita].pj++;
+
+stats[idLocal].gf += gLocal;
+stats[idLocal].gc += gVisita;
+
+stats[idVisita].gf += gVisita;
+stats[idVisita].gc += gLocal;
+
+if(gLocal > gVisita){
+
+stats[idLocal].g++;
+stats[idVisita].p++;
+
+}else if(gLocal < gVisita){
+
+stats[idVisita].g++;
+stats[idLocal].p++;
 
 }else{
 
-tablaAPI = equiposAPI.map((e, i) => ({
+stats[idLocal].e++;
+stats[idVisita].e++;
 
-rank: i + 1,
+}
+
+});
+
+let tabla = Object.values(stats).map(t => ({
+
 team: {
-id: e.id,
-name: e.nombre,
-logo: e.logo
+id: t.id,
+name: t.nombre,
+logo: t.logo
 },
-points: 0,
-played: 0,
-won: 0,
-draw: 0,
-lost: 0,
-gf: 0,
-ga: 0,
-gd: 0
+
+played: t.pj,
+won: t.g,
+draw: t.e,
+lost: t.p,
+gf: t.gf,
+ga: t.gc,
+gd: t.gf - t.gc,
+points: (t.g * 3) + t.e
 
 }));
 
+// Orden real de tabla: puntos, luego diferencia de gol, luego goles a favor
+tabla.sort((a, b) =>
+b.points - a.points ||
+b.gd - a.gd ||
+b.gf - a.gf
+);
+
+tabla = tabla.map((t, i) => ({ ...t, rank: i + 1 }));
+
+tablaAPI = tabla;
+
 }
+
+
+// ===============================
+// CAMBIAR FILTROS DE STATS
+// ===============================
+
+async function cambiarAnioStats(){
+
+anioSeleccionado = Number(
+document.getElementById('anioStats').value
+);
+
+await cargarPartidosAPI();
+await cargarStats();
+
+}
+
+
+async function cambiarTorneoStats(){
+
+torneoSeleccionado =
+document.getElementById('torneoStats').value;
+
+await cargarPartidosAPI();
+await cargarStats();
 
 }
 
@@ -1427,7 +1534,7 @@ contenido.innerHTML = `
 
 <h2>Estadísticas Liga MX</h2>
 
-<div class='card'>
+<div class='card skeleton-loading'>
 Cargando datos...
 </div>
 
@@ -1435,6 +1542,10 @@ Cargando datos...
 
 if(equiposAPI.length === 0){
 await cargarEquiposAPI();
+}
+
+if(partidosAPI.length === 0){
+await cargarPartidosAPI();
 }
 
 await cargarTabla();
@@ -1450,7 +1561,7 @@ contenido.innerHTML = `
 <h3>Año</h3>
 
 <select id='anioStats'
-onchange='cargarStats()'>
+onchange='cambiarAnioStats()'>
 
 ${crearOpcionesAnios()}
 
@@ -1463,7 +1574,7 @@ ${crearOpcionesAnios()}
 <h3>Torneo</h3>
 
 <select id='torneoStats'
-onchange='cargarStats()'>
+onchange='cambiarTorneoStats()'>
 
 <option value='Apertura'
 ${torneoSeleccionado==='Apertura'?'selected':''}>
