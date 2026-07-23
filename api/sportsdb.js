@@ -333,6 +333,34 @@ export default async function handler(req, res) {
     }
 
     // =======================================
+    // TIMELINE DE UN PARTIDO (goles, tarjetas)
+    // =======================================
+
+    if(type === 'timeline') {
+
+      const id = req.query.id;
+
+      if(!id) {
+
+        return res.status(400).json({
+          error: 'Falta el id del partido'
+        });
+
+      }
+
+      const respuesta = await fetch(
+        `${BASE}/lookuptimeline.php?id=${id}`
+      );
+
+      const datos = await respuesta.json();
+
+      return res.status(200).json({
+        timeline: datos.timeline || []
+      });
+
+    }
+
+    // =======================================
     // BUSCAR EQUIPO POR ID
     // =======================================
 
