@@ -82,6 +82,10 @@ if(type === 'lineup'){
 return datos.lineup || [];
 }
 
+if(type === 'timeline'){
+return datos.timeline || [];
+}
+
 return [];
 
 }
@@ -1777,6 +1781,152 @@ tablaAPI = tabla;
 
 
 // ===============================
+// LÍDERES INDIVIDUALES
+// ===============================
+
+// Porterías a cero se saca directo de los marcadores (ya los
+// tenemos). Goleadores / asistencias / tarjetas necesitan el
+// timeline de cada partido jugado, así que se piden en paralelo.
+async function cargarLideres(){
+
+if(partidosAPI.length === 0){
+await cargarPartidosAPI();
+}
+
+const jugados = partidosAPI.filter(ev =>
+ev.intHomeScore !== null && ev.intHomeScore !== undefined && ev.intHomeScore !== '' &&
+ev.intAwayScore !== null && ev.intAwayScore !== undefined && ev.intAwayScore !== ''
+);
+
+// Porterías a cero (por equipo)
+const porterias = {};
+
+jugados.forEach(ev => {
+
+if(!porterias[ev.idHomeTeam]){
+porterias[ev.idHomeTeam] = { nombre: ev.strHomeTeam, logo: ev.strHomeTeamBadge, cantidad: 0 };
+}
+
+if(!porterias[ev.idAwayTeam]){
+porterias[ev.idAwayTeam] = { nombre: ev.strAwayTeam, logo: ev.strAwayTeamBadge, cantidad: 0 };
+}
+
+if(Number(ev.intAwayScore) === 0){
+porterias[ev.idHomeTeam].cantidad++;
+}
+
+if(Number(ev.intHomeScore) === 0){
+porterias[ev.idAwayTeam].cantidad++;
+}
+
+});
+
+lideresAPI = {
+
+porterias: Object.values(porterias)
+.filter(t => t.cantidad > 0)
+.sort((a, b) => b.cantidad - a.cantidad)
+.slice(0, 5),
+
+goleadores: [],
+asistencias: [],
+contribuciones: [],
+amarillas: [],
+rojas: []
+
+};
+
+if(!jugados.length) return;
+
+const resultados = await Promise.allSettled(
+jugados.map(ev => llamarAPI('timeline', `&id=${ev.idEvent}`))
+);
+
+const goles = {};
+const asistencias = {};
+const amarillas = {};
+const rojas = {};
+
+const sumar = (mapa, nombre, equipo) => {
+
+if(!nombre) return;
+
+if(!mapa[nombre]){
+mapa[nombre] = { nombre, equipo, cantidad: 0 };
+}
+
+mapa[nombre].cantidad++;
+
+};
+
+resultados.forEach(r => {
+
+if(r.status !== 'fulfilled') return;
+
+r.value.forEach(t => {
+
+const tipo = (t.strTimeline || '').toLowerCase();
+
+if(tipo === 'goal'){
+
+sumar(goles, t.strPlayer, t.strTeam);
+
+if(t.strAssist){
+sumar(asistencias, t.strAssist, t.strTeam);
+}
+
+}
+
+if(tipo === 'card'){
+
+const detalle = (t.strTimelineDetail || '').toLowerCase();
+
+if(detalle.includes('yellow')){
+sumar(amarillas, t.strPlayer, t.strTeam);
+}
+
+if(detalle.includes('red')){
+sumar(rojas, t.strPlayer, t.strTeam);
+}
+
+}
+
+});
+
+});
+
+const aTop5 = (mapa) =>
+Object.values(mapa)
+.sort((a, b) => b.cantidad - a.cantidad)
+.slice(0, 5);
+
+lideresAPI.goleadores = aTop5(goles);
+lideresAPI.asistencias = aTop5(asistencias);
+lideresAPI.amarillas = aTop5(amarillas);
+lideresAPI.rojas = aTop5(rojas);
+
+const contribuciones = {};
+
+Object.values(goles).forEach(g => {
+contribuciones[g.nombre] = { nombre: g.nombre, equipo: g.equipo, cantidad: g.cantidad };
+});
+
+Object.values(asistencias).forEach(a => {
+
+if(!contribuciones[a.nombre]){
+contribuciones[a.nombre] = { nombre: a.nombre, equipo: a.equipo, cantidad: 0 };
+}
+
+contribuciones[a.nombre].cantidad += a.cantidad;
+
+});
+
+lideresAPI.contribuciones = aTop5(contribuciones);
+
+}
+
+
+// ===============================
 // CAMBIAR FILTROS DE STATS
 // ===============================
 
@@ -1830,6 +1980,8 @@ await cargarPartidosAPI();
 }
 
 await cargarTabla();
+
+await cargarLideres();
 
 contenido.innerHTML = `
 
@@ -1929,12 +2081,12 @@ ${e.team.name}
 
 <div class='stats-grid'>
 
-${crearTarjetaStat('⚽', 'Goleadores', 'Próximamente')}
-${crearTarjetaStat('🎯', 'Asistencias', 'Próximamente')}
-${crearTarjetaStat('🔥', 'Contribuciones de gol', 'Próximamente')}
-${crearTarjetaStat('🟨', 'Tarjetas amarillas', 'Próximamente')}
-${crearTarjetaStat('🟥', 'Tarjetas rojas', 'Próximamente')}
-${crearTarjetaStat('🧤', 'Porterías a cero', 'Próximamente')}
+${bloqueLideres('⚽', 'Goleadores', lideresAPI.goleadores)}
+${bloqueLideres('🎯', 'Asistencias', lideresAPI.asistencias)}
+${bloqueLideres('🔥', 'Contribuciones de gol', lideresAPI.contribuciones)}
+${bloqueLideres('🟨', 'Tarjetas amarillas', lideresAPI.amarillas)}
+${bloqueLideres('🟥', 'Tarjetas rojas', lideresAPI.rojas)}
+${bloquePorterias(lideresAPI.porterias)}
 
 </div>
 
@@ -1962,6 +2114,80 @@ return `
 <p><strong>${valor}</strong></p>
 
 </div>
+
+</div>
+
+`;
+
+}
+
+
+// ===============================
+// TARJETA DE LÍDER (JUGADOR)
+// ===============================
+
+function bloqueLideres(icono, titulo, lista){
+
+if(!lista || !lista.length){
+return crearTarjetaStat(icono, titulo, 'Próximamente');
+}
+
+return `
+
+<div class='stats-card'>
+
+<h3>${icono} ${titulo}</h3>
+
+${lista.map((j, i) => `
+
+<div class='leader-card'>
+
+<div>
+<strong>${i + 1}. ${j.nombre}</strong>
+<p>${j.equipo || ''} · ${j.cantidad}</p>
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+
+
+// ===============================
+// TARJETA DE PORTERÍAS A CERO (EQUIPO)
+// ===============================
+
+function bloquePorterias(lista){
+
+if(!lista || !lista.length){
+return crearTarjetaStat('🧤', 'Porterías a cero', 'Próximamente');
+}
+
+return `
+
+<div class='stats-card'>
+
+<h3>🧤 Porterías a cero (equipo)</h3>
+
+${lista.map((t, i) => `
+
+<div class='leader-card'>
+
+${mostrarLogo(t.logo, 'small')}
+
+<div>
+<strong>${i + 1}. ${t.nombre}</strong>
+<p>${t.cantidad}</p>
+</div>
+
+</div>
+
+`).join('')}
 
 </div>
 
