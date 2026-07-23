@@ -52,7 +52,7 @@ function fechaHoyMX() {
 
 export default async function handler(req, res) {
 
-  const API_KEY = '3';
+  const API_KEY = '123';
   const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
   const type = req.query.type || 'fixtures';
 
@@ -86,28 +86,30 @@ export default async function handler(req, res) {
         'Club Tijuana'
       ];
 
-      // Buscar automáticamente los faltantes
-      for(const nombre of faltantes) {
+      // Buscar los faltantes EN PARALELO (antes era una por una,
+      // 10 llamadas seguidas podían tardar tanto que Vercel
+      // cortaba la función por tiempo y todo el endpoint fallaba,
+      // incluyendo type=teams que ni siquiera se había tocado).
+      const resultadosFaltantes = await Promise.allSettled(
+        faltantes.map(nombre =>
+          fetch(`${BASE}/searchteams.php?t=${encodeURIComponent(nombre)}`)
+            .then(r => r.json())
+        )
+      );
 
-        try {
+      resultadosFaltantes.forEach((resultado, i) => {
 
-          const r = await fetch(
-            `${BASE}/searchteams.php?t=${encodeURIComponent(nombre)}`
-          );
-
-          const d = await r.json();
-
-          if(d.teams && d.teams.length) {
-            equipos.push(d.teams[0]);
-          }
-
-        } catch(e) {
-
-          console.log('No encontrado:', nombre);
-
+        if(
+          resultado.status === 'fulfilled' &&
+          resultado.value.teams &&
+          resultado.value.teams.length
+        ) {
+          equipos.push(resultado.value.teams[0]);
+        } else {
+          console.log('No encontrado:', faltantes[i]);
         }
 
-      }
+      });
 
       // Alias para eliminar duplicados
       const alias = {
@@ -227,8 +229,11 @@ export default async function handler(req, res) {
       // TheSportsDB agrupa Apertura + Clausura bajo la misma
       // temporada, así que nos quedamos solo con los partidos
       // que caen dentro del rango de fechas del torneo pedido.
+      // Si un partido todavía no tiene fecha confirmada (jornada
+      // futura recién calendarizada) no lo descartamos, porque
+      // eso es justo lo que queremos mostrar como "Por confirmar".
       eventos = eventos.filter(e =>
-        torneoDeFecha(e.dateEvent) === torneo
+        !e.dateEvent || torneoDeFecha(e.dateEvent) === torneo
       );
 
       // Normalizamos el número de jornada para que la Jornada 1
