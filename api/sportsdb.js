@@ -305,6 +305,34 @@ export default async function handler(req, res) {
     }
 
     // =======================================
+    // ALINEACIÓN DE UN PARTIDO
+    // =======================================
+
+    if(type === 'lineup') {
+
+      const id = req.query.id;
+
+      if(!id) {
+
+        return res.status(400).json({
+          error: 'Falta el id del partido'
+        });
+
+      }
+
+      const respuesta = await fetch(
+        `${BASE}/lookuplineup.php?id=${id}`
+      );
+
+      const datos = await respuesta.json();
+
+      return res.status(200).json({
+        lineup: datos.lineup || []
+      });
+
+    }
+
+    // =======================================
     // BUSCAR EQUIPO POR ID
     // =======================================
 
