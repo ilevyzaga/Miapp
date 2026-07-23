@@ -34,6 +34,10 @@ let lideresAPI = [];
 // Sección visible actualmente (para resaltar el menú inferior)
 let seccionActual = 'inicio';
 
+// Jugadores de la alineación que está viendo el usuario ahora
+// (id de jugador -> datos), para que el popup muestre info real
+let jugadoresLineupActual = {};
+
 
 // Favoritos
 let notificaciones =
@@ -72,6 +76,10 @@ return datos.table || [];
 
 if(type === 'players'){
 return datos.players || [];
+}
+
+if(type === 'lineup'){
+return datos.lineup || [];
 }
 
 return [];
@@ -1233,6 +1241,51 @@ contenido.innerHTML = `
 ← Regresar
 </button>
 
+<div class='card skeleton-loading'>
+Cargando alineación...
+</div>
+
+`;
+
+let lineup = [];
+
+// Solo tiene sentido buscar alineación real en partidos que
+// ya se jugaron (antes del pitazo inicial no existe todavía).
+if(partido.resultado){
+
+lineup = await llamarAPI('lineup', `&id=${partido.id}`);
+
+}
+
+if(lineup.length){
+
+mostrarAlineacionReal(partido, lineup);
+
+}else{
+
+mostrarAlineacionSimulada(partido);
+
+}
+
+}
+
+
+// ===============================
+// ALINEACIÓN SIMULADA (RESPALDO)
+// ===============================
+
+// Se usa cuando el partido todavía no se juega o cuando
+// TheSportsDB no tiene capturada la alineación de ese partido.
+function mostrarAlineacionSimulada(partido){
+
+const contenido = document.getElementById('contenido');
+
+contenido.innerHTML = `
+
+<button onclick='cargarPartidos()'>
+← Regresar
+</button>
+
 <div class='card'>
 
 <h2>Alineaciones</h2>
@@ -1294,8 +1347,196 @@ Alineación oficial pendiente.
 <div class='card'>
 
 <p>
-La banca y los titulares se cargarán automáticamente cuando agreguemos la API de alineaciones oficiales.
+La banca y los titulares se cargarán automáticamente cuando la fuente de datos tenga capturada la alineación oficial de este partido.
 </p>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+// ===============================
+// CATEGORIZAR POSICIÓN
+// ===============================
+
+// TheSportsDB da la posición como texto libre
+// ("Right Wing", "Attacking Midfielder", etc.)
+// la agrupamos en 4 líneas para dibujar la cancha.
+function categorizarPosicion(strPosition){
+
+const p = (strPosition || '').toLowerCase();
+
+if(p.includes('goalkeeper') || p.includes('keeper')) return 'portero';
+
+if(p.includes('back') || p.includes('defender')) return 'defensa';
+
+if(p.includes('wing') || p.includes('forward') || p.includes('striker')) return 'delantero';
+
+return 'medio';
+
+}
+
+
+// ===============================
+// FILA DE JUGADORES EN LA CANCHA
+// ===============================
+
+function filaJugadores(jugadores){
+
+if(!jugadores.length) return '';
+
+return `
+
+<div class='fila-cancha'>
+
+${jugadores.map(j => `
+
+<div class='jugador-cancha' onclick="mostrarJugador('${j.idPlayer}')">
+
+<img
+src='${j.strCutout || j.strThumb || "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"}'
+onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+
+<strong>${j.strPlayer}</strong>
+<span>${j.intSquadNumber ? '#' + j.intSquadNumber : ''}</span>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+
+
+// ===============================
+// ALINEACIÓN REAL (CON FOTOS)
+// ===============================
+
+function mostrarAlineacionReal(partido, lineup){
+
+const contenido = document.getElementById('contenido');
+
+// Guardamos todos los jugadores de este partido para
+// que el popup (mostrarJugador) pueda mostrar su info real.
+jugadoresLineupActual = {};
+
+lineup.forEach(j => {
+jugadoresLineupActual[j.idPlayer] = j;
+});
+
+const localJugadores = lineup.filter(j => j.strHome === 'Yes');
+const visitanteJugadores = lineup.filter(j => j.strHome === 'No');
+
+const construirLineas = (jugadores) => {
+
+const titulares = jugadores.filter(j => j.strSubstitute !== 'Yes');
+
+const porLinea = {
+portero: [],
+defensa: [],
+medio: [],
+delantero: []
+};
+
+titulares.forEach(j => {
+porLinea[categorizarPosicion(j.strPosition)].push(j);
+});
+
+return `
+
+${filaJugadores(porLinea.portero)}
+${filaJugadores(porLinea.defensa)}
+${filaJugadores(porLinea.medio)}
+${filaJugadores(porLinea.delantero)}
+
+`;
+
+};
+
+const bancaHTML = (jugadores) => {
+
+const banca = jugadores.filter(j => j.strSubstitute === 'Yes');
+
+if(!banca.length){
+
+return `<p>Sin datos de banca para este partido.</p>`;
+
+}
+
+return banca.map(j => `
+
+<div class='banca-jugador' onclick="mostrarJugador('${j.idPlayer}')">
+
+<img
+src='${j.strCutout || j.strThumb || "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"}'
+onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+
+<span>${j.strPlayer}</span>
+
+</div>
+
+`).join('');
+
+};
+
+contenido.innerHTML = `
+
+<button onclick='cargarPartidos()'>
+← Regresar
+</button>
+
+<div class='card'>
+
+<h2>Alineaciones</h2>
+
+<div class='match-header'>
+
+<div>
+${mostrarLogo(partido.local.logo, 'large')}
+<strong>${partido.local.nombre}</strong>
+</div>
+
+<h2>${partido.resultado || 'VS'}</h2>
+
+<div>
+${mostrarLogo(partido.visitante.logo, 'large')}
+<strong>${partido.visitante.nombre}</strong>
+</div>
+
+</div>
+
+<div class='cancha'>
+
+<div class='equipo-cancha visitante'>
+${construirLineas(visitanteJugadores)}
+</div>
+
+<div class='linea-cancha'>VS</div>
+
+<div class='equipo-cancha local'>
+${construirLineas(localJugadores)}
+</div>
+
+</div>
+
+<div class='bancas'>
+
+<div>
+<h3>🪑 Banca — ${partido.local.nombre}</h3>
+${bancaHTML(localJugadores)}
+</div>
+
+<div>
+<h3>🪑 Banca — ${partido.visitante.nombre}</h3>
+${bancaHTML(visitanteJugadores)}
+</div>
 
 </div>
 
@@ -1328,6 +1569,46 @@ const popup = document.getElementById('player-popup');
 
 if(!popup) return;
 
+const jugador = jugadoresLineupActual[id];
+
+// Si tenemos datos reales de este jugador (vinieron de la
+// alineación que se cargó), mostramos su info real.
+if(jugador){
+
+popup.innerHTML = `
+
+<div class='popup-background'
+onclick='cerrarJugador()'></div>
+
+<div class='player-modal'>
+
+<img
+class='player-photo'
+src='${jugador.strRender || jugador.strCutout || jugador.strThumb || "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"}'
+onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+
+<h2>${jugador.strPlayer}</h2>
+
+<p><strong>Equipo:</strong> ${jugador.strTeam}</p>
+<p><strong>Posición:</strong> ${jugador.strPosition || 'Sin dato'}</p>
+${jugador.intSquadNumber ? `<p><strong>Número:</strong> ${jugador.intSquadNumber}</p>` : ''}
+<p><strong>Titular o suplente:</strong> ${jugador.strSubstitute === 'Yes' ? 'Suplente' : 'Titular'}</p>
+
+<button onclick='cerrarJugador()'>
+Cerrar
+</button>
+
+</div>
+
+`;
+
+popup.style.display = 'block';
+
+return;
+
+}
+
+// Sin datos reales: mensaje de siempre
 popup.innerHTML = `
 
 <div class='popup-background'
